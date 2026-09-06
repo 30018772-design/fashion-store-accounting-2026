@@ -25,7 +25,7 @@ input,select,textarea,button{font:inherit}input,select,textarea{width:100%;paddi
 <h2>登录</h2>
 <p class="muted">老板和合伙人使用各自账号密码。</p>
 <input id="loginUser" placeholder="账号"><br><br>
-<input id="loginPass" type="password" placeholder="密码"><br><br>
+<input id="loginPass" type="password" placeholder="密码" onkeydown="if(event.key==='Enter')login()"><br><br>
 <button onclick="login()">登录</button>
 <p id="loginMsg" class="error"></p>
 <p class="muted">演示老板：admin / 123456<br>演示合伙人：partnerA / 888888</p>
@@ -58,7 +58,7 @@ function save(){localStorage.setItem(KEY,JSON.stringify(db))}
 function money(n){return "¥"+Number(n||0).toLocaleString("zh-CN",{maximumFractionDigits:2})}
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function login(){
- const u=document.getElementById("loginUser").value,p=document.getElementById("loginPass").value;
+ const u=document.getElementById("loginUser").value.trim(),p=document.getElementById("loginPass").value;
  me=db.users.find(x=>x.u===u&&x.p===p);
  if(!me){document.getElementById("loginMsg").textContent="账号或密码错误";return}
  document.getElementById("login").classList.add("hidden");document.getElementById("app").classList.remove("hidden");
@@ -127,13 +127,13 @@ function partnerMonthTable(s){
  return `<div class=row><span>${x.m}</span><span>${money(x.return)}</span><span>${money(ex)}</span><span>${money(x.dividends)}</span><span>${money(a)}</span><span>${money((+x.dividends||0)*share/100)}</span></div>`}).join("")}`;
 }
 function renderOwner(){
- app.innerHTML=`<div class=card><div class=section-title><div><h2>老板后台</h2><p class=muted>所有门店、公司回款、报销、股东分红统一管理。</p></div><div class=actions><button onclick="addStore()">＋新增门店</button><button class=secondary onclick="manageCategories()">报销类目</button><button class=secondary onclick="managePartners()">股东设置</button><button class=secondary onclick="logout()">退出</button></div></div></div>
+ document.getElementById("app").innerHTML=`<div class=card><div class=section-title><div><h2>老板后台</h2><p class=muted>所有门店、公司回款、报销、股东分红统一管理。</p></div><div class=actions><button onclick="addStore()">＋新增门店</button><button class=secondary onclick="manageCategories()">报销类目</button><button class=secondary onclick="managePartners()">股东设置</button><button class=secondary onclick="logout()">退出</button></div></div></div>
  ${db.stores.map(s=>storeCard(s,true)).join("")}`;
 }
 function renderPartner(){
  const stores=db.stores.filter(s=>(me.stores||[]).includes(s.id)|| (me.stores||[]).includes(s.name));
- let totalDiv=0;stores.forEach(s=>summary(s).ms.forEach(x=>totalDiv+=(+x.dividends||0)*((me.share||0)/100));
- app.innerHTML=`<div class=card><h2>${esc(me.name)} · 合伙人</h2><p><span class=pill>股份 ${me.share||0}%</span></p><div class=stat><div class=muted>我的累计/期间分红</div><div class=num>${money(totalDiv)}</div></div><p class=muted>你只能看到被授权的门店和自己的分红。</p><button class=secondary onclick="logout()">退出</button></div>
+ let totalDiv=0;stores.forEach(s=>summary(s).ms.forEach(x=>totalDiv+=(+x.dividends||0)*((me.share||0)/100)));
+ document.getElementById("app").innerHTML=`<div class=card><h2>${esc(me.name)} · 合伙人</h2><p><span class=pill>股份 ${me.share||0}%</span></p><div class=stat><div class=muted>我的累计/期间分红</div><div class=num>${money(totalDiv)}</div></div><p class=muted>你只能看到被授权的门店和自己的分红。</p><button class=secondary onclick="logout()">退出</button></div>
  ${stores.map(s=>storeCard(s,false)).join("")||`<div class=card>暂无授权门店</div>`}`;
 }
 function addStore(){
@@ -144,7 +144,7 @@ function editStore(id){
  const s=db.stores.find(x=>x.id===id);if(!s)return;
  modal(`<h2>门店设置</h2><div class=grid><label>门店名称<input id=fName value="${esc(s.name)}"></label><label>初始总投入<input id=fInv type=number value="${s.invest}"></label><label>开业日期<input id=fDate type=date value="${s.openDate}"></label></div><br><div class=actions><button onclick="saveStore('${id}')">保存</button><button class=secondary onclick="closeModal()">取消</button><button class=danger onclick="deleteStore('${id}')">删除</button></div>`);
 }
-function saveStore(id){let s=db.stores.find(x=>x.id===id);s.name=fName.value;s.invest=+fInv.value;s.openDate=fDate.value;save();closeModal();render()}
+function saveStore(id){let s=db.stores.find(x=>x.id===id);s.name=document.getElementById("fName").value;s.invest=+document.getElementById("fInv").value;s.openDate=document.getElementById("fDate").value;save();closeModal();render()}
 function deleteStore(id){if(confirm("确定删除这家店？")){db.stores=db.stores.filter(x=>x.id!==id);db.users.forEach(u=>u.stores=(u.stores||[]).filter(x=>x!==id));save();closeModal();render()}}
 function addMonth(id){monthForm(id,null)}
 function editMonth(id,m){monthForm(id,m)}
@@ -160,16 +160,16 @@ function expenseRow(e,i){return `<div class=card style="padding:10px" data-exp><
 function addExpenseRow(){document.getElementById("expenseList").insertAdjacentHTML("beforeend",expenseRow({cat:db.settings.categories[0],amount:0,remark:""},Date.now()))}
 function previewImg(input){if(!input.files[0])return;const r=new FileReader();r.onload=e=>{input.dataset.image=e.target.result};r.readAsDataURL(input.files[0])}
 function saveMonth(id,oldM){
- const s=db.stores.find(x=>x.id===id), m=bMonth.value, ex=[];
+ const s=db.stores.find(x=>x.id===id), m=document.getElementById("bMonth").value, ex=[];
  document.querySelectorAll("#expenseList [data-exp]").forEach(card=>{const img=card.querySelector(".eimg").dataset.image||card.querySelector("img")?.src||"";ex.push({cat:card.querySelector(".ecat").value,amount:+card.querySelector(".eamt").value||0,remark:card.querySelector(".eremark").value,image:img})});
- const obj={m,return:+bReturn.value||0,dividends:+bDiv.value||0,expenses:ex};
+ const obj={m,return:+document.getElementById("bReturn").value||0,dividends:+document.getElementById("bDiv").value||0,expenses:ex};
  s.months=s.months.filter(x=>x.m!==oldM);s.months.push(obj);s.months.sort((a,b)=>a.m.localeCompare(b.m));save();closeModal();render();
 }
 function deleteMonth(id,m){let s=db.stores.find(x=>x.id===id);s.months=s.months.filter(x=>x.m!==m);save();closeModal();render()}
 function manageCategories(){
  modal(`<h2>报销类目</h2><p class=muted>你自己决定有哪些品类，不限制数量。</p><div id=catList>${db.settings.categories.map((c,i)=>`<div class=row><span>${esc(c)}</span><span></span><span></span><span></span><span></span><button class=danger onclick="delCat(${i})">删除</button></div>`).join("")}</div><br><div class=grid><input id=newCat placeholder="例如：商场扣点"><button onclick="addCat()">新增类目</button></div><br><button class=secondary onclick="closeModal()">关闭</button>`);
 }
-function addCat(){const c=newCat.value.trim();if(!c)return;if(!db.settings.categories.includes(c))db.settings.categories.push(c);save();manageCategories()}
+function addCat(){const c=document.getElementById("newCat").value.trim();if(!c)return;if(!db.settings.categories.includes(c))db.settings.categories.push(c);save();manageCategories()}
 function delCat(i){if(confirm("删除该类目？历史账单不会被删除。")){db.settings.categories.splice(i,1);save();manageCategories()}}
 function managePartners(){
  modal(`<h2>股东/合伙人设置</h2><p class=muted>股份由你这边设置。每个账号可授权不同门店。</p>${db.users.filter(x=>x.role==="partner").map((x,i)=>`<div class=card><b>${esc(x.name)}</b><p>账号：${esc(x.u)}　股份：<b>${x.share||0}%</b></p><p class=muted>授权：${(x.stores||[]).map(id=>db.stores.find(s=>s.id===id)?.name||id).join("、")||"无"}</p><button class=secondary onclick="editPartner('${x.u}')">修改</button></div>`).join("")}<div class=actions><button onclick="addPartner()">＋新增合伙人</button><button class=secondary onclick="closeModal()">关闭</button></div>`);
