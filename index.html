@@ -26,7 +26,7 @@ input,select,textarea,button{font:inherit}input,select,textarea{width:100%;paddi
 <p class="muted">老板和合伙人使用各自账号密码。</p>
 <input id="loginUser" placeholder="账号"><br><br>
 <input id="loginPass" type="password" placeholder="密码" onkeydown="if(event.key==='Enter')login()"><br><br>
-<button onclick="login()">登录</button>
+<button id="loginBtn" type="button">登录</button>
 <p id="loginMsg" class="error"></p>
 <p class="muted">演示老板：admin / 123456<br>演示合伙人：partnerA / 888888</p>
 </div></div>
@@ -35,7 +35,7 @@ input,select,textarea,button{font:inherit}input,select,textarea{width:100%;paddi
 <div id="modalRoot"></div>
 
 <script>
-const KEY="fashion_partner_final_v1";
+const KEY="fashion_partner_final_v2";
 const defaultDB={
  settings:{categories:["水电费","房租","物业","人工","交通","装修","维修","物流","招待","办公用品","广告","差旅","其他"]},
  users:[
@@ -58,11 +58,19 @@ function save(){localStorage.setItem(KEY,JSON.stringify(db))}
 function money(n){return "¥"+Number(n||0).toLocaleString("zh-CN",{maximumFractionDigits:2})}
 function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function login(){
- const u=document.getElementById("loginUser").value.trim(),p=document.getElementById("loginPass").value;
- me=db.users.find(x=>x.u===u&&x.p===p);
- if(!me){document.getElementById("loginMsg").textContent="账号或密码错误";return}
- document.getElementById("login").classList.add("hidden");document.getElementById("app").classList.remove("hidden");
- document.getElementById("userLabel").textContent=me.name;render();
+ try{
+  const u=String(document.getElementById("loginUser").value||"").trim();
+  const p=String(document.getElementById("loginPass").value||"");
+  if(!Array.isArray(db.users)){throw new Error("登录数据异常，请刷新页面")}
+  me=db.users.find(x=>String(x.u)===u&&String(x.p)===p);
+  if(!me){document.getElementById("loginMsg").textContent="账号或密码错误";return}
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  document.getElementById("userLabel").textContent=me.name||"";
+  render();
+ }catch(e){
+  document.getElementById("loginMsg").textContent="系统错误："+e.message;
+ }
 }
 function logout(){location.reload()}
 function monthsFor(s){
@@ -180,5 +188,15 @@ function editPartner(u){
 }
 function modal(content){document.getElementById("modalRoot").innerHTML=`<div class=modal onclick="if(event.target===this)closeModal()"><div class=modalbox>${content}</div></div>`}
 function closeModal(){document.getElementById("modalRoot").innerHTML=""}
+
+// iPhone Safari 兼容：用事件监听器绑定登录，避免内联事件在缓存旧页面时失效。
+document.addEventListener("DOMContentLoaded", function(){
+  const btn=document.getElementById("loginBtn");
+  const pass=document.getElementById("loginPass");
+  const user=document.getElementById("loginUser");
+  if(btn) btn.addEventListener("click", login);
+  if(pass) pass.addEventListener("keydown", function(e){ if(e.key==="Enter") login(); });
+  if(user) user.addEventListener("keydown", function(e){ if(e.key==="Enter") login(); });
+});
 </script>
 </body></html>
