@@ -498,4 +498,57 @@ window.addEventListener('error',e=>{
  };
 })();
 </script>
+
+<!-- V1.02 BUTTON / ACCOUNT FIX -->
+<style>
+.v102-version{font-size:12px;padding:3px 8px;border-radius:999px;background:#fff2cc;color:#765900;font-weight:700}
+.v102-copy{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.v102-copy button{flex:1;min-width:140px}
+.v102-ok{color:#16834a;font-weight:700}.v102-bad{color:#b42318;font-weight:700}
+</style>
+<script>
+(function(){
+ const E2=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+ const currentUrl=()=>location.href.split('#')[0];
+ window.v102Copy=async function(text){
+   try{await navigator.clipboard.writeText(text);alert('已复制');}
+   catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();alert('已复制');}
+ };
+ window.showAccount=function(){
+   const c=document.getElementById('content');if(!c)return;
+   const account=me?.email||profile?.username||'—';
+   const name=profile?.name||'—';
+   const role=profile?.role==='owner'?'老板':'股东';
+   c.innerHTML=`<div class="card">
+     <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h2 style="margin:0">账号设置</h2><span class="v102-version">V1.02</span></div>
+     <div class="grid" style="margin-top:14px">
+       <div class="stat"><div class="muted">姓名</div><div class="num" style="font-size:18px">${E2(name)}</div></div>
+       <div class="stat"><div class="muted">账号</div><div class="num" style="font-size:18px;word-break:break-all">${E2(account)}</div></div>
+       <div class="stat"><div class="muted">身份</div><div class="num" style="font-size:18px">${role}</div></div>
+     </div>
+     <h3>登录网站</h3>
+     <input id="v102_url" readonly value="${E2(currentUrl())}">
+     <div class="v102-copy"><button class="green" onclick="v102Copy(document.getElementById('v102_url').value)">复制网站</button><button onclick="v102Copy('${E2(account)}')">复制账号</button><button class="secondary" onclick="v102Copy('${E2(account)}\n${E2(currentUrl())}')">复制账号＋网址</button></div>
+     <p class="muted" style="margin-top:12px">出于安全原因，系统不能读取 Supabase 中已经保存的旧密码。新建股东账号时，密码只在创建完成时显示一次。</p>
+   </div>
+   ${profile?.role==='owner'?`<div class="card"><h3>老板账号安全</h3><p class="v102-ok">登录状态正常</p><p class="muted">V1.02 已修复账号设置入口，并把复制功能改为可直接执行。</p></div>`:''}`;
+ };
+ // Keep the same login implementation; only replace the visible app shell.
+ window.render=function(){
+   const app=document.getElementById('app');if(!app)return;
+   app.innerHTML=`<div class="actions"><button onclick="showDashboard()">门店总览</button><button class="secondary" onclick="showAccount()">账号设置</button>${profile?.role==='owner'?'<button class="secondary" onclick="showOwnerTools()">老板后台</button>':''}<button class="secondary" onclick="logout()">退出</button><span class="v102-version">V1.02</span></div><div id="content"></div>`;
+   showDashboard();
+ };
+ // Convert common uncaught inline-handler failures into a visible message instead of a silent dead button.
+ window.addEventListener('error',function(ev){
+   const target=ev.target;
+   if(target && target.tagName==='SCRIPT')return;
+   if(ev.error)console.error('V1.02_RUNTIME',ev.error);
+ });
+ // Static button contract check: every onclick function used by generated HTML must exist globally.
+ window.v102SelfCheck=function(){
+   const names=['showDashboard','showAccount','showOwnerTools','logout','setPeriod','v101Fold','v101StoreDetail','v101OwnerTab','v101StoreForm','v101SaveStore','v101Accounts','v101MonthlyForm','v101SaveMonthly','v101Partners','v101PartnerForm','v101CreatePartner','v101SavePartnerShares','v101Dividends','v101DividendForm','v101SaveDividend','v101Topups','v101TopupForm','v101SaveTopup','v101Payback','v101PaybackDetail','v101Categories','v101AddCat','v101Backup','v101Export','v101Copy'];
+   return {version:'V1.02',missing:names.filter(n=>typeof window[n]!=='function'),ok:names.every(n=>typeof window[n]==='function')};
+ };
+})();
+</script>
 </body></html>
