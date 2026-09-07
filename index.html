@@ -10,12 +10,27 @@ header{position:sticky;top:0;z-index:10;background:#151515;color:#fff;padding:15
 .owner-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.owner-tabs button{width:100%;white-space:nowrap}@media(max-width:650px){.owner-tabs{grid-template-columns:repeat(3,1fr)}}
 </style></head><body>
 <header><b>女装门店 · 合伙账务</b><span id="userLabel"></span></header>
-<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">使用 Supabase Auth 登录，账号和密码不写在网页里。</p><input id="loginAccount" placeholder="登录账号（邮箱）" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn">登录</button><p id="loginMsg" class="error"></p></div></div>
+<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">使用 Supabase Auth 登录，账号和密码不写在网页里。</p><input id="loginAccount" placeholder="登录账号（邮箱）" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" type="button">登录</button><p id="loginMsg" class="error"></p></div></div>
 <div id="app" class="wrap hidden"></div><div id="modalRoot"></div>
 <script>
 const SUPABASE_URL='https://dqruzakkunkinecxxbny.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_igD9yDQ1KbazCNNUfnjk2Q_WBRY5J-6';
-const {createClient}=supabase; const sb=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+let sb=null;
+function initSupabase(){
+  try{
+    if(!window.supabase || typeof window.supabase.createClient!=='function'){
+      showMsg('系统组件加载失败，请刷新页面重试');
+      return false;
+    }
+    sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{
+      auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+    });
+    return true;
+  }catch(e){
+    showMsg('系统初始化失败：'+(e?.message||'未知错误'));
+    return false;
+  }
+}
 let me=null, profile=null, period='month', storeList=[];
 const $=id=>document.getElementById(id);
 function money(n){return '¥'+Number(n||0).toLocaleString('zh-CN',{maximumFractionDigits:2})}
@@ -27,16 +42,43 @@ async function loadProfile(){
  const {data:stores,error:se}=await sb.from('stores').select('*').order('id'); if(se) throw se; storeList=stores||[];
 }
 async function login(){
+ const btn=$('loginBtn');
  const account=$('loginAccount').value.trim(), password=$('loginPass').value;
  if(!account||!password){showMsg('请输入账号和密码');return}
- const {data,error}=await sb.auth.signInWithPassword({email:account,password});
- if(error){showMsg('账号或密码错误');return}
- me=data.user; try{await loadProfile();}catch(e){await sb.auth.signOut();showMsg('登录成功，但账号资料未配置：'+e.message);return}
- if(profile && profile.enabled===false){await sb.auth.signOut();showMsg('此账号已停用');return}
- enterApp();
+ if(!sb && !initSupabase()) return;
+ if(btn){btn.disabled=true;btn.textContent='登录中…'}
+ showMsg('正在连接云端…',true);
+ try{
+  const {data,error}=await sb.auth.signInWithPassword({email:account,password});
+  if(error) throw error;
+  me=data.user;
+  await loadProfile();
+  if(profile && profile.enabled===false){
+    await sb.auth.signOut();
+    throw new Error('此账号已停用');
+  }
+  enterApp();
+ }catch(e){
+  console.error('LOGIN_ERROR',e);
+  showMsg('登录失败：'+(e?.message||'请检查账号和密码'));
+ }finally{
+  if(btn){btn.disabled=false;btn.textContent='登录'}
+ }
 }
 async function boot(){
- const {data}=await sb.auth.getSession(); if(data.session){me=data.session.user;try{await loadProfile();enterApp()}catch(e){await sb.auth.signOut()}}
+ try{
+  if(!sb && !initSupabase()) return;
+  const {data,error}=await sb.auth.getSession();
+  if(error) throw error;
+  if(data.session){
+    me=data.session.user;
+    await loadProfile();
+    enterApp();
+  }
+ }catch(e){
+  console.error('BOOT_ERROR',e);
+  await sb?.auth?.signOut?.();
+ }
 }
 function enterApp(){$('login').classList.add('hidden');$('app').classList.remove('hidden');$('userLabel').textContent=profile?.name||me.email;render()}
 async function logout(){await sb.auth.signOut();location.reload()}
