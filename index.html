@@ -263,7 +263,7 @@ window.addEventListener('error',e=>{
      if(period==='year'&&!window.v101Year)window.v101Year=String(year);
      let tools='';
      if(period==='month')tools='<div class="v101-tools"><label>月份</label><input id="v101MonthPick" type="month" value="'+E(window.v101Month)+'" onchange="v101Month=this.value;v101RS=this.value;v101RE=this.value;showDashboard()"><div class="v101-range"><input type="month" value="'+E(window.v101RS)+'" onchange="v101RS=this.value"><span>至</span><input type="month" value="'+E(window.v101RE)+'" onchange="v101RE=this.value"><button class="secondary" onclick="showDashboard()">统计</button></div></div>';
-     else if(period==='year')tools='<div class="v101-tools"><label>年度</label><input id="v101YearPick" type="number" min="2000" max="2100" value="'+E(window.v101Year||year)+'" onchange="v101Year=this.value;v101Month=this.value+\'-12\';v101RS=this.value+\'-01\';v101RE=this.value+\'-12\';showDashboard()"></div>';
+     else if(period==='year')tools='<div class="v101-tools"><label>年度</label><input id="v101YearPick" type="number" min="2000" max="2100" value="'+E(window.v101Year||year)+'" onchange="v101Year=this.value;v101Month=this.value+\'-01\';v101RS=this.value+\'-01\';v101RE=this.value+\'-12\';showDashboard()"><div class="v101-range"><label>年度统计月份</label><input id="v101YearRS" type="month" value="'+E(window.v101RS||((window.v101Year||year)+'-01'))+'" onchange="v101RS=this.value;showDashboard()"><span>至</span><input id="v101YearRE" type="month" value="'+E(window.v101RE||((window.v101Year||year)+'-12'))+'" onchange="v101RE=this.value;showDashboard()"></div></div>';
      const tabs=`<div class="tabs"><button class="${period==='month'?'active':''}" onclick="setPeriod('month')">本月</button><button class="${period==='year'?'active':''}" onclick="setPeriod('year')">本年度</button><button class="${period==='life'?'active':''}" onclick="setPeriod('life')">开业至今</button></div>`;
      c.innerHTML=tabs+tools+'<div id="v101Stores"></div>';
      for(const st of storeList)await v101StoreCard(st);
@@ -281,6 +281,9 @@ window.addEventListener('error',e=>{
    }else if(period==='year'){
      const y=String(window.v101Year||new Date().getFullYear());
      used=rows.filter(r=>String(r.month_date||'').slice(0,4)===y);
+     if(window.v101RS && window.v101RE){
+       used=rows.filter(r=>{const mm=String(r.month_date||'').slice(0,7); return mm>=window.v101RS && mm<=window.v101RE;});
+     }
    }else{
      const op=String(st.opening_date||'').slice(0,7);
      if(op)used=rows.filter(r=>String(r.month_date||'').slice(0,7)>=op);
@@ -675,4 +678,96 @@ window.v102FinalSelfTest=function(){
  const missing=required.filter(k=>typeof window[k]!=='function');
  return {version:'V1.02',missing,ok:missing.length===0};
 };
+</script>
+
+<script>
+/* V1.02.1 targeted repair: monthly save, overview detail, year-linked date range */
+(function(){
+  const $=id=>document.getElementById(id);
+  const num=v=>Number(v||0);
+  const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const money=v=>'¥'+num(v).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+  window.v102SaveMonthlyFixed=async function(storeId){
+    const val=id=>$(id)?.value||'';
+    const month=val('vm_month');
+    if(!month){alert('请选择月份');return false;}
+    const payload={
+      store_id:storeId, month_date:month+'-01',
+      turnover:num(val('vm_turn')), company_return:num(val('vm_ret')),
+      rent:num(val('vm_rent')), utilities:num(val('vm_util')), other_expenses:num(val('vm_other'))
+    };
+    payload.profit=payload.company_return-payload.rent-payload.utilities-payload.other_expenses;
+    payload.retained=payload.profit;
+    try{
+      /* 先更新；没有更新到记录再新增。遇到并发/唯一键冲突时再次更新。 */
+      let u=await sb.from('monthly_accounts').update(payload).eq('store_id',storeId).eq('month_date',payload.month_date).select('id');
+      if(u.error)throw u.error;
+      if(!u.data || u.data.length===0){
+        let ins=await sb.from('monthly_accounts').insert(payload).select('id');
+        if(ins.error){
+          const retry=await sb.from('monthly_accounts').update(payload).eq('store_id',storeId).eq('month_date',payload.month_date).select('id');
+          if(retry.error)throw retry.error;
+          if(!retry.data?.length)throw ins.error;
+        }
+      }
+      const amount=num(val('vm_exp')),cat=val('vm_cat');
+      if(amount>0){
+        const rb={store_id:storeId,expense_date:val('vm_expdate')||month+'-01',amount,note:val('vm_note'),receipt_url:null};
+        if(cat)rb.category_name=cat;
+        const rr=await sb.from('reimbursements').insert(rb);
+        if(rr.error)throw new Error('报销保存失败：'+rr.error.message);
+      }
+      if(typeof window.v101Close==='function')window.v101Close();
+      alert('月度账单已保存');
+      return true;
+    }catch(e){
+      alert('月度账单保存失败：'+(e?.message||e));
+      console.error('V1.02 monthly save',e);
+      return false;
+    }
+  };
+  /* 强制保存按钮走最终修复函数 */
+  window.v101SaveMonthly=window.v102SaveMonthlyFixed;
+
+  /* 详情：不依赖 window.storeList，直接从云端取指定门店。 */
+  window.v102StoreDetailFixed=async function(id){
+    try{
+      let st=(window.storeList||[]).find(x=>x.id===id);
+      if(!st){
+        const r=await sb.from('stores').select('*').eq('id',id).maybeSingle();
+        if(r.error)throw r.error;
+        st=r.data;
+      }
+      if(!st)throw new Error('找不到门店');
+      const [ma,dv,tp]=await Promise.all([
+        sb.from('monthly_accounts').select('*').eq('store_id',id).order('month_date',{ascending:true}),
+        sb.from('store_dividends').select('*').eq('store_id',id).order('dividend_date',{ascending:false}),
+        sb.from('store_topups').select('*').eq('store_id',id).order('topup_date',{ascending:false})
+      ]);
+      if(ma.error)throw new Error('月度账单读取失败：'+ma.error.message);
+      if(dv.error)throw new Error('分红读取失败：'+dv.error.message);
+      if(tp.error)throw new Error('补款读取失败：'+tp.error.message);
+      const rows=ma.data||[], divs=dv.data||[], tops=tp.data||[];
+      const turnover=rows.reduce((a,r)=>a+num(r.turnover),0);
+      const company=rows.reduce((a,r)=>a+num(r.company_return),0);
+      const rent=rows.reduce((a,r)=>a+num(r.rent),0);
+      const util=rows.reduce((a,r)=>a+num(r.utilities),0);
+      const other=rows.reduce((a,r)=>a+num(r.other_expenses),0);
+      const profit=company-rent-util-other;
+      const html='<div class="v101-grid2">'+
+        '<div class="stat">营业额<div class="num">'+money(turnover)+'</div></div>'+
+        '<div class="stat">公司回款<div class="num">'+money(company)+'</div></div>'+
+        '<div class="stat">盈利<div class="num '+(profit>=0?'v101-red':'v101-green')+'">'+money(profit)+'</div></div>'+
+        '<div class="stat">门店留存<div class="num '+(profit>=0?'v101-red':'v101-green')+'">'+money(profit)+'</div></div></div>'+
+        '<h3>费用</h3><p>房租 '+money(rent)+'　水电 '+money(util)+'　其他费用 '+money(other)+'</p>'+
+        '<h3>分红明细</h3>'+(divs.map(x=>'<div class="row"><span>'+esc(String(x.dividend_date||'').slice(0,10))+'</span><span>股东分红</span><b>'+money(x.amount)+'</b></div>').join('')||'<p class="muted">暂无分红</p>')+
+        '<h3>补款明细</h3>'+(tops.map(x=>'<div class="row"><span>'+esc(String(x.topup_date||'').slice(0,10))+'</span><span>补款</span><b>'+money(x.amount)+'</b></div>').join('')||'<p class="muted">暂无补款</p>');
+      const root=$('modalRoot');
+      if(!root)throw new Error('页面弹窗容器不存在');
+      root.innerHTML='<div class="modal" onclick="if(event.target===this)v101Close()"><div class="modalbox"><div style="display:flex;justify-content:space-between"><h2>'+esc(st.name)+' · 详情</h2><button class="secondary" onclick="v101Close()">关闭</button></div>'+html+'</div></div>';
+    }catch(e){alert('门店详情打开失败：'+(e?.message||e));console.error('V1.02 detail',e);}
+  };
+  window.v101StoreDetail=window.v102StoreDetailFixed;
+})();
 </script>
