@@ -222,7 +222,7 @@ window.addEventListener('error',e=>{
 });
 </script>
 
-<!-- V1.01 BUSINESS IMPLEMENTATION -->
+<!-- V1.06 BUSINESS IMPLEMENTATION -->
 <style>
 #versionTag{font-size:11px;opacity:.8;margin-left:8px}
 .v101-head{display:flex;align-items:center;gap:8px}
@@ -242,7 +242,7 @@ window.addEventListener('error',e=>{
 @media(max-width:600px){.v101-grid2,.v101-grid3{grid-template-columns:1fr 1fr}.v101-owner-grid{grid-template-columns:1fr 1fr}.v101-tools input{width:118px}}
 </style>
 <script>
-/* V1.01: 业务层。严格不改 initSupabase/login/boot/loadProfile/enterApp。 */
+/* V1.06: 业务层。严格不改 initSupabase/login/boot/loadProfile/enterApp。 */
 (function(){
  const E=window.esc||function(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))};
  const M=window.money2||function(v){return '¥'+Number(v||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})};
@@ -447,52 +447,59 @@ window.addEventListener('error',e=>{
    modal((s?.name||'门店')+' · 回本详情','<h3>分红明细</h3>'+(d.map(x=>`<div class="row"><span>${E(x.dividend_date)}</span><span>分红</span><b>${M(x.amount)}</b><span></span></div>`).join('')||'<p class="muted">暂无分红</p>')+'<h3>补款明细</h3>'+(t.map(x=>`<div class="row"><span>${E(x.topup_date)}</span><span>补款</span><b>${M(x.amount)}</b><span></span></div>`).join('')||'<p class="muted">暂无补款</p>'));
  };
 
- // Partner account: creation at least creates Auth user + profile, then owner re-login.
+ // V1.06 Partner management: create / enable-disable / reset password / delete / per-store shares.
+ window.v101PartnerAction=async function(action, body={}){
+   if(!sb)return alert('云端尚未连接');
+   const r=await sb.functions.invoke('partner-admin',{body:{action,...body}});
+   if(r.error)throw new Error(r.error.message||'操作失败');
+   if(!r.data?.ok)throw new Error(r.data?.message||'操作失败');
+   return r.data;
+ };
  window.v101Partners=async function(b){
-   const ps=(await sb.from('profiles').select('*').order('created_at',{ascending:false})).data||[];
-   const ss=await ownerStores();
-   let html=`<div class="card"><button class="green" onclick="v101PartnerForm()">＋新增股东账号</button><p class="muted">账号创建后可直接给股东“网站＋账号＋密码”。同一股东每个门店可设置不同股份。</p></div>`;
-   for(const p of ps.filter(x=>x.id!==me.id)){
+   const pr=await sb.from('profiles').select('*').eq('role','partner').order('created_at',{ascending:false});
+   if(pr.error)return b.innerHTML='<div class="card error">读取股东失败：'+E(pr.error.message)+'</div>';
+   const ps=pr.data||[]; const ss=await ownerStores();
+   let html=`<div class="card"><button class="green" onclick="v101PartnerForm()">＋新增股东账号</button><p class="muted">创建后可直接复制“网站＋账号＋密码”。每个股东可分别设置每家店股份。</p></div>`;
+   for(const p of ps){
      let ms=(await sb.from('store_members').select('*').eq('user_id',p.id)).data||[];
-     html+=`<div class="v101-fold"><div class="v101-fold-head" onclick="v101Fold('pt_${p.id}')"><span>${E(p.name||p.username||p.id)}</span><span id="pt_${p.id}_a">－</span></div><div id="pt_${p.id}" class="v101-fold-body"><div class="v101-grid2">${ss.map(s=>{const m=ms.find(x=>x.store_id===s.id);return `<div><label>${E(s.name)} 股份%</label><input id="vp_${s.id}_${p.id}" type="number" min="0" max="100" step=".01" value="${m?m.share_percent:''}"></div>`}).join('')}</div><br><button class="green" onclick="v101SavePartnerShares('${p.id}')">保存股份</button></div></div>`;
+     const disabled=p.enabled===false;
+     html+=`<div class="v101-fold"><div class="v101-fold-head" onclick="v101Fold('pt_${p.id}')"><span>${E(p.name||p.username||p.id)} <span class="muted">${disabled?'（已禁止登录）':'（可登录）'}</span></span><span id="pt_${p.id}_a">－</span></div><div id="pt_${p.id}" class="v101-fold-body">
+       <div class="v101-grid2">${ss.map(s=>{const m=ms.find(x=>x.store_id===s.id);return `<div><label>${E(s.name)} 股份%</label><input id="vp_${s.id}_${p.id}" type="number" min="0" max="100" step=".01" value="${m?m.share_percent:''}"></div>`}).join('')}</div>
+       <br><div class="actions"><button class="green" onclick="v101SavePartnerShares('${p.id}')">保存股份</button>
+       <button class="secondary" onclick="v101TogglePartner('${p.id}',${disabled})">${disabled?'恢复登录':'禁止登录'}</button>
+       <button class="secondary" onclick="v101ResetPartnerPassword('${p.id}','${E(p.name||p.username||'股东')}')">重置密码</button>
+       <button class="danger" onclick="v101DeletePartner('${p.id}','${E(p.name||p.username||'股东')}')">删除股东</button></div>
+       </div></div>`;
    }
    b.innerHTML=html;
  };
- window.v101PartnerForm=()=>modal('新增股东账号',`<label>姓名</label><input id="vp_name"><label>登录邮箱</label><input id="vp_email" type="email"><label>密码（至少6位）</label><input id="vp_pw" type="password"><p class="muted">创建后密码只显示这一次，系统不能读取旧密码。</p><button class="green" onclick="v101CreatePartner()">创建并显示账号</button>`);
+ window.v101PartnerForm=()=>modal('新增股东账号',`<label>姓名</label><input id="vp_name" autocomplete="name"><label>登录邮箱</label><input id="vp_email" type="email" autocomplete="username"><label>密码（至少6位）</label><input id="vp_pw" type="text" autocomplete="new-password"><p class="muted">密码只在创建成功时显示一次。</p><button class="green" onclick="v101CreatePartner()">创建股东账号</button>`);
  window.v101CreatePartner=async()=>{
-   const name=document.getElementById('vp_name').value.trim(),email=document.getElementById('vp_email').value.trim(),pw=document.getElementById('vp_pw').value;
+   const name=document.getElementById('vp_name').value.trim(),email=document.getElementById('vp_email').value.trim().toLowerCase(),pw=document.getElementById('vp_pw').value;
    if(!name||!email||pw.length<6)return alert('请完整填写，密码至少6位');
-   const ownerEmail=me.email,ownerPw=prompt('为了创建后恢复老板登录，请输入当前老板密码：');if(!ownerPw)return;
-   const r=await sb.auth.signUp({email,password:pw,options:{data:{name}}});if(r.error)return alert('创建失败：'+r.error.message);
-   const uid=r.data.user?.id;if(!uid)return alert('创建结果异常');
-   await sb.auth.signOut();
-   const back=await sb.auth.signInWithPassword({email:ownerEmail,password:ownerPw});
-   if(back.error)return alert('股东已创建，但老板账号恢复失败，请重新登录老板账号');
-   me=back.data.user;await loadProfile();
-   const pr=await sb.from('profiles').upsert({id:uid,name,role:'partner',enabled:true,username:email},{onConflict:'id'});
-   if(pr.error)return alert('账号创建成功，但资料保存失败：'+pr.error.message);
-   v101Close();
-   modal('股东账号已创建',`<p>账号：<b>${E(email)}</b></p><p>密码：<b>${E(pw)}</b></p><p>网站：<b>${E(location.href)}</b></p><button onclick="navigator.clipboard.writeText('${E(email)}\\n${E(pw)}\\n${E(location.href)}');alert('已复制')">一键复制账号＋密码＋网址</button>`);
+   const btn=[...document.querySelectorAll('button')].find(x=>x.textContent.includes('创建股东账号')); if(btn){btn.disabled=true;btn.textContent='创建中…'}
+   try{const d=await v101PartnerAction('create',{name,email,password:pw}); v101Close(); const url=location.href.split('#')[0]; modal('股东账号创建成功',`<div class="card success"><p>姓名：<b>${E(name)}</b></p><p>登录账号：<b>${E(email)}</b></p><p>密码：<b>${E(pw)}</b></p><p>登录网站：<b>${E(url)}</b></p><p class="muted">密码只显示这一次。</p><div class="actions"><button class="green" onclick="v101CopyCredentials(${JSON.stringify(email)},${JSON.stringify(pw)},${JSON.stringify(url)})">一键复制账号＋密码＋网址</button><button onclick="v101Close();v101OwnerTab('partners')">去设置股份</button></div></div>`); }
+   catch(e){alert('创建失败：'+(e?.message||e))} finally{if(btn){btn.disabled=false;btn.textContent='创建股东账号'}}
  };
+ window.v101TogglePartner=async(uid,currentlyDisabled)=>{if(!confirm(currentlyDisabled?'确定恢复该股东登录吗？':'确定禁止该股东登录吗？'))return;try{await v101PartnerAction('set_enabled',{user_id:uid,enabled:currentlyDisabled});alert(currentlyDisabled?'已恢复登录':'已禁止登录');v101OwnerTab('partners')}catch(e){alert('操作失败：'+e.message)}};
+ window.v101ResetPartnerPassword=async(uid,name)=>{const pw=prompt(`给“${name}”设置新密码（至少6位）`,'');if(pw===null)return;if(pw.length<6)return alert('密码至少6位');try{await v101PartnerAction('reset_password',{user_id:uid,password:pw});const url=location.href.split('#')[0];modal('密码已重置',`<p>股东：<b>${E(name)}</b></p><p>新密码：<b>${E(pw)}</b></p><p>网站：<b>${E(url)}</b></p><button class="green" onclick="v101CopyCredentials('',${JSON.stringify(pw)},${JSON.stringify(url)})">复制新密码＋网址</button>`)}catch(e){alert('重置失败：'+e.message)}};
+ window.v101DeletePartner=async(uid,name)=>{if(!confirm(`确定删除“${name}”吗？\n\n将解除该股东的门店股份和权限，并删除登录账号。历史账务记录不会因此删除。`))return;try{await v101PartnerAction('delete',{user_id:uid});alert('股东已删除');v101OwnerTab('partners')}catch(e){alert('删除失败：'+e.message)}};
+ window.v101CopyCredentials=async(email,pw,url)=>{const text=`${email?`账号：${email}\n`:''}密码：${pw}\n网站：${url}`;try{await navigator.clipboard.writeText(text);alert('已复制')}catch(e){prompt('复制下面内容',text)}};
  window.v101SavePartnerShares=async uid=>{
-   for(const s of await ownerStores()){
-     const el=document.getElementById(`vp_${s.id}_${uid}`);if(!el)continue;
-     const pct=n(el.value), old=(await sb.from('store_members').select('id').eq('store_id',s.id).eq('user_id',uid)).data||[];
-     if(pct>0){const r=old.length?await sb.from('store_members').update({share_percent:pct}).eq('id',old[0].id):await sb.from('store_members').insert({store_id:s.id,user_id:uid,share_percent:pct});if(r.error)return alert(r.error.message)}
-     else if(old.length)await sb.from('store_members').delete().eq('id',old[0].id);
-   }
-   alert('股份已保存');
+   const ss=await ownerStores();
+   for(const s of ss){const el=document.getElementById(`vp_${s.id}_${uid}`);if(!el)continue;const raw=el.value.trim(),pct=raw===''?0:Number(raw);if(!Number.isFinite(pct)||pct<0||pct>100)return alert(`${s.name} 的股份必须是 0～100%`);const old=(await sb.from('store_members').select('id').eq('store_id',s.id).eq('user_id',uid)).data||[];if(pct>0){const r=old.length?await sb.from('store_members').update({share_percent:pct}).eq('id',old[0].id):await sb.from('store_members').insert({store_id:s.id,user_id:uid,share_percent:pct});if(r.error)return alert(`${s.name} 保存失败：${r.error.message}`)}else if(old.length){const r=await sb.from('store_members').delete().eq('id',old[0].id);if(r.error)return alert(`${s.name} 删除股份失败：${r.error.message}`)}}
+   alert('股份已保存');v101OwnerTab('partners');
  };
 
  // Backup
  window.v101Backup=()=>{document.getElementById('v101OwnerBody').innerHTML='<div class="card"><h2>数据备份</h2><p class="muted">导出主要业务表为 JSON，方便留档。</p><button class="green" onclick="v101Export()">一键备份</button></div>'};
- window.v101Export=async()=>{const ts=['stores','profiles','store_members','partner_permissions','monthly_accounts','reimbursements','reimbursement_categories','store_dividends','store_topups'];const o={version:'V1.01',exported_at:new Date().toISOString(),tables:{}};for(const t of ts){const r=await sb.from(t).select('*');if(r.error)return alert(t+'：'+r.error.message);o.tables[t]=r.data||[]}const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(o,null,2)],{type:'application/json'}));a.download='门店账务_V1.01_备份.json';a.click()};
+ window.v101Export=async()=>{const ts=['stores','profiles','store_members','partner_permissions','monthly_accounts','reimbursements','reimbursement_categories','store_dividends','store_topups'];const o={version:'V1.06',exported_at:new Date().toISOString(),tables:{}};for(const t of ts){const r=await sb.from(t).select('*');if(r.error)return alert(t+'：'+r.error.message);o.tables[t]=r.data||[]}const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(o,null,2)],{type:'application/json'}));a.download='门店账务_V1.06_备份.json';a.click()};
 
  // Version-visible render, while leaving login function untouched.
  const originalRender=window.render;
  window.render=function(){
    const app=document.getElementById('app');
-   app.innerHTML=`<div class="actions"><button onclick="showDashboard()">门店总览</button><button class="secondary" onclick="showAccount()">账号设置</button>${profile?.role==='owner'?'<button class="secondary" onclick="showOwnerTools()">老板后台</button>':''}<button class="secondary" onclick="logout()">退出</button><span class="muted" style="color:#fff">V1.01</span></div><div id="content"></div>`;
+   app.innerHTML=`<div class="actions"><button onclick="showDashboard()">门店总览</button><button class="secondary" onclick="showAccount()">账号设置</button>${profile?.role==='owner'?'<button class="secondary" onclick="showOwnerTools()">老板后台</button>':''}<button class="secondary" onclick="logout()">退出</button><span class="muted" style="color:#fff">V1.06</span></div><div id="content"></div>`;
    showDashboard();
  };
 })();
@@ -783,7 +790,7 @@ window.addReimCat=async()=>{const name=$('rcn').value.trim();if(!name)return;con
 })();
 </script>
 <script>
-/* V1.03 FINAL STABILITY BRIDGE - fixes duplicated/legacy handlers and period detail */
+/* V1.06 FINAL STABILITY BRIDGE - fixes duplicated/legacy handlers and period detail */
 (function(){
   const $=id=>document.getElementById(id);
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
