@@ -252,20 +252,24 @@ window.addEventListener('error',e=>{
 
  // ---------- Dashboard ----------
  window.showDashboard=async function(){
-   const c=document.getElementById('content'); if(!c)return;
+   const c=document.getElementById('content');if(!c)return;
    c.innerHTML='<div class="card">正在读取云端账务…</div>';
    try{
      await loadProfile();
-     const now=new Date(), ym=now.toISOString().slice(0,7), year=now.getFullYear();
+     const now=new Date(),ym=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0'),year=now.getFullYear();
      if(!window.v101Month)window.v101Month=ym;
      if(!window.v101RS)window.v101RS=ym;
      if(!window.v101RE)window.v101RE=ym;
-     const tools=`<div class="v101-tools"><input type="month" value="${E(window.v101Month)}" onchange="v101Month=this.value;showDashboard()"><div class="v101-range"><input type="month" value="${E(window.v101RS)}" onchange="v101RS=this.value"><span>至</span><input type="month" value="${E(window.v101RE)}" onchange="v101RE=this.value"><button class="secondary" onclick="showDashboard()">统计</button></div></div>`;
+     if(period==='year'&&!window.v101Year)window.v101Year=String(year);
+     let tools='';
+     if(period==='month')tools='<div class="v101-tools"><label>月份</label><input id="v101MonthPick" type="month" value="'+E(window.v101Month)+'" onchange="v101Month=this.value;v101RS=this.value;v101RE=this.value;showDashboard()"><div class="v101-range"><input type="month" value="'+E(window.v101RS)+'" onchange="v101RS=this.value"><span>至</span><input type="month" value="'+E(window.v101RE)+'" onchange="v101RE=this.value"><button class="secondary" onclick="showDashboard()">统计</button></div></div>';
+     else if(period==='year')tools='<div class="v101-tools"><label>年度</label><input id="v101YearPick" type="number" min="2000" max="2100" value="'+E(window.v101Year||year)+'" onchange="v101Year=this.value;v101Month=this.value+\'-12\';v101RS=this.value+\'-01\';v101RE=this.value+\'-12\';showDashboard()"></div>';
      const tabs=`<div class="tabs"><button class="${period==='month'?'active':''}" onclick="setPeriod('month')">本月</button><button class="${period==='year'?'active':''}" onclick="setPeriod('year')">本年度</button><button class="${period==='life'?'active':''}" onclick="setPeriod('life')">开业至今</button></div>`;
      c.innerHTML=tabs+tools+'<div id="v101Stores"></div>';
-     for(const st of storeList){await v101StoreCard(st)}
-   }catch(e){c.innerHTML=`<div class="card"><p class="error">读取失败：${E(e.message)}</p></div>`}
+     for(const st of storeList)await v101StoreCard(st);
+   }catch(e){c.innerHTML='<div class="card"><p class="error">读取失败：'+E(e.message)+'</p></div>'}
  };
+
  window.v101StoreCard=async function(st){
    const host=document.getElementById('v101Stores');if(!host)return;
    const {data,error}=await sb.from('monthly_accounts').select('*').eq('store_id',st.id).order('month_date',{ascending:true});
@@ -275,7 +279,7 @@ window.addEventListener('error',e=>{
    if(period==='month'){
      used=rows.filter(r=>String(r.month_date||'').slice(0,7)===window.v101Month);
    }else if(period==='year'){
-     const y=String(window.v101Month||'').slice(0,4)||String(new Date().getFullYear());
+     const y=String(window.v101Year||new Date().getFullYear());
      used=rows.filter(r=>String(r.month_date||'').slice(0,4)===y);
    }else{
      const op=String(st.opening_date||'').slice(0,7);
@@ -322,7 +326,7 @@ window.addEventListener('error',e=>{
  // ---------- Owner ----------
  window.showOwnerTools=async function(){
    const c=document.getElementById('content');if(!c)return;
-   c.innerHTML=`<div class="card"><div class="v101-head"><h2 style="margin:0">老板后台</h2><span class="muted">V1.01</span></div><div class="v101-owner-grid" style="margin-top:10px">
+   c.innerHTML=`<div class="card"><div class="v101-head"><h2 style="margin:0">老板后台</h2><span class="muted">V1.02</span></div><div class="v101-owner-grid" style="margin-top:10px">
    <button onclick="v101OwnerTab('stores')">门店</button><button onclick="v101OwnerTab('accounts')">月度账单</button>
    <button onclick="v101OwnerTab('partners')">股东账号</button><button onclick="v101OwnerTab('dividends')">股东分红</button>
    <button onclick="v101OwnerTab('topups')">补款</button><button onclick="v101OwnerTab('payback')">回本情况</button>
@@ -551,4 +555,124 @@ window.addEventListener('error',e=>{
  };
 })();
 </script>
+
+<!-- V1.02 FIX PACK: monthly save / account / overview detail / period / topup display -->
+<script>
+(function(){
+  const q=id=>document.getElementById(id);
+  const N=v=>Number(v||0);
+  const E3=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const M3=v=>'¥'+N(v).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const ymNow=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')};
+  const modalSafe=(title,body)=>{
+    let r=q('modalRoot');
+    if(!r){r=document.createElement('div');r.id='modalRoot';document.body.appendChild(r)}
+    r.innerHTML='<div class="modal" onclick="if(event.target===this)v101Close()"><div class="modalbox"><div style="display:flex;justify-content:space-between;align-items:center"><h2>'+E3(title)+'</h2><button class="secondary" onclick="v101Close()">关闭</button></div>'+body+'</div></div>';
+  };
+
+  // 1) Account settings: direct global handler, no dependency on the old shell.
+  window.showAccount=async function(){
+    const c=q('content'); if(!c)return;
+    try{ if(window.loadProfile) await window.loadProfile(); }catch(e){}
+    const account=window.me?.email || window.profile?.username || '—';
+    const name=window.profile?.name || '—';
+    const role=window.profile?.role==='owner'?'老板':'股东';
+    const url=location.href.split('#')[0];
+    c.innerHTML='<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">账号设置</h2><b>V1.02</b></div>'+
+      '<div class="stats" style="margin-top:14px"><div class="stat"><div class="muted">姓名</div><div class="num">'+E3(name)+'</div></div><div class="stat"><div class="muted">账号</div><div class="num" style="font-size:17px;word-break:break-all">'+E3(account)+'</div></div><div class="stat"><div class="muted">身份</div><div class="num">'+role+'</div></div></div>'+
+      '<h3>登录网站</h3><input id="v102_url_fix" readonly value="'+E3(url)+'">'+
+      '<div class="v102-copy"><button class="green" onclick="v102Copy(document.getElementById(\'v102_url_fix\').value)">复制网站</button><button onclick="v102Copy(\''+E3(account)+'\')">复制账号</button><button class="secondary" onclick="v102Copy(\''+E3(account)+'\\n'+E3(url)+'\')">复制账号＋网址</button></div>'+
+      '<p class="muted">旧密码不能从 Supabase 读取。只有新建或重置密码时，才能把密码交给股东。</p></div>';
+  };
+
+  // 2) Monthly save: explicit existence check -> update/insert, with clear error reporting.
+  window.v101SaveMonthly=async function(storeId){
+    const g=id=>q(id)?.value||'';
+    const month=g('vm_month'); if(!month)return alert('请选择月份');
+    const payload={store_id:storeId,month_date:month+'-01',turnover:N(g('vm_turn')),company_return:N(g('vm_ret')),rent:N(g('vm_rent')),utilities:N(g('vm_util')),other_expenses:N(g('vm_other'))};
+    payload.profit=payload.company_return-payload.rent-payload.utilities-payload.other_expenses;
+    payload.retained=payload.profit;
+    try{
+      const found=await sb.from('monthly_accounts').select('id').eq('store_id',storeId).eq('month_date',payload.month_date).limit(1).maybeSingle();
+      if(found.error)throw found.error;
+      let r;
+      if(found.data?.id){ r=await sb.from('monthly_accounts').update(payload).eq('id',found.data.id); }
+      else { r=await sb.from('monthly_accounts').insert(payload); }
+      if(r.error)throw r.error;
+      const amount=N(g('vm_exp')),cat=g('vm_cat');
+      if(amount>0){
+        let url=null; const f=q('vm_file')?.files?.[0];
+        if(f && typeof window.v101Upload==='function')url=await window.v101Upload(f);
+        const rb={store_id:storeId,expense_date:g('vm_expdate')||month+'-01',amount,note:g('vm_note'),receipt_url:url};
+        if(cat)rb.category_name=cat;
+        let rr=await sb.from('reimbursements').insert(rb);
+        if(rr.error && cat){delete rb.category_name;rb.category=cat;rr=await sb.from('reimbursements').insert(rb);}
+        if(rr.error)throw new Error('报销保存失败：'+rr.error.message);
+      }
+      if(typeof window.v101Close==='function')window.v101Close();
+      alert('月度账单已保存');
+      const b=q('v101OwnerBody'); if(b&&typeof window.v101Accounts==='function')await window.v101Accounts(b);
+    }catch(e){alert('月度账单保存失败：'+(e?.message||e))}
+  };
+
+  // 3) Overview period controls: year/month controls always follow the selected period.
+  window.setPeriod=async function(p){
+    window.period=p;
+    const now=new Date(), y=now.getFullYear(), m=String(now.getMonth()+1).padStart(2,'0');
+    if(p==='year'){window.v101Year=String(y);window.v101Month=y+'-'+m;window.v101RS=y+'-01';window.v101RE=y+'-12';}
+    else if(p==='month'){window.v101Month=y+'-'+m;window.v101RS=window.v101Month;window.v101RE=window.v101Month;}
+    else {window.v101RS='';window.v101RE='';}
+    if(typeof window.showDashboard==='function')await window.showDashboard();
+  };
+
+  // 4) Reliable overview detail. Don't silently ignore query errors.
+  window.v101StoreDetail=async function(id){
+    const st=(window.storeList||[]).find(x=>x.id===id); if(!st)return alert('找不到门店');
+    try{
+      const [ma,rb,dv,tp]=await Promise.all([
+        sb.from('monthly_accounts').select('*').eq('store_id',id).order('month_date',{ascending:true}),
+        sb.from('reimbursements').select('*').eq('store_id',id).order('expense_date',{ascending:false}).limit(100),
+        sb.from('store_dividends').select('*').eq('store_id',id).order('dividend_date',{ascending:false}),
+        sb.from('store_topups').select('*').eq('store_id',id).order('topup_date',{ascending:false})
+      ]);
+      if(ma.error)throw new Error('月度账单读取失败：'+ma.error.message);
+      const rows=ma.data||[], reimburse=rb.error?[]:(rb.data||[]), divs=dv.error?[]:(dv.data||[]), tops=tp.error?[]:(tp.data||[]);
+      const turnover=rows.reduce((a,r)=>a+N(r.turnover),0), company=rows.reduce((a,r)=>a+N(r.company_return),0);
+      const rent=rows.reduce((a,r)=>a+N(r.rent),0), util=rows.reduce((a,r)=>a+N(r.utilities),0), other=rows.reduce((a,r)=>a+N(r.other_expenses),0);
+      const profit=company-rent-util-other;
+      const rbHtml=reimburse.map(x=>'<div class="row"><span>'+E3(String(x.expense_date||'').slice(0,10))+'</span><span>'+E3(x.category_name||x.category||'其他报销')+'</span><b>'+M3(x.amount)+'</b><span>'+(x.receipt_url?'<a target="_blank" href="'+E3(x.receipt_url)+'">查看凭证</a>':'')+'</span></div>').join('')||'<p class="muted">暂无报销</p>';
+      const dvHtml=divs.map(x=>'<div class="row"><span>'+E3(x.dividend_date)+'</span><span>股东分红</span><b>'+M3(x.amount)+'</b><span></span></div>').join('')||'<p class="muted">暂无分红</p>';
+      const tpHtml=tops.map(x=>'<div class="row"><span>'+E3(x.topup_date)+'</span><span>补款</span><b>'+M3(x.amount)+'</b><span></span></div>').join('')||'<p class="muted">暂无补款</p>';
+      modalSafe(st.name+' · 详情',
+        '<div class="v101-grid2"><div class="stat">营业额<div class="num">'+M3(turnover)+'</div></div><div class="stat">公司回款<div class="num">'+M3(company)+'</div></div><div class="stat">盈利<div class="num '+(profit>=0?'v101-red':'v101-green')+'">'+M3(profit)+'</div></div><div class="stat">门店留存<div class="num '+(profit>=0?'v101-red':'v101-green')+'">'+M3(profit)+'</div></div></div>'+
+        '<h3>费用</h3><p>房租 '+M3(rent)+'　水电 '+M3(util)+'　其他费用 '+M3(other)+'</p>'+
+        '<h3>报销明细</h3>'+rbHtml+
+        '<h3>分红明细</h3>'+dvHtml+
+        '<h3>补款明细</h3>'+tpHtml);
+    }catch(e){alert('门店详情读取失败：'+(e?.message||e))}
+  };
+
+  // 5) Payback: make top-up visible as investment recovery base. It is NOT retained.
+  window.v101Payback=async function(b){
+    try{
+      const ss=await (typeof window.ownerStores==='function'?window.ownerStores():sb.from('stores').select('*').eq('owner_id',me.id).order('created_at').then(r=>r.data||[]));
+      let html='';
+      for(const s of ss){
+        const [dr,tr]=await Promise.all([sb.from('store_dividends').select('*').eq('store_id',s.id),sb.from('store_topups').select('*').eq('store_id',s.id)]);
+        if(dr.error)throw dr.error;if(tr.error)throw tr.error;
+        const div=(dr.data||[]).reduce((a,x)=>a+N(x.amount),0), top=(tr.data||[]).reduce((a,x)=>a+N(x.amount),0), initial=N(s.initial_investment), remain=initial+top-div;
+        html+='<div class="v101-fold"><div class="v101-fold-head" onclick="v101Fold(\'pb_'+s.id+'\')"><span>'+E3(s.name)+'</span><span>－</span></div><div id="pb_'+s.id+'" class="v101-fold-body"><div class="v101-grid2"><div class="stat">初始投入<div class="num">'+M3(initial)+'</div></div><div class="stat">累计补款<div class="num">'+M3(top)+'</div></div><div class="stat">累积分红<div class="num">'+M3(div)+'</div></div><div class="stat">剩余未回本<div class="num">'+M3(remain)+'</div></div></div><p class="muted">补款会增加投入基数；门店留存不计入回本。</p><button class="secondary" onclick="v101PaybackDetail(\''+s.id+'\')">详情</button></div></div>';
+      }
+      b.innerHTML=html||'<div class="card">暂无门店</div>';
+    }catch(e){b.innerHTML='<div class="card error">回本情况读取失败：'+E3(e.message)+'</div>'}
+  };
+})();
+</script>
 </body></html>
+<script>
+window.v102FinalSelfTest=function(){
+ const required=['showDashboard','showAccount','showOwnerTools','logout','setPeriod','v101Fold','v101StoreDetail','v101OwnerTab','v101StoreForm','v101SaveStore','v101Accounts','v101MonthlyForm','v101SaveMonthly','v101Dividends','v101DividendForm','v101SaveDividend','v101Topups','v101TopupForm','v101SaveTopup','v101Payback','v101PaybackDetail','v101Categories','v101AddCat','v101Backup','v101Export','v102Copy'];
+ const missing=required.filter(k=>typeof window[k]!=='function');
+ return {version:'V1.02',missing,ok:missing.length===0};
+};
+</script>
