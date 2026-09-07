@@ -158,6 +158,10 @@ window.showOwnerTools;
   window.saveT=async id=>{const r=await sb.from('store_topups').insert({store_id:id,topup_date:document.getElementById('td').value,user_id:document.getElementById('tu').value||null,amount:Number(document.getElementById('ta').value||0),note:document.getElementById('tn').value.trim()});alert(r.error?'保存失败：'+r.error.message:'补款已保存');if(!r.error)closeF();};
   async function payback(b){const s=await getStores(),a=[];for(const x of s){const d=(await sb.from('store_dividends').select('amount').eq('store_id',x.id)).data||[],t=(await sb.from('store_topups').select('amount').eq('store_id',x.id)).data||[];const div=d.reduce((z,v)=>z+Number(v.amount||0),0),top=t.reduce((z,v)=>z+Number(v.amount||0),0);a.push(`<div class="card"><h3>${esc2(x.name)}</h3><div class="grid"><div>初始投入 ¥${fmt(x.initial_investment)}</div><div>累计补款 ¥${fmt(top)}</div><div>累积分红 ¥${fmt(div)}</div><div><b>剩余未回本 ¥${fmt(Number(x.initial_investment||0)+top-div)}</b></div></div><p class="muted">门店留存不计入回本。</p></div>`)}b.innerHTML=a.join('')||'<div class="card">请先建立门店。</div>';}
 })();
+document.getElementById('loginBtn').addEventListener('click',login);
+document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')login()});
+boot();
+
 </script>
 
 </body></html>
