@@ -1,202 +1,62 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>女装门店合伙账务</title>
+<!doctype html><html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>女装门店·合伙账务</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--bg:#f4f5f7;--card:#fff;--text:#202124;--muted:#73777d;--line:#e8eaed;--dark:#151515;--green:#16834a;--red:#c0392b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--text)}
-header{position:sticky;top:0;z-index:10;background:#151515;color:#fff;padding:15px 16px;display:flex;justify-content:space-between;align-items:center}
-.wrap{max-width:980px;margin:auto;padding:14px}.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 12px #0000000a}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{padding:12px;background:#fafafa;border-radius:12px}.num{font-size:21px;font-weight:750;margin-top:4px}.muted{color:var(--muted);font-size:13px}
-input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:11px;border:1px solid #dcdfe3;border-radius:10px;background:#fff}button{border:0;border-radius:10px;padding:10px 13px;background:var(--dark);color:#fff;cursor:pointer}.secondary{background:#eceef1;color:#222}.danger{background:#b42318}.green{background:#16834a}
-.actions{display:flex;gap:8px;flex-wrap:wrap}.actions button{width:auto}.tabs{display:flex;gap:7px;overflow:auto;margin:10px 0}.tabs button{white-space:nowrap}.tabs .active{background:#151515;color:#fff}.tabs button:not(.active){background:#e9ebee;color:#222}
-.row{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1fr auto;gap:7px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}.row.head{font-weight:700;color:#666}.pill{display:inline-block;padding:4px 8px;border-radius:99px;background:#eee;font-size:12px}.ok{background:#e9f7ef;color:#167344}.warn{background:#fff4d6;color:#875c00}
-.progress{height:10px;background:#eee;border-radius:20px;overflow:hidden}.progress>i{display:block;height:100%;background:#151515}.hidden{display:none}.login{max-width:420px;margin:65px auto}.modal{position:fixed;inset:0;background:#0008;display:flex;align-items:flex-end;justify-content:center;z-index:30}.modalbox{background:#fff;width:min(720px,100%);max-height:90vh;overflow:auto;border-radius:20px 20px 0 0;padding:18px}.receipt{max-width:120px;max-height:90px;border-radius:8px;object-fit:cover}.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px}.small{font-size:12px}.success{color:var(--green)}.error{color:var(--red)}
-@media(max-width:650px){.stats{grid-template-columns:1fr 1fr}.row{grid-template-columns:1fr 1fr 1fr}.row.head{display:none}.row .wide{grid-column:1/-1}}
-</style>
-</head>
-<body>
+header{position:sticky;top:0;z-index:10;background:#151515;color:#fff;padding:15px 16px;display:flex;justify-content:space-between;align-items:center}.wrap{max-width:980px;margin:auto;padding:14px}.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 12px #0000000a}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{padding:12px;background:#fafafa;border-radius:12px}.num{font-size:21px;font-weight:750;margin-top:4px}.muted{color:var(--muted);font-size:13px}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:11px;border:1px solid #dcdfe3;border-radius:10px;background:#fff}button{border:0;border-radius:10px;padding:10px 13px;background:var(--dark);color:#fff;cursor:pointer}.secondary{background:#eceef1;color:#222}.danger{background:#b42318}.green{background:#16834a}.actions{display:flex;gap:8px;flex-wrap:wrap}.tabs{display:flex;gap:7px;overflow:auto;margin:10px 0}.tabs button{white-space:nowrap}.row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:7px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}.hidden{display:none}.login{max-width:440px;margin:65px auto}.error{color:var(--red)}.success{color:var(--green)}.modal{position:fixed;inset:0;background:#0008;display:flex;align-items:flex-end;justify-content:center;z-index:30}.modalbox{background:#fff;width:min(720px,100%);max-height:90vh;overflow:auto;border-radius:20px 20px 0 0;padding:18px}.positive{color:var(--red);font-weight:700}.negative{color:var(--green);font-weight:700}.notice{padding:11px;border-radius:10px;background:#fff8df;color:#765900;font-size:13px}
+@media(max-width:650px){.stats{grid-template-columns:1fr 1fr}.stats .full{grid-column:1/-1}.row{grid-template-columns:1fr 1fr}.row .wide{grid-column:1/-1}}
+</style></head><body>
 <header><b>女装门店 · 合伙账务</b><span id="userLabel"></span></header>
-
-<div id="login" class="wrap">
-<div class="card login">
-<h2>登录</h2>
-<p class="muted">老板和合伙人使用各自账号密码。</p>
-<input id="loginUser" placeholder="账号"><br><br>
-<input id="loginPass" type="password" placeholder="密码" onkeydown="if(event.key==='Enter')login()"><br><br>
-<button id="loginBtn" type="button">登录</button>
-<p id="loginMsg" class="error"></p>
-<p class="muted">演示老板：admin / 123456<br>演示合伙人：partnerA / 888888</p>
-</div></div>
-
-<div id="app" class="wrap hidden"></div>
-<div id="modalRoot"></div>
-
+<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">使用 Supabase Auth 登录，账号和密码不写在网页里。</p><input id="loginAccount" placeholder="登录账号（邮箱）" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn">登录</button><p id="loginMsg" class="error"></p></div></div>
+<div id="app" class="wrap hidden"></div><div id="modalRoot"></div>
 <script>
-const KEY="fashion_partner_final_v2";
-const defaultDB={
- settings:{categories:["水电费","房租","物业","人工","交通","装修","维修","物流","招待","办公用品","广告","差旅","其他"]},
- users:[
-  {u:"admin",p:"123456",name:"老板",role:"owner"},
-  {u:"partnerA",p:"888888",name:"合伙人A",role:"partner",share:30,stores:["旗舰店"]}
- ],
- stores:[{
-  id:"s1",name:"旗舰店",openDate:"2025-04-01",invest:300000,
-  months:[
-   {m:"2025-04",return:38000,expenses:[{cat:"水电费",amount:1800,remark:""}],dividends:10000},
-   {m:"2025-05",return:42000,expenses:[{cat:"水电费",amount:2100,remark:""}],dividends:12000},
-   {m:"2026-07",return:20000,expenses:[{cat:"水电费",amount:2000,remark:""}],dividends:5000},
-   {m:"2026-08",return:25000,expenses:[{cat:"水电费",amount:2000,remark:""}],dividends:7000},
-   {m:"2026-09",return:18000,expenses:[{cat:"水电费",amount:1500,remark:""}],dividends:6000}
-  ]
- }]
-};
-let db=JSON.parse(localStorage.getItem(KEY)||JSON.stringify(defaultDB)), me=null, period="life", selectedStore=null;
-function save(){localStorage.setItem(KEY,JSON.stringify(db))}
-function money(n){return "¥"+Number(n||0).toLocaleString("zh-CN",{maximumFractionDigits:2})}
-function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function login(){
- try{
-  const u=String(document.getElementById("loginUser").value||"").trim();
-  const p=String(document.getElementById("loginPass").value||"");
-  if(!Array.isArray(db.users)){throw new Error("登录数据异常，请刷新页面")}
-  me=db.users.find(x=>String(x.u)===u&&String(x.p)===p);
-  if(!me){document.getElementById("loginMsg").textContent="账号或密码错误";return}
-  document.getElementById("login").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-  document.getElementById("userLabel").textContent=me.name||"";
-  render();
- }catch(e){
-  document.getElementById("loginMsg").textContent="系统错误："+e.message;
- }
+const SUPABASE_URL='https://dqruzakkunkinecxxbny.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_igD9yDQ1KbazCNNUfnjk2Q_WBRY5J-6';
+const {createClient}=supabase; const sb=createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+let me=null, profile=null, period='month', storeList=[];
+const $=id=>document.getElementById(id);
+function money(n){return '¥'+Number(n||0).toLocaleString('zh-CN',{maximumFractionDigits:2})}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function showMsg(t,ok=false){$('loginMsg').textContent=t;$('loginMsg').className=ok?'success':'error'}
+async function loadProfile(){
+ const {data,error}=await sb.from('profiles').select('*').eq('id',me.id).maybeSingle();
+ if(error) throw error; profile=data;
+ const {data:stores,error:se}=await sb.from('stores').select('*').order('id'); if(se) throw se; storeList=stores||[];
 }
-function logout(){location.reload()}
-function monthsFor(s){
- const now=new Date(), y=now.getFullYear();
- if(period==="month"){let m=String(now.getMonth()+1).padStart(2,"0");return s.months.filter(x=>x.m===`${y}-${m}`)}
- if(period==="year")return s.months.filter(x=>x.m.startsWith(y+"-"));
- return s.months;
+async function login(){
+ const account=$('loginAccount').value.trim(), password=$('loginPass').value;
+ if(!account||!password){showMsg('请输入账号和密码');return}
+ const {data,error}=await sb.auth.signInWithPassword({email:account,password});
+ if(error){showMsg('账号或密码错误');return}
+ me=data.user; try{await loadProfile();}catch(e){await sb.auth.signOut();showMsg('登录成功，但账号资料未配置：'+e.message);return}
+ if(profile && profile.enabled===false){await sb.auth.signOut();showMsg('此账号已停用');return}
+ enterApp();
 }
-function summary(s){
- const ms=monthsFor(s); let ret=0,exp=0,div=0;
- ms.forEach(x=>{ret+=+x.return||0;div+=+x.dividends||0;(x.expenses||[]).forEach(e=>exp+=+e.amount||0)});
- const actual=ret-exp, remain=Math.max(0,s.invest-actual), all=s.months.length;
- let allRet=0,allExp=0;s.months.forEach(x=>{allRet+=+x.return||0;(x.expenses||[]).forEach(e=>allExp+=+e.amount||0)});
- const avg=all?(allRet-allExp)/all:0, left=avg>0?Math.max(0,s.invest-(allRet-allExp))/avg:null;
- return {ms,ret,exp,div,actual,remain,avg,left,pct:Math.min(100,Math.max(0,actual/s.invest*100)),allRet,allExp};
+async function boot(){
+ const {data}=await sb.auth.getSession(); if(data.session){me=data.session.user;try{await loadProfile();enterApp()}catch(e){await sb.auth.signOut()}}
 }
+function enterApp(){$('login').classList.add('hidden');$('app').classList.remove('hidden');$('userLabel').textContent=profile?.name||me.email;render()}
+async function logout(){await sb.auth.signOut();location.reload()}
 function render(){
- if(me.role==="owner") renderOwner(); else renderPartner();
+ $('app').innerHTML=`<div class="actions"><button onclick="showDashboard()">门店总览</button><button class="secondary" onclick="showAccount()">账号设置</button>${profile?.role==='owner'?'<button class="secondary" onclick="showOwnerTools()">老板后台</button>':''}<button class="secondary" onclick="logout()">退出</button></div><div id="content"></div>`;showDashboard();
 }
-function periodTabs(s){
- return `<div class=tabs>
- <button class="${period==="month"?"active":""}" onclick="setPeriod('month')">本月</button>
- <button class="${period==="year"?"active":""}" onclick="setPeriod('year')">本年度</button>
- <button class="${period==="life"?"active":""}" onclick="setPeriod('life')">开业至今</button></div>`;
+async function showDashboard(){
+ const c=$('content'); c.innerHTML='<div class="card">正在读取云端数据…</div>';
+ try{await loadProfile();
+  if(!storeList.length){c.innerHTML='<div class="card"><h2>还没有门店</h2><p class="muted">数据库已经接通。下一步可以从老板后台新增门店。</p></div>';return}
+  c.innerHTML=`<div class="tabs"><button class="${period==='month'?'active':''}" onclick="setPeriod('month')">本月</button><button class="${period==='year'?'active':''}" onclick="setPeriod('year')">本年度</button><button class="${period==='life'?'active':''}" onclick="setPeriod('life')">开业至今</button></div>${storeList.map(s=>storeCard(s)).join('')}`;
+ }catch(e){c.innerHTML='<div class="card"><p class="error">读取失败：'+esc(e.message)+'</p></div>'}
 }
-function setPeriod(p){period=p;render()}
-function storeCard(s,owner=true){
- const c=summary(s);
- return `<div class=card>
- <div class=section-title><div><h2 style="margin:0">${esc(s.name)}</h2><span class=pill>开业 ${esc(s.openDate)}</span></div>
- ${owner?`<div class=actions><button onclick="editStore('${s.id}')">设置</button><button class=secondary onclick="addMonth('${s.id}')">＋本月账</button></div>`:""}</div>
- ${periodTabs(s)}
- <div class=stats>
-  <div class=stat><div class=muted>公司回款</div><div class=num>${money(c.ret)}</div></div>
-  <div class=stat><div class=muted>累计/期间报销</div><div class=num>${money(c.exp)}</div></div>
-  <div class=stat><div class=muted>股东分红</div><div class=num>${money(c.div)}</div></div>
-  <div class=stat><div class=muted>实际回本</div><div class=num>${money(c.actual)}</div></div>
- </div>
- <div class=grid style="margin-top:10px">
-  <div><span class=muted>初始总投入</span><div class=num>${money(s.invest)}</div></div>
-  <div><span class=muted>剩余未回本</span><div class=num>${money(c.remain)}</div></div>
-  <div><span class=muted>预计剩余回本</span><div class=num>${c.left==null?"—":c.left.toFixed(1)+"个月"}</div></div>
-  <div><span class=muted>当前平均实际回本/月</span><div class=num>${money(c.avg)}</div></div>
- </div>
- <p class=muted>回本进度 ${c.pct.toFixed(1)}%</p><div class=progress><i style="width:${c.pct}%"></i></div>
- ${owner?monthTable(s):partnerMonthTable(s)}
- </div>`;
+function setPeriod(p){period=p;showDashboard()}
+function storeCard(s){return `<div class="card"><div class="section-title"><h2>${esc(s.name||'未命名门店')}</h2><span class="muted">${esc(s.opening_date||s.open_date||'')}</span></div><div class="stats"><div class="stat"><div class="muted">营业额</div><div class="num">—</div></div><div class="stat"><div class="muted">公司回款</div><div class="num">—</div></div><div class="stat full"><div class="muted">盈利</div><div class="num">—</div></div><div class="stat"><div class="muted">门店留存</div><div class="num">—</div></div></div><div class="notice" style="margin-top:12px">门店已经从云端读取。月度账务接入后，这里会自动按「本月 / 本年度 / 开业至今」汇总。</div></div>`}
+function showAccount(){
+ $('content').innerHTML=`<div class="card"><h2>账号设置</h2><p class="muted">当前账号：${esc(me.email)}</p><label>新密码</label><br><input id="newPass" type="password" placeholder="至少 6 位"><br><br><label>再次输入</label><br><input id="newPass2" type="password"><br><br><button onclick="changePassword()">修改密码</button><p id="accountMsg"></p></div>`;
 }
-function monthTable(s){
- const c=summary(s);
- return `<h3>月度账单</h3>
- <div class="row head"><span>月份</span><span>公司回款</span><span>报销</span><span>股东分红</span><span>实际回本</span><span></span></div>
- ${c.ms.map((x,i)=>{let ex=(x.expenses||[]).reduce((a,e)=>a+(+e.amount||0),0),a=(+x.return||0)-ex;
- return `<div class=row><span>${x.m}</span><span>${money(x.return)}</span><span>${money(ex)}</span><span>${money(x.dividends)}</span><span><b>${money(a)}</b></span><span><button class=secondary onclick="editMonth('${s.id}','${x.m}')">查看/修改</button></span></div>`}).join("")}
- <p class=muted>点击月份可查看该月每一笔报销及凭证图片。</p>`;
+async function changePassword(){const a=$('newPass').value,b=$('newPass2').value;if(a.length<6){$('accountMsg').textContent='密码至少 6 位';return}if(a!==b){$('accountMsg').textContent='两次密码不一致';return}const {error}=await sb.auth.updateUser({password:a});$('accountMsg').textContent=error?'修改失败：'+error.message:'密码修改成功';$('accountMsg').className=error?'error':'success'}
+function showOwnerTools(){
+ $('content').innerHTML=`<div class="card"><h2>老板后台</h2><p class="muted">这里先保留云端账号/门店管理入口。合伙人账号的新增与重置密码需要后台安全函数完成，不能把 secret key 放进网页。</p><div class="notice">下一阶段会把：新增合伙人、修改账号、重置密码、分配门店、每店股份、18 项查看权限全部接上。</div></div>`;
 }
-function partnerMonthTable(s){
- const c=summary(s), share=me.share||0;
- return `<h3>月度总账</h3>
- <div class=row head><span>月份</span><span>公司回款</span><span>报销</span><span>股东分红</span><span>实际回本</span><span>我的分红</span></div>
- ${c.ms.map(x=>{let ex=(x.expenses||[]).reduce((a,e)=>a+(+e.amount||0),0),a=(+x.return||0)-ex;
- return `<div class=row><span>${x.m}</span><span>${money(x.return)}</span><span>${money(ex)}</span><span>${money(x.dividends)}</span><span>${money(a)}</span><span>${money((+x.dividends||0)*share/100)}</span></div>`}).join("")}`;
-}
-function renderOwner(){
- document.getElementById("app").innerHTML=`<div class=card><div class=section-title><div><h2>老板后台</h2><p class=muted>所有门店、公司回款、报销、股东分红统一管理。</p></div><div class=actions><button onclick="addStore()">＋新增门店</button><button class=secondary onclick="manageCategories()">报销类目</button><button class=secondary onclick="managePartners()">股东设置</button><button class=secondary onclick="logout()">退出</button></div></div></div>
- ${db.stores.map(s=>storeCard(s,true)).join("")}`;
-}
-function renderPartner(){
- const stores=db.stores.filter(s=>(me.stores||[]).includes(s.id)|| (me.stores||[]).includes(s.name));
- let totalDiv=0;stores.forEach(s=>summary(s).ms.forEach(x=>totalDiv+=(+x.dividends||0)*((me.share||0)/100)));
- document.getElementById("app").innerHTML=`<div class=card><h2>${esc(me.name)} · 合伙人</h2><p><span class=pill>股份 ${me.share||0}%</span></p><div class=stat><div class=muted>我的累计/期间分红</div><div class=num>${money(totalDiv)}</div></div><p class=muted>你只能看到被授权的门店和自己的分红。</p><button class=secondary onclick="logout()">退出</button></div>
- ${stores.map(s=>storeCard(s,false)).join("")||`<div class=card>暂无授权门店</div>`}`;
-}
-function addStore(){
- const n=prompt("门店名称");if(!n)return;const inv=Number(prompt("初始总投入",0));const d=prompt("开业日期 YYYY-MM-DD",new Date().toISOString().slice(0,10));
- db.stores.push({id:"s"+Date.now(),name:n,openDate:d,invest:inv,months:[]});save();render();
-}
-function editStore(id){
- const s=db.stores.find(x=>x.id===id);if(!s)return;
- modal(`<h2>门店设置</h2><div class=grid><label>门店名称<input id=fName value="${esc(s.name)}"></label><label>初始总投入<input id=fInv type=number value="${s.invest}"></label><label>开业日期<input id=fDate type=date value="${s.openDate}"></label></div><br><div class=actions><button onclick="saveStore('${id}')">保存</button><button class=secondary onclick="closeModal()">取消</button><button class=danger onclick="deleteStore('${id}')">删除</button></div>`);
-}
-function saveStore(id){let s=db.stores.find(x=>x.id===id);s.name=document.getElementById("fName").value;s.invest=+document.getElementById("fInv").value;s.openDate=document.getElementById("fDate").value;save();closeModal();render()}
-function deleteStore(id){if(confirm("确定删除这家店？")){db.stores=db.stores.filter(x=>x.id!==id);db.users.forEach(u=>u.stores=(u.stores||[]).filter(x=>x!==id));save();closeModal();render()}}
-function addMonth(id){monthForm(id,null)}
-function editMonth(id,m){monthForm(id,m)}
-function monthForm(id,m){
- const s=db.stores.find(x=>x.id===id), old=s.months.find(x=>x.m===m), x=old||{m:new Date().toISOString().slice(0,7),return:0,expenses:[],dividends:0};
- const ex=(x.expenses||[]).map((e,i)=>expenseRow(e,i)).join("");
- modal(`<h2>${old?"修改":"新增"}月度账单</h2><div class=grid><label>月份<input id=bMonth type=month value="${x.m}"></label><label>公司回款<input id=bReturn type=number value="${x.return||0}"></label><label>股东分红（本店合计）<input id=bDiv type=number value="${x.dividends||0}"></label></div>
- <h3 style="margin-top:16px">报销明细</h3><div id=expenseList>${ex}</div><button class=secondary onclick="addExpenseRow()">＋新增报销项目</button>
- <p class=muted>每笔报销可选择你自己维护的类目，并上传凭证图片。图片仅在本机演示版保存；正式云端版再接入安全存储。</p>
- <div class=actions><button onclick="saveMonth('${id}','${m||""}')">保存</button><button class=secondary onclick="closeModal()">取消</button>${old?`<button class=danger onclick="deleteMonth('${id}','${x.m}')">删除月份</button>`:""}</div>`);
-}
-function expenseRow(e,i){return `<div class=card style="padding:10px" data-exp><div class=grid><label>类目<select class=ecat>${db.settings.categories.map(c=>`<option ${c===e.cat?"selected":""}>${esc(c)}</option>`).join("")}</select></label><label>金额<input class=eamt type=number value="${e.amount||0}"></label><label>备注<input class=eremark value="${esc(e.remark||"")}"></label><label>凭证图片<input class=eimg type=file accept="image/*" onchange="previewImg(this)"></label></div>${e.image?`<img class=receipt src="${e.image}">`:""}<button class="secondary" onclick="this.parentElement.remove()" style="margin-top:8px">删除此项</button></div>`}
-function addExpenseRow(){document.getElementById("expenseList").insertAdjacentHTML("beforeend",expenseRow({cat:db.settings.categories[0],amount:0,remark:""},Date.now()))}
-function previewImg(input){if(!input.files[0])return;const r=new FileReader();r.onload=e=>{input.dataset.image=e.target.result};r.readAsDataURL(input.files[0])}
-function saveMonth(id,oldM){
- const s=db.stores.find(x=>x.id===id), m=document.getElementById("bMonth").value, ex=[];
- document.querySelectorAll("#expenseList [data-exp]").forEach(card=>{const img=card.querySelector(".eimg").dataset.image||card.querySelector("img")?.src||"";ex.push({cat:card.querySelector(".ecat").value,amount:+card.querySelector(".eamt").value||0,remark:card.querySelector(".eremark").value,image:img})});
- const obj={m,return:+document.getElementById("bReturn").value||0,dividends:+document.getElementById("bDiv").value||0,expenses:ex};
- s.months=s.months.filter(x=>x.m!==oldM);s.months.push(obj);s.months.sort((a,b)=>a.m.localeCompare(b.m));save();closeModal();render();
-}
-function deleteMonth(id,m){let s=db.stores.find(x=>x.id===id);s.months=s.months.filter(x=>x.m!==m);save();closeModal();render()}
-function manageCategories(){
- modal(`<h2>报销类目</h2><p class=muted>你自己决定有哪些品类，不限制数量。</p><div id=catList>${db.settings.categories.map((c,i)=>`<div class=row><span>${esc(c)}</span><span></span><span></span><span></span><span></span><button class=danger onclick="delCat(${i})">删除</button></div>`).join("")}</div><br><div class=grid><input id=newCat placeholder="例如：商场扣点"><button onclick="addCat()">新增类目</button></div><br><button class=secondary onclick="closeModal()">关闭</button>`);
-}
-function addCat(){const c=document.getElementById("newCat").value.trim();if(!c)return;if(!db.settings.categories.includes(c))db.settings.categories.push(c);save();manageCategories()}
-function delCat(i){if(confirm("删除该类目？历史账单不会被删除。")){db.settings.categories.splice(i,1);save();manageCategories()}}
-function managePartners(){
- modal(`<h2>股东/合伙人设置</h2><p class=muted>股份由你这边设置。每个账号可授权不同门店。</p>${db.users.filter(x=>x.role==="partner").map((x,i)=>`<div class=card><b>${esc(x.name)}</b><p>账号：${esc(x.u)}　股份：<b>${x.share||0}%</b></p><p class=muted>授权：${(x.stores||[]).map(id=>db.stores.find(s=>s.id===id)?.name||id).join("、")||"无"}</p><button class=secondary onclick="editPartner('${x.u}')">修改</button></div>`).join("")}<div class=actions><button onclick="addPartner()">＋新增合伙人</button><button class=secondary onclick="closeModal()">关闭</button></div>`);
-}
-function addPartner(){let name=prompt("合伙人姓名");if(!name)return;let u=prompt("登录账号");let p=prompt("登录密码");let sh=Number(prompt("股份 %",0));let ids=db.stores.map(s=>s.id);db.users.push({u,p,name,role:"partner",share:sh,stores:ids});save();managePartners()}
-function editPartner(u){
- const x=db.users.find(a=>a.u===u);let name=prompt("姓名",x.name);if(name==null)return;let p=prompt("密码（留空保持原密码）");let sh=Number(prompt("股份 %",x.share||0));let allowed=db.stores.filter(s=>confirm(`让 ${name} 查看「${s.name}」？`)).map(s=>s.id);x.name=name;if(p)x.p=p;x.share=sh;x.stores=allowed;save();managePartners()
-}
-function modal(content){document.getElementById("modalRoot").innerHTML=`<div class=modal onclick="if(event.target===this)closeModal()"><div class=modalbox>${content}</div></div>`}
-function closeModal(){document.getElementById("modalRoot").innerHTML=""}
-
-// iPhone Safari 兼容：用事件监听器绑定登录，避免内联事件在缓存旧页面时失效。
-document.addEventListener("DOMContentLoaded", function(){
-  const btn=document.getElementById("loginBtn");
-  const pass=document.getElementById("loginPass");
-  const user=document.getElementById("loginUser");
-  if(btn) btn.addEventListener("click", login);
-  if(pass) pass.addEventListener("keydown", function(e){ if(e.key==="Enter") login(); });
-  if(user) user.addEventListener("keydown", function(e){ if(e.key==="Enter") login(); });
-});
-</script>
-</body></html>
+$('loginBtn').addEventListener('click',login);$('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')login()});boot();
+</script></body></html>
