@@ -5,8 +5,8 @@
 <style>
 :root{--bg:#f4f5f7;--card:#fff;--text:#202124;--muted:#73777d;--line:#e8eaed;--dark:#151515;--green:#16834a;--red:#c0392b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--text)}
-header{position:sticky;top:0;z-index:10;background:#151515;color:#fff;padding:15px 16px;display:flex;justify-content:space-between;align-items:center}.wrap{max-width:980px;margin:auto;padding:14px}.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 12px #0000000a}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{padding:12px;background:#fafafa;border-radius:12px}.num{font-size:21px;font-weight:750;margin-top:4px}.muted{color:var(--muted);font-size:13px}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:11px;border:1px solid #dcdfe3;border-radius:10px;background:#fff}button{border:0;border-radius:10px;padding:10px 13px;background:var(--dark);color:#fff;cursor:pointer}.secondary{background:#eceef1;color:#222}.danger{background:#b42318}.green{background:#16834a}.actions{display:flex;gap:8px;flex-wrap:wrap}.tabs{display:flex;gap:7px;overflow:auto;margin:10px 0}.tabs button{white-space:nowrap}.tabs .active{background:#151515;color:#fff}.row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:7px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}.hidden{display:none}.login{max-width:440px;margin:65px auto}.error{color:var(--red)}.success{color:var(--green)}.modal{position:fixed;inset:0;background:#0008;display:flex;align-items:flex-end;justify-content:center;z-index:30}.modalbox{background:#fff;width:min(720px,100%);max-height:90vh;overflow:auto;border-radius:20px 20px 0 0;padding:18px}.positive{color:var(--red);font-weight:700}.negative{color:var(--green);font-weight:700}.notice{padding:11px;border-radius:10px;background:#fff8df;color:#765900;font-size:13px}
-@media(max-width:650px){.stats{grid-template-columns:1fr 1fr}.stats .full{grid-column:1/-1}.row{grid-template-columns:1fr 1fr}.row .wide{grid-column:1/-1}}
+header{position:sticky;top:0;z-index:10;background:#151515;color:#fff;padding:15px 16px;display:flex;justify-content:space-between;align-items:center}.wrap{max-width:980px;margin:auto;padding:14px}.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 12px #0000000a}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{padding:12px;background:#fafafa;border-radius:12px}.num{font-size:21px;font-weight:750;margin-top:4px}.muted{color:var(--muted);font-size:13px}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:11px;border:1px solid #dcdfe3;border-radius:10px;background:#fff}button{border:0;border-radius:10px;padding:10px 13px;background:var(--dark);color:#fff;cursor:pointer}.secondary{background:#eceef1;color:#222}.danger{background:#b42318}.green{background:#16834a}.actions{display:flex;gap:8px;flex-wrap:wrap}.tabs{display:flex;gap:7px;overflow:visible;margin:10px 0;flex-wrap:wrap}.tabs button{white-space:nowrap}.owner-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.owner-tabs button{width:100%}.tabs .active{background:#151515;color:#fff}.row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:7px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}.hidden{display:none}.login{max-width:440px;margin:65px auto}.error{color:var(--red)}.success{color:var(--green)}.modal{position:fixed;inset:0;background:#0008;display:flex;align-items:flex-end;justify-content:center;z-index:30}.modalbox{background:#fff;width:min(720px,100%);max-height:90vh;overflow:auto;border-radius:20px 20px 0 0;padding:18px}.positive{color:var(--red);font-weight:700}.negative{color:var(--green);font-weight:700}.notice{padding:11px;border-radius:10px;background:#fff8df;color:#765900;font-size:13px}
+@media(max-width:650px){.owner-tabs{grid-template-columns:repeat(3,1fr)}.stats{grid-template-columns:1fr 1fr}.stats .full{grid-column:1/-1}.row{grid-template-columns:1fr 1fr}.row .wide{grid-column:1/-1}}
 </style></head><body>
 <header><b>女装门店 · 合伙账务</b><span id="userLabel"></span></header>
 <div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">使用 Supabase Auth 登录，账号和密码不写在网页里。</p><input id="loginAccount" placeholder="登录账号（邮箱）" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" type="button">登录</button><p id="loginMsg" class="error"></p></div></div>
@@ -86,6 +86,67 @@ async function boot(){
 }
 function enterApp(){$('login').classList.add('hidden');$('app').classList.remove('hidden');$('userLabel').textContent=profile?.name||me.email;render()}
 async function logout(){await sb.auth.signOut();location.reload()}
+window.showAccount=async function(){
+  const c=document.getElementById('content');
+  if(!c)return;
+  try{
+    const r=await sb.from('profiles').select('name,username,role,enabled').eq('id',me.id).maybeSingle();
+    if(r.error) throw r.error;
+    const p=r.data||profile||{};
+    c.innerHTML=`
+      <div class="card">
+        <h2>账号设置</h2>
+        <p class="muted">这里修改当前登录账号的资料和密码。</p>
+        <label>姓名</label>
+        <input id="ac_name" value="${esc2(p.name||'')}">
+        <br><br>
+        <label>登录账号</label>
+        <input value="${esc2(p.username||me.email||'')}" disabled>
+        <br><br>
+        <label>角色</label>
+        <input value="${p.role==='owner'?'老板':'合伙人'}" disabled>
+        <br><br>
+        <h3>修改密码</h3>
+        <input id="ac_pw1" type="password" placeholder="新密码（留空表示不修改）" autocomplete="new-password">
+        <br><br>
+        <input id="ac_pw2" type="password" placeholder="再次输入新密码" autocomplete="new-password">
+        <br><br>
+        <div class="actions">
+          <button class="green" onclick="saveAccount()">保存账号资料</button>
+          <button class="secondary" onclick="showDashboard()">返回门店总览</button>
+        </div>
+        <p id="accountMsg" class="muted"></p>
+      </div>`;
+  }catch(e){
+    c.innerHTML=`<div class="card error">账号设置读取失败：${esc2(e.message)}</div>`;
+  }
+};
+
+window.saveAccount=async function(){
+  const name=document.getElementById('ac_name').value.trim();
+  const pw1=document.getElementById('ac_pw1').value;
+  const pw2=document.getElementById('ac_pw2').value;
+  if(!name){alert('姓名不能为空');return;}
+  if(pw1||pw2){
+    if(pw1.length<6){alert('新密码至少 6 位');return;}
+    if(pw1!==pw2){alert('两次输入的新密码不一致');return;}
+  }
+
+  const pr=await sb.from('profiles').update({name}).eq('id',me.id);
+  if(pr.error){alert('资料保存失败：'+pr.error.message);return;}
+
+  if(pw1){
+    const ur=await sb.auth.updateUser({password:pw1});
+    if(ur.error){alert('资料已保存，但密码修改失败：'+ur.error.message);return;}
+  }
+  profile={...(profile||{}),name};
+  $('userLabel').textContent=name||me.email;
+  document.getElementById('accountMsg').textContent='保存成功';
+  document.getElementById('accountMsg').className='success';
+  document.getElementById('ac_pw1').value='';
+  document.getElementById('ac_pw2').value='';
+};
+
 function render(){
  $('app').innerHTML=`<div class="actions"><button onclick="showDashboard()">门店总览</button><button class="secondary" onclick="showAccount()">账号设置</button>${profile?.role==='owner'?'<button class="secondary" onclick="showOwnerTools()">老板后台</button>':''}<button class="secondary" onclick="logout()">退出</button></div><div id="content"></div>`;showDashboard();
 }
@@ -129,8 +190,8 @@ async function buildStoreSummary(store){
  const sum=k=>use.reduce((a,r)=>a+num(r[k]),0);
  const turnover=sum('turnover');
  const companyReturn=sum('company_return');
- const profit=sum('profit');
- const retained=sum('retained');
+ const profit=use.reduce((a,r)=>a+num(r.company_return)-num(r.rent)-num(r.utilities)-num(r.other_expenses),0);
+ const retained=profit;
  const pcls=profit>=0?'positive':'negative';
  const rcls=retained>=0?'positive':'negative';
 
@@ -153,10 +214,10 @@ const oldShowOwnerTools=null;
   window.showOwnerTools = async function(){
     if(oldShowOwnerTools) try{await oldShowOwnerTools()}catch(e){}
     const c=document.getElementById('content'); if(!c)return;
-    c.innerHTML=`<div class="card"><h2>老板后台</h2><p class="muted">最终整合版：门店、股东、账务、分红、补款、回本。</p></div>
-    <div class="tabs" style="margin:12px 0">
+    c.innerHTML=`<div class="card"><h2>老板后台</h2><p class="muted">门店、股东合伙人、月度账务、分红、补款、回本统一管理。</p></div>
+    <div class="tabs owner-tabs" style="margin:12px 0">
       <button class="active" onclick="finalTab('stores',this)">门店</button>
-      <button onclick="finalTab('partners',this)">股东/股份</button>
+      <button onclick="finalTab('partners',this)">股东合伙人</button>
       <button onclick="finalTab('accounts',this)">月度账务</button>
       <button onclick="finalTab('dividends',this)">分红</button>
       <button onclick="finalTab('topups',this)">补款</button>
@@ -190,13 +251,139 @@ const oldShowOwnerTools=null;
     if(r.error)return alert('保存失败：'+r.error.message);closeF();finalTab('stores');
   };
   async function partners(b){
-    let ps=[],ss=[];try{ps=(await sb.from('profiles').select('*').order('created_at')).data||[];ss=await getStores();}catch(e){}
-    b.innerHTML=`<div class="card"><h3>股东 / 合伙人</h3><p class="muted">这里管理每个门店的股份比例。账号创建/密码重置使用 Supabase Auth 安全流程。</p></div>`+ss.map(s=>`<div class="card"><h3>${esc2(s.name)}</h3>${ps.filter(p=>p.id!==me.id).map(p=>`<div class="stat" style="margin:8px 0"><b>${esc2(p.name||p.id)}</b><input id="sh_${s.id}_${p.id}" type="number" min="0" max="100" step=".01" placeholder="股份%" style="width:100px"><button class="green" onclick="saveSh('${s.id}','${p.id}')">保存</button></div>`).join('')}</div>`).join('');
+    let ps=[],ss=[];
+    try{
+      const pr=await sb.from('profiles').select('*').order('created_at');
+      if(pr.error) throw pr.error;
+      ps=pr.data||[];
+      ss=await getStores();
+    }catch(e){
+      b.innerHTML=`<div class="card error">读取合伙人失败：${esc2(e.message)}</div>`;
+      return;
+    }
+
+    const membersByStore={};
+    for(const s of ss){
+      const mr=await sb.from('store_members').select('user_id,share_percent').eq('store_id',s.id);
+      membersByStore[s.id]=(mr.data||[]);
+    }
+
+    const partnerRows=ps.filter(p=>p.id!==me.id).map(p=>{
+      const stores=[];
+      ss.forEach(s=>{
+        const m=(membersByStore[s.id]||[]).find(x=>String(x.user_id)===String(p.id));
+        if(m) stores.push(`${esc2(s.name)} ${Number(m.share_percent||0)}%`);
+      });
+      return `<div class="stat" style="margin:8px 0">
+        <div><b>${esc2(p.name||p.username||p.id)}</b><div class="muted">${esc2(p.username||'未设置登录账号')} · ${p.enabled===false?'已停用':'已启用'}</div></div>
+        <div class="muted">${stores.length?stores.join('、'):'暂未分配门店'}</div>
+      </div>`;
+    }).join('');
+
+    b.innerHTML=`
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+          <div>
+            <h3 style="margin:0">股东 / 合伙人</h3>
+            <p class="muted">新增合伙人后，再按每个门店分别设置股份比例。</p>
+          </div>
+          <button class="green" onclick="newPartner()">＋ 新增合伙人</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>现有合伙人</h3>
+        ${partnerRows || '<p class="muted">还没有合伙人，点击上面的“＋ 新增合伙人”。</p>'}
+      </div>
+      ${ss.map(s=>{
+        const members=membersByStore[s.id]||[];
+        return `<div class="card">
+          <h3>${esc2(s.name)} · 股份设置</h3>
+          <p class="muted">每个门店独立设置，合伙人之间可以使用不同股份比例。</p>
+          ${ps.filter(p=>p.id!==me.id).map(p=>{
+            const m=members.find(x=>String(x.user_id)===String(p.id));
+            return `<div class="stat" style="margin:8px 0">
+              <div><b>${esc2(p.name||p.username||p.id)}</b><div class="muted">${esc2(p.username||'')}</div></div>
+              <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+                <input id="sh_${s.id}_${p.id}" type="number" min="0" max="100" step=".01"
+                  value="${m?Number(m.share_percent||0):''}" placeholder="股份%" style="width:110px">
+                <button class="green" onclick="saveSh('${s.id}','${p.id}')">保存股份</button>
+              </div>
+            </div>`;
+          }).join('') || '<p class="muted">暂无其他合伙人。</p>'}
+        </div>`;
+      }).join('')}`;
   }
-  window.saveSh=async(s,u)=>{const v=Number(document.getElementById(`sh_${s}_${u}`).value||0);const r=await sb.from('store_members').upsert({store_id:s,user_id:u,share_percent:v},{onConflict:'store_id,user_id'});alert(r.error?'保存失败：'+r.error.message:'股份已保存');};
+
+  window.newPartner=function(){
+    document.getElementById('modalRoot').innerHTML=`
+      <div class="modal" onclick="if(event.target===this)closeF()">
+        <div class="modalbox">
+          <h2>新增合伙人</h2>
+          <p class="muted">登录账号使用邮箱。密码由老板在这里设置，之后合伙人可登录查看被授权的内容。</p>
+          <label>合伙人姓名 *</label>
+          <input id="pn" placeholder="例如：张三">
+          <br><br>
+          <label>登录账号（邮箱） *</label>
+          <input id="pe" type="email" placeholder="例如：zhangsan@example.com" autocomplete="off">
+          <br><br>
+          <label>初始密码 *</label>
+          <input id="pp" type="password" placeholder="至少 6 位" autocomplete="new-password">
+          <br><br>
+          <div class="notice">如果你的 Supabase 开启了邮箱验证，新账号还需要完成邮箱验证后才能登录。</div>
+          <br>
+          <div class="actions">
+            <button class="green" onclick="createPartner()">创建合伙人</button>
+            <button class="secondary" onclick="closeF()">取消</button>
+          </div>
+        </div>
+      </div>`;
+  };
+
+  window.createPartner=async function(){
+    const name=document.getElementById('pn').value.trim();
+    const email=document.getElementById('pe').value.trim();
+    const password=document.getElementById('pp').value;
+    if(!name||!email||!password){alert('姓名、登录账号、密码都必须填写');return;}
+    if(password.length<6){alert('密码至少 6 位');return;}
+
+    const ownerSession=(await sb.auth.getSession()).data.session;
+    const r=await sb.auth.signUp({email,password});
+    if(r.error){alert('创建失败：'+r.error.message);return;}
+    const uid=r.data?.user?.id;
+    if(!uid){alert('创建失败：没有返回新账号');return;}
+
+    const pr=await sb.from('profiles').insert({
+      id:uid,name,username:email,role:'partner',enabled:true
+    });
+    if(pr.error){
+      alert('账号已创建，但资料写入失败：'+pr.error.message);
+      if(ownerSession) await sb.auth.setSession({access_token:ownerSession.access_token,refresh_token:ownerSession.refresh_token});
+      closeF(); finalTab('partners'); return;
+    }
+
+    // 某些 Supabase 项目会在 signUp 后自动建立新会话；恢复老板会话。
+    if(ownerSession){
+      const rs=await sb.auth.setSession({
+        access_token:ownerSession.access_token,
+        refresh_token:ownerSession.refresh_token
+      });
+      if(rs.error){alert('合伙人已创建，但恢复老板登录状态失败，请重新登录老板账号。');location.reload();return;}
+    }
+    alert('合伙人创建成功。现在可以在下面设置该合伙人在各门店的股份。');
+    closeF();
+    await loadProfile();
+    finalTab('partners');
+  };
+
+  window.saveSh=async(s,u)=>{
+  const v=Number(document.getElementById(`sh_${s}_${u}`).value||0);
+  if(v<0||v>100){alert('股份必须在 0% 到 100% 之间');return;}
+  const r=await sb.from('store_members').upsert({store_id:s,user_id:u,share_percent:v},{onConflict:'store_id,user_id'});
+  alert(r.error?'保存失败：'+r.error.message:'股份已保存');
+};
   async function accounts(b){const s=await getStores();b.innerHTML=`<div class="card"><h3>月度账务</h3>${s.map(x=>`<div class="stat"><b>${esc2(x.name)}</b><button class="green" onclick="monthly('${x.id}')">＋录入月份</button></div>`).join('')}</div>`;}
   window.monthly=id=>{document.getElementById('modalRoot').innerHTML=`<div class="modal"><div class="modalbox"><h2>月度账务</h2><input id="md" type="month" value="${new Date().toISOString().slice(0,7)}"><input id="mt" type="number" placeholder="营业额"><input id="mc" type="number" placeholder="公司回款"><input id="mr" type="number" placeholder="房租"><input id="mu" type="number" placeholder="水电费"><input id="mo" type="number" placeholder="其他费用"><button class="green" onclick="saveM('${id}')">保存</button><button class="secondary" onclick="closeF()">取消</button></div></div>`;};
-  window.saveM=async id=>{const turn=Number(document.getElementById('mt').value||0),rent=Number(document.getElementById('mr').value||0),util=Number(document.getElementById('mu').value||0),other=Number(document.getElementById('mo').value||0);const p={store_id:id,month_date:document.getElementById('md').value+'-01',turnover:turn,company_return:Number(document.getElementById('mc').value||0),rent,utilities:util,other_expenses:other,profit:turn-rent-util-other,retained:turn-rent-util-other};const r=await sb.from('monthly_accounts').upsert(p,{onConflict:'store_id,month_date'});alert(r.error?'保存失败：'+r.error.message:'月度账务已保存');if(!r.error)closeF();};
+  window.saveM=async id=>{const turn=Number(document.getElementById('mt').value||0),companyReturn=Number(document.getElementById('mc').value||0),rent=Number(document.getElementById('mr').value||0),util=Number(document.getElementById('mu').value||0),other=Number(document.getElementById('mo').value||0);const p={store_id:id,month_date:document.getElementById('md').value+'-01',turnover:turn,company_return:companyReturn,rent,utilities:util,other_expenses:other,profit:companyReturn-rent-util-other,retained:companyReturn-rent-util-other};const r=await sb.from('monthly_accounts').upsert(p,{onConflict:'store_id,month_date'});alert(r.error?'保存失败：'+r.error.message:'月度账务已保存');if(!r.error)closeF();};
   async function dividends(b){const s=await getStores();b.innerHTML=`<div class="card"><h3>分红</h3>${s.map(x=>`<div class="stat"><b>${esc2(x.name)}</b><button class="green" onclick="divForm('${x.id}')">＋登记分红</button></div>`).join('')}</div>`;}
   window.divForm=id=>{document.getElementById('modalRoot').innerHTML=`<div class="modal"><div class="modalbox"><h2>登记分红</h2><input id="dd" type="date" value="${new Date().toISOString().slice(0,10)}"><input id="da" type="number" placeholder="总分红金额"><textarea id="dn" placeholder="备注"></textarea><button class="green" onclick="saveD('${id}')">保存</button><button class="secondary" onclick="closeF()">取消</button></div></div>`;};
   window.saveD=async id=>{const r=await sb.from('store_dividends').insert({store_id:id,dividend_date:document.getElementById('dd').value,amount:Number(document.getElementById('da').value||0),note:document.getElementById('dn').value.trim()});alert(r.error?'保存失败：'+r.error.message:'分红已保存');if(!r.error)closeF();};
