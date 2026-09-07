@@ -43,197 +43,181 @@ function render(){
  $('app').innerHTML=`<div class="actions"><button onclick="showDashboard()">门店总览</button><button class="secondary" onclick="showAccount()">账号设置</button>${profile?.role==='owner'?'<button class="secondary" onclick="showOwnerTools()">老板后台</button>':''}<button class="secondary" onclick="logout()">退出</button></div><div id="content"></div>`;showDashboard();
 }
 async function showDashboard(){
- const c=$('content'); c.innerHTML='<div class="card">正在读取云端数据…</div>';
- try{await loadProfile();
-  if(!storeList.length){c.innerHTML='<div class="card"><h2>还没有门店</h2><p class="muted">数据库已经接通。下一步可以从老板后台新增门店。</p></div>';return}
-  c.innerHTML=`<div class="tabs"><button class="${period==='month'?'active':''}" onclick="setPeriod('month')">本月</button><button class="${period==='year'?'active':''}" onclick="setPeriod('year')">本年度</button><button class="${period==='life'?'active':''}" onclick="setPeriod('life')">开业至今</button></div>${storeList.map(s=>storeCard(s)).join('')}`;
- }catch(e){c.innerHTML='<div class="card"><p class="error">读取失败：'+esc(e.message)+'</p></div>'}
+ const c=document.getElementById('content');
+ c.innerHTML='<div class="card">正在读取云端账务…</div>';
+ try{
+  await loadProfile();
+  if(!storeList.length){
+   c.innerHTML='<div class="card"><h2>还没有门店</h2><p class="muted">请先到老板后台新增门店。</p></div>';
+   return;
+  }
+  const cards=await Promise.all(storeList.map(s=>buildStoreSummary(s)));
+  c.innerHTML=`<div class="tabs">
+   <button class="${period==='month'?'active':''}" onclick="setPeriod('month')">本月</button>
+   <button class="${period==='year'?'active':''}" onclick="setPeriod('year')">本年度</button>
+   <button class="${period==='life'?'active':''}" onclick="setPeriod('life')">开业至今</button>
+  </div>${cards.join('')}`;
+ }catch(e){
+  c.innerHTML='<div class="card"><p class="error">读取失败：'+esc(e.message)+'</p></div>';
+ }
 }
 function setPeriod(p){period=p;showDashboard()}
-function storeCard(s){return `<div class="card"><div class="section-title"><h2>${esc(s.name||'未命名门店')}</h2><span class="muted">${esc(s.opening_date||s.open_date||'')}</span></div><div class="stats"><div class="stat"><div class="muted">营业额</div><div class="num">—</div></div><div class="stat"><div class="muted">公司回款</div><div class="num">—</div></div><div class="stat full"><div class="muted">盈利</div><div class="num">—</div></div><div class="stat"><div class="muted">门店留存</div><div class="num">—</div></div></div><div class="notice" style="margin-top:12px">门店已经从云端读取。月度账务接入后，这里会自动按「本月 / 本年度 / 开业至今」汇总。</div></div>`}
-function showAccount(){
- $('content').innerHTML=`<div class="card"><h2>账号设置</h2><p class="muted">当前账号：${esc(me.email)}</p><label>新密码</label><br><input id="newPass" type="password" placeholder="至少 6 位"><br><br><label>再次输入</label><br><input id="newPass2" type="password"><br><br><button onclick="changePassword()">修改密码</button><p id="accountMsg"></p></div>`;
-}
-async function changePassword(){const a=$('newPass').value,b=$('newPass2').value;if(a.length<6){$('accountMsg').textContent='密码至少 6 位';return}if(a!==b){$('accountMsg').textContent='两次密码不一致';return}const {error}=await sb.auth.updateUser({password:a});$('accountMsg').textContent=error?'修改失败：'+error.message:'密码修改成功';$('accountMsg').className=error?'error':'success'}
-function showOwnerTools(){
- $('content').innerHTML=`
- <div class="card">
-   <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
-     <div><h2 style="margin:0">老板后台</h2><p class="muted" style="margin:6px 0 0">门店、合伙人、股份和权限统一管理。</p></div>
-     <div class="actions"><button class="green" onclick="openStoreForm()">＋ 新增门店</button><button class="secondary" onclick="showPartnerManager()">合伙人 / 股份</button></div>
-   </div>
- </div>
- <div id="ownerStoreList"></div>`;
- renderOwnerStores();
-}
+function num(v){return Number(v||0)}
+function money2(v){return '¥'+num(v).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})}
+async function buildStoreSummary(store){
+ const {data,error}=await sb.from('monthly_accounts')
+   .select('month_date,turnover,company_return,rent,utilities,other_expenses,profit,retained')
+   .eq('store_id',store.id).order('month_date',{ascending:true});
+ if(error) throw error;
+ const rows=data||[];
+ const now=new Date();
+ const monthKey=now.toISOString().slice(0,7);
+ const yearKey=String(now.getFullYear());
+ const openKey=String(store.opening_date||'').slice(0,7);
+ let use=rows;
+ if(period==='month') use=rows.filter(r=>String(r.month_date||'').slice(0,7)===monthKey);
+ else if(period==='year') use=rows.filter(r=>String(r.month_date||'').slice(0,4)===yearKey);
+ else if(period==='life' && openKey) use=rows.filter(r=>String(r.month_date||'').slice(0,7)>=openKey);
 
-function renderOwnerStores(){
- const box=$('ownerStoreList');
- if(!box) return;
- if(!storeList.length){
-   box.innerHTML=`<div class="card"><h3>还没有门店</h3><p class="muted">点击右上角「新增门店」开始建立第一家门店。</p></div>`;
-   return;
- }
- box.innerHTML=storeList.map(s=>`
-   <div class="card">
-     <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start">
-       <div>
-         <h3 style="margin:0 0 6px">${esc(s.name||'未命名门店')}</h3>
-         <div class="muted">${s.opening_date?'开业：'+esc(s.opening_date):'未填写开业日期'}</div>
-         <div class="muted" style="margin-top:4px">${esc(s.address||'未填写地址')}</div>
-       </div>
-       <div class="actions">
-         <button class="secondary" onclick="openStoreForm(${Number(s.id)})">编辑</button>
-         <button class="danger" onclick="deleteStore(${Number(s.id)})">删除</button>
-       </div>
-     </div>
-     <div class="grid" style="margin-top:14px">
-       <div class="stat"><div class="muted">初始投入</div><div class="num">${money(s.initial_investment)}</div></div>
-       <div class="stat"><div class="muted">负责人</div><div class="num" style="font-size:17px">${esc(s.manager_name||'—')}</div></div>
-       <div class="stat"><div class="muted">房租</div><div class="num">${money(s.rent_amount)}</div></div>
-       <div class="stat"><div class="muted">押金合计</div><div class="num">${money(Number(s.rent_deposit||0)+Number(s.company_deposit||0)+Number(s.other_deposits||0))}</div></div>
-     </div>
-   </div>`).join('');
-}
+ const sum=k=>use.reduce((a,r)=>a+num(r[k]),0);
+ const turnover=sum('turnover');
+ const companyReturn=sum('company_return');
+ const profit=sum('profit');
+ const retained=sum('retained');
+ const pcls=profit>=0?'positive':'negative';
+ const rcls=retained>=0?'positive':'negative';
 
-function openStoreForm(id){
- const s=id ? storeList.find(x=>Number(x.id)===Number(id)) : null;
- const title=s?'编辑门店':'新增门店';
- $('modalRoot').innerHTML=`
- <div class="modal" onclick="if(event.target===this)closeModal()">
-  <div class="modalbox">
-   <div style="display:flex;justify-content:space-between;align-items:center">
-    <h2 style="margin:0">${title}</h2>
-    <button class="secondary" onclick="closeModal()">关闭</button>
-   </div>
-   <p class="muted">这些是门店的长期基础资料，账务数据会单独记录。</p>
-   <div class="grid">
-    <div><label>门店名称 *</label><input id="st_name" value="${esc(s?.name||'')}" placeholder="例如：XX万达店"></div>
-    <div><label>开业日期 *</label><input id="st_opening" type="date" value="${esc(s?.opening_date||'')}"></div>
-    <div><label>初始投入 *</label><input id="st_invest" type="number" step="0.01" value="${esc(s?.initial_investment??'')}" placeholder="0"></div>
-    <div><label>负责人</label><input id="st_manager" value="${esc(s?.manager_name||'')}" placeholder="负责人姓名"></div>
-   </div>
-   <div style="margin-top:12px"><label>门店地址</label><input id="st_address" value="${esc(s?.address||'')}" placeholder="详细地址"></div>
-   <div class="grid" style="margin-top:12px">
-    <div><label>房租金额</label><input id="st_rent" type="number" step="0.01" value="${esc(s?.rent_amount??'')}" placeholder="0"></div>
-    <div><label>房租周期</label><select id="st_rent_cycle"><option value="monthly" ${s?.rent_cycle==='monthly'||!s?.rent_cycle?'selected':''}>每月</option><option value="quarterly" ${s?.rent_cycle==='quarterly'?'selected':''}>每季度</option><option value="half_yearly" ${s?.rent_cycle==='half_yearly'?'selected':''}>每半年</option><option value="yearly" ${s?.rent_cycle==='yearly'?'selected':''}>每年</option><option value="custom" ${s?.rent_cycle==='custom'?'selected':''}>其他</option></select></div>
-    <div><label>下次房租日</label><input id="st_rent_date" type="date" value="${esc(s?.rent_payment_date||'')}"></div>
-    <div><label>租赁押金</label><input id="st_rent_deposit" type="number" step="0.01" value="${esc(s?.rent_deposit??'')}" placeholder="0"></div>
-    <div><label>公司押金</label><input id="st_company_deposit" type="number" step="0.01" value="${esc(s?.company_deposit??'')}" placeholder="0"></div>
-    <div><label>其他押金</label><input id="st_other_deposits" type="number" step="0.01" value="${esc(s?.other_deposits??'')}" placeholder="0"></div>
-    <div><label>合同开始</label><input id="st_contract_start" type="date" value="${esc(s?.contract_start_date||'')}"></div>
-    <div><label>合同到期</label><input id="st_contract_end" type="date" value="${esc(s?.contract_end_date||'')}"></div>
-   </div>
-   <div style="margin-top:12px"><label>合同/资料链接（后续接云端上传）</label><input id="st_contract_url" value="${esc(s?.contract_url||'')}" placeholder="暂可留空"></div>
-   <div style="margin-top:12px"><label>备注</label><textarea id="st_notes" rows="4" placeholder="可记录门店说明">${esc(s?.notes||'')}</textarea></div>
-   <div id="storeFormMsg" style="margin-top:10px"></div>
-   <div class="actions" style="margin-top:14px">
-    <button class="green" onclick="saveStore(${s?Number(s.id):'null'})">${s?'保存修改':'创建门店'}</button>
-    <button class="secondary" onclick="closeModal()">取消</button>
-   </div>
+ return `<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+   <h2 style="margin:0">${esc(store.name||'未命名门店')}</h2>
+   <span class="muted">开业：${esc(store.opening_date||'—')}</span>
+  </div>
+  <div class="stats" style="margin-top:12px">
+   <div class="stat"><div class="muted">营业额</div><div class="num">${money2(turnover)}</div></div>
+   <div class="stat"><div class="muted">公司回款</div><div class="num">${money2(companyReturn)}</div></div>
+   <div class="stat full"><div class="muted">盈利</div><div class="num ${pcls}">${money2(profit)}</div></div>
+   <div class="stat full"><div class="muted">门店留存</div><div class="num ${rcls}">${money2(retained)}</div></div>
   </div>
  </div>`;
 }
+window.showOwnerTools;
+  function esc2(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+  function fmt(v){return Number(v||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  window.showOwnerTools = async function(){
+    if(oldShowOwnerTools) try{await oldShowOwnerTools()}catch(e){}
+    const c=document.getElementById('content'); if(!c)return;
+    c.innerHTML=`<div class="card"><h2>老板后台</h2><p class="muted">最终整合版：门店、股东、账务、分红、补款、回本。</p></div>
+    <div class="tabs" style="margin:12px 0">
+      <button class="active" onclick="finalTab('stores',this)">门店</button>
+      <button onclick="finalTab('partners',this)">股东/股份</button>
+      <button onclick="finalTab('accounts',this)">月度账务</button>
+      <button onclick="finalTab('dividends',this)">分红</button>
+      <button onclick="finalTab('topups',this)">补款</button>
+      <button onclick="finalTab('payback',this)">回本情况</button>
+    </div><div id="finalBody"></div>`;
+    finalTab('stores');
+  };
+  window.finalTab=async function(tab,btn){
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active')); if(btn)btn.classList.add('active');
+    const b=document.getElementById('finalBody'); if(!b)return;
+    if(tab==='stores')return stores(b); if(tab==='partners')return partners(b);
+    if(tab==='accounts')return accounts(b); if(tab==='dividends')return dividends(b);
+    if(tab==='topups')return topups(b); if(tab==='payback')return payback(b);
+  };
+  async function getStores(){const r=await sb.from('stores').select('*').eq('owner_id',me.id).order('created_at');if(r.error)throw r.error;return r.data||[];}
+  async function stores(b){
+    let s=[];try{s=await getStores()}catch(e){b.innerHTML=`<div class="card error">读取失败：${esc2(e.message)}</div>`;return;}
+    b.innerHTML=`<div class="card"><button class="green" onclick="newStore()">＋ 新增门店</button></div>`+(s.length?s.map(x=>`<div class="card"><h3>${esc2(x.name)}</h3><div class="grid"><div>开业：${esc2(x.opening_date||'—')}</div><div>初始投入：¥${fmt(x.initial_investment)}</div><div>房租：¥${fmt(x.rent_amount)}</div><div>合同到期：${esc2(x.contract_end_date||'—')}</div></div><button class="secondary" onclick="editStore('${x.id}')">编辑</button></div>`).join(''):`<div class="card">还没有门店。</div>`);
+  }
+  function form(s){
+    document.getElementById('modalRoot').innerHTML=`<div class="modal" onclick="if(event.target===this)closeF()"><div class="modalbox"><h2>${s?'编辑门店':'新增门店'}</h2>
+    <div class="grid"><div><label>门店名称 *</label><input id="xname" value="${esc2(s?.name||'')}"></div><div><label>开业日期 *</label><input id="xopen" type="date" value="${esc2(s?.opening_date||'')}"></div><div><label>初始投入</label><input id="xinv" type="number" value="${s?.initial_investment??0}"></div><div><label>负责人</label><input id="xmgr" value="${esc2(s?.manager_name||'')}"></div><div><label>地址</label><input id="xaddr" value="${esc2(s?.address||'')}"></div><div><label>房租</label><input id="xrent" type="number" value="${s?.rent_amount??0}"></div><div><label>租赁押金</label><input id="xrd" type="number" value="${s?.rent_deposit??0}"></div><div><label>公司押金</label><input id="xcd" type="number" value="${s?.company_deposit??0}"></div><div><label>其他押金</label><input id="xod" type="number" value="${s?.other_deposits??0}"></div><div><label>合同开始</label><input id="xcs" type="date" value="${esc2(s?.contract_start_date||'')}"></div><div><label>合同到期</label><input id="xce" type="date" value="${esc2(s?.contract_end_date||'')}"></div></div><label>备注</label><textarea id="xnotes">${esc2(s?.notes||'')}</textarea><div class="actions"><button class="green" onclick="saveF(${s?`'${s.id}'`:'null'})">保存</button><button class="secondary" onclick="closeF()">取消</button></div></div></div>`;
+  }
+  window.newStore=()=>form(null);
+  window.editStore=async id=>{const s=(await getStores()).find(x=>String(x.id)===String(id));form(s);};
+  window.closeF=()=>document.getElementById('modalRoot').innerHTML='';
+  window.saveF=async id=>{
+    const p={name:document.getElementById('xname').value.trim(),opening_date:document.getElementById('xopen').value,initial_investment:Number(document.getElementById('xinv').value||0),manager_name:document.getElementById('xmgr').value.trim(),address:document.getElementById('xaddr').value.trim(),rent_amount:Number(document.getElementById('xrent').value||0),rent_deposit:Number(document.getElementById('xrd').value||0),company_deposit:Number(document.getElementById('xcd').value||0),other_deposits:Number(document.getElementById('xod').value||0),contract_start_date:document.getElementById('xcs').value||null,contract_end_date:document.getElementById('xce').value||null,notes:document.getElementById('xnotes').value.trim()};
+    if(!p.name||!p.opening_date)return alert('门店名称和开业日期必须填写');
+    const r=id?await sb.from('stores').update(p).eq('id',id).eq('owner_id',me.id):await sb.from('stores').insert({...p,owner_id:me.id});
+    if(r.error)return alert('保存失败：'+r.error.message);closeF();finalTab('stores');
+  };
+  async function partners(b){
+    let ps=[],ss=[];try{ps=(await sb.from('profiles').select('*').order('created_at')).data||[];ss=await getStores();}catch(e){}
+    b.innerHTML=`<div class="card"><h3>股东 / 合伙人</h3><p class="muted">这里管理每个门店的股份比例。账号创建/密码重置使用 Supabase Auth 安全流程。</p></div>`+ss.map(s=>`<div class="card"><h3>${esc2(s.name)}</h3>${ps.filter(p=>p.id!==me.id).map(p=>`<div class="stat" style="margin:8px 0"><b>${esc2(p.name||p.id)}</b><input id="sh_${s.id}_${p.id}" type="number" min="0" max="100" step=".01" placeholder="股份%" style="width:100px"><button class="green" onclick="saveSh('${s.id}','${p.id}')">保存</button></div>`).join('')}</div>`).join('');
+  }
+  window.saveSh=async(s,u)=>{const v=Number(document.getElementById(`sh_${s}_${u}`).value||0);const r=await sb.from('store_members').upsert({store_id:s,user_id:u,share_percent:v},{onConflict:'store_id,user_id'});alert(r.error?'保存失败：'+r.error.message:'股份已保存');};
+  async function accounts(b){const s=await getStores();b.innerHTML=`<div class="card"><h3>月度账务</h3>${s.map(x=>`<div class="stat"><b>${esc2(x.name)}</b><button class="green" onclick="monthly('${x.id}')">＋录入月份</button></div>`).join('')}</div>`;}
+  window.monthly=id=>{document.getElementById('modalRoot').innerHTML=`<div class="modal"><div class="modalbox"><h2>月度账务</h2><input id="md" type="month" value="${new Date().toISOString().slice(0,7)}"><input id="mt" type="number" placeholder="营业额"><input id="mc" type="number" placeholder="公司回款"><input id="mr" type="number" placeholder="房租"><input id="mu" type="number" placeholder="水电费"><input id="mo" type="number" placeholder="其他费用"><button class="green" onclick="saveM('${id}')">保存</button><button class="secondary" onclick="closeF()">取消</button></div></div>`;};
+  window.saveM=async id=>{const turn=Number(document.getElementById('mt').value||0),rent=Number(document.getElementById('mr').value||0),util=Number(document.getElementById('mu').value||0),other=Number(document.getElementById('mo').value||0);const p={store_id:id,month_date:document.getElementById('md').value+'-01',turnover:turn,company_return:Number(document.getElementById('mc').value||0),rent,utilities:util,other_expenses:other,profit:turn-rent-util-other,retained:turn-rent-util-other};const r=await sb.from('monthly_accounts').upsert(p,{onConflict:'store_id,month_date'});alert(r.error?'保存失败：'+r.error.message:'月度账务已保存');if(!r.error)closeF();};
+  async function dividends(b){const s=await getStores();b.innerHTML=`<div class="card"><h3>分红</h3>${s.map(x=>`<div class="stat"><b>${esc2(x.name)}</b><button class="green" onclick="divForm('${x.id}')">＋登记分红</button></div>`).join('')}</div>`;}
+  window.divForm=id=>{document.getElementById('modalRoot').innerHTML=`<div class="modal"><div class="modalbox"><h2>登记分红</h2><input id="dd" type="date" value="${new Date().toISOString().slice(0,10)}"><input id="da" type="number" placeholder="总分红金额"><textarea id="dn" placeholder="备注"></textarea><button class="green" onclick="saveD('${id}')">保存</button><button class="secondary" onclick="closeF()">取消</button></div></div>`;};
+  window.saveD=async id=>{const r=await sb.from('store_dividends').insert({store_id:id,dividend_date:document.getElementById('dd').value,amount:Number(document.getElementById('da').value||0),note:document.getElementById('dn').value.trim()});alert(r.error?'保存失败：'+r.error.message:'分红已保存');if(!r.error)closeF();};
+  async function topups(b){const s=await getStores();b.innerHTML=`<div class="card"><h3>补款</h3>${s.map(x=>`<div class="stat"><b>${esc2(x.name)}</b><button class="green" onclick="topForm('${x.id}')">＋登记补款</button></div>`).join('')}</div>`;}
+  window.topForm=async id=>{const ms=(await sb.from('store_members').select('user_id,share_percent').eq('store_id',id)).data||[];const ids=ms.map(x=>x.user_id).filter(Boolean);let ps=[];if(ids.length)ps=(await sb.from('profiles').select('id,name,username').in('id',ids)).data||[];document.getElementById('modalRoot').innerHTML=`<div class="modal"><div class="modalbox"><h2>登记补款</h2><label>补款日期</label><input id="td" type="date" value="${new Date().toISOString().slice(0,10)}"><label>股东</label><select id="tu">${ps.map(x=>`<option value="${x.id}">${esc2(x.name||x.username||x.id)}</option>`).join('')||'<option value="">暂无股东</option>'}</select><label>补款金额</label><input id="ta" type="number" min="0" step="0.01" placeholder="补款金额"><textarea id="tn" placeholder="备注"></textarea><button class="green" onclick="saveT(\''+id+'\')">保存</button><button class="secondary" onclick="closeF()">取消</button></div></div>`;};
+  window.saveT=async id=>{const r=await sb.from('store_topups').insert({store_id:id,topup_date:document.getElementById('td').value,user_id:document.getElementById('tu').value||null,amount:Number(document.getElementById('ta').value||0),note:document.getElementById('tn').value.trim()});alert(r.error?'保存失败：'+r.error.message:'补款已保存');if(!r.error)closeF();};
+  async function payback(b){const s=await getStores(),a=[];for(const x of s){const d=(await sb.from('store_dividends').select('amount').eq('store_id',x.id)).data||[],t=(await sb.from('store_topups').select('amount').eq('store_id',x.id)).data||[];const div=d.reduce((z,v)=>z+Number(v.amount||0),0),top=t.reduce((z,v)=>z+Number(v.amount||0),0);a.push(`<div class="card"><h3>${esc2(x.name)}</h3><div class="grid"><div>初始投入 ¥${fmt(x.initial_investment)}</div><div>累计补款 ¥${fmt(top)}</div><div>累积分红 ¥${fmt(div)}</div><div><b>剩余未回本 ¥${fmt(Number(x.initial_investment||0)+top-div)}</b></div></div><p class="muted">门店留存不计入回本。</p></div>`)}b.innerHTML=a.join('')||'<div class="card">请先建立门店。</div>';}
+})();
+</script>
 
-function closeModal(){ $('modalRoot').innerHTML=''; }
+</body></html>
 
-async function saveStore(id){
- const name=$('st_name').value.trim();
- const opening_date=$('st_opening').value;
- const initial_investment=Number($('st_invest').value||0);
- const address=$('st_address').value.trim();
- const manager_name=$('st_manager').value.trim();
- const notes=$('st_notes').value.trim();
- const rent_amount=Number($('st_rent').value||0);
- const rent_cycle=$('st_rent_cycle').value;
- const rent_payment_date=$('st_rent_date').value||null;
- const rent_deposit=Number($('st_rent_deposit').value||0);
- const company_deposit=Number($('st_company_deposit').value||0);
- const other_deposits=Number($('st_other_deposits').value||0);
- const contract_start_date=$('st_contract_start').value||null;
- const contract_end_date=$('st_contract_end').value||null;
- const contract_url=$('st_contract_url').value.trim()||null;
- const msg=$('storeFormMsg');
- if(!name || !opening_date){msg.className='error';msg.textContent='门店名称和开业日期必须填写';return}
- if(initial_investment<0){msg.className='error';msg.textContent='初始投入不能为负数';return}
- msg.className='muted';msg.textContent='正在保存…';
- const payload={name,opening_date,initial_investment,address,manager_name,notes,rent_amount,rent_cycle,rent_payment_date,rent_deposit,company_deposit,other_deposits,contract_start_date,contract_end_date,contract_url};
- let result;
- if(id){
-   result=await sb.from('stores').update(payload).eq('id',id).eq('owner_id',me.id).select().single();
- }else{
-   payload.owner_id=me.id;
-   result=await sb.from('stores').insert(payload).select().single();
+<!-- FINAL CORE ADDITIONS -->
+<style>
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.data-grid .card{margin:0}
+.file-link{display:inline-block;margin-top:6px;text-decoration:underline;cursor:pointer}
+.permission-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.permission-grid label{font-size:13px}
+@media(max-width:600px){.permission-grid{grid-template-columns:1fr}}
+</style>
+<script>
+(function(){
+ const escSafe=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+ const q=id=>document.getElementById(id);
+ const tableNames=['stores','profiles','store_members','partner_permissions','monthly_accounts','store_dividends','store_topups','reimbursements','reimbursement_categories','expenses','expense_categories'];
+ async function getAllRows(table){
+   const {data,error}=await sb.from(table).select('*');
+   if(error) throw new Error(table+'：'+error.message);
+   return data||[];
  }
- if(result.error){msg.className='error';msg.textContent='保存失败：'+result.error.message;return}
- await loadProfile();
- closeModal();
- showOwnerTools();
-}
-
-
-async function showPartnerManager(){
- const a=$('ownerArea'); a.innerHTML='<div class="card">正在读取合伙人…</div>';
- const [{data:users,error:ue},{data:members,error:me2}]=await Promise.all([
-   sb.from('profiles').select('id,name,role,enabled,username').order('name'),
-   sb.from('store_members').select('store_id,user_id,share_percent')
- ]);
- if(ue||me2){a.innerHTML='<p class="error">读取失败：'+esc((ue||me2).message)+'</p>';return}
- const partners=(users||[]).filter(u=>u.role!=='owner');
- a.innerHTML=`<div class="card"><h3>合伙人 / 股份</h3>
- <p class="muted">先在 Authentication → Users 创建登录账号，再在这里分配门店和每店股份。</p>
- <div class="notice">密码不存网页；密码创建、重置由 Supabase Auth 管理。</div></div>
- ${partners.length?partners.map(u=>{
-   const ms=(members||[]).filter(m=>m.user_id===u.id);
-   return `<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
-   <div><h3 style="margin:0">${esc(u.name||'未命名')}</h3><div class="muted">${esc(u.username||'未设置账号名')} · ${u.enabled===false?'已停用':'正常'}</div></div>
-   <button class="secondary" onclick="openPartner('${u.id}')">管理</button></div>
-   <div class="muted" style="margin-top:10px">${ms.length?ms.map(m=>{const st=storeList.find(s=>String(s.id)===String(m.store_id));return esc(st?.name||'门店')+' '+Number(m.share_percent||0)+'%'}).join('　'):'尚未分配门店'}</div></div>`
- }).join(''):'<div class="card"><p class="muted">目前还没有合伙人账号。</p></div>'}`;
-}
-async function openPartner(userId){
- const {data:p,error}=await sb.from('profiles').select('*').eq('id',userId).single();
- if(error){alert(error.message);return}
- const {data:ms}=await sb.from('store_members').select('store_id,share_percent').eq('user_id',userId);
- const mm=Object.fromEntries((ms||[]).map(x=>[String(x.store_id),x]));
- const storesHtml=storeList.map(s=>`<div class="card" style="margin:8px 0;padding:12px">
-   <label style="display:flex;align-items:center;gap:9px"><input style="width:auto" type="checkbox" id="pm_${s.id}" ${mm[String(s.id)]?'checked':''}> <b>${esc(s.name)}</b></label>
-   <div style="margin-top:8px"><label>股份比例 %</label><input id="pct_${s.id}" type="number" min="0" max="100" step="0.01" value="${mm[String(s.id)]?Number(mm[String(s.id)].share_percent):0}"></div>
- </div>`).join('');
- modal(`<h2>管理合伙人</h2><div class="muted">${esc(p.name||'未命名')} · ${esc(p.username||'')}</div>
- <div style="margin-top:12px"><label>显示名称</label><input id="pm_name" value="${esc(p.name||'')}"></div>
- <div style="margin-top:12px"><label>账号备注名</label><input id="pm_username" value="${esc(p.username||'')}"></div>
- <div style="margin-top:12px"><label><input style="width:auto" type="checkbox" id="pm_enabled" ${p.enabled!==false?'checked':''}> 启用账号</label></div>
- <h3>门店与股份</h3>${storesHtml}<p id="pmMsg"></p>
- <div class="actions"><button class="green" onclick="savePartner('${userId}')">保存</button><button class="secondary" onclick="closeModal()">取消</button></div>`);
-}
-async function savePartner(userId){
- const msg=$('pmMsg');
- const payload={name:$('pm_name').value.trim()||null,username:$('pm_username').value.trim()||null,enabled:$('pm_enabled').checked};
- const {error:pe}=await sb.from('profiles').update(payload).eq('id',userId);
- if(pe){msg.className='error';msg.textContent='保存失败：'+pe.message;return}
- for(const s of storeList){
-   const checked=$('pm_'+s.id).checked, pct=Number($('pct_'+s.id).value||0);
-   if(checked){
-     if(pct<0||pct>100){msg.className='error';msg.textContent='股份必须在 0～100%';return}
-     const {error}=await sb.from('store_members').upsert({store_id:s.id,user_id:userId,share_percent:pct},{onConflict:'store_id,user_id'});
-     if(error){msg.className='error';msg.textContent='股份保存失败：'+error.message;return}
-   }else{
-     const {error}=await sb.from('store_members').delete().eq('store_id',s.id).eq('user_id',userId);
-     if(error){msg.className='error';msg.textContent='取消门店失败：'+error.message;return}
-   }
- }
- closeModal(); showPartnerManager();
-}
-
-async function deleteStore(id){
- const s=storeList.find(x=>Number(x.id)===Number(id));
- if(!s) return;
- if(!confirm('确定删除「'+(s.name||'这家门店')+'」吗？\\n如果以后已经录入账务，建议先不要删除。')) return;
- const {error}=await sb.from('stores').delete().eq('id',id).eq('owner_id',me.id);
- if(error){alert('删除失败：'+error.message);return}
- await loadProfile();
- showOwnerTools();
-}
-$('loginBtn').addEventListener('click',login);$('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')login()});boot();
-</script></body></html>
+ window.exportAllData=async function(){
+   try{
+     const bundle={exported_at:new Date().toISOString(),version:'final-core',tables:{}};
+     for(const t of tableNames) bundle.tables[t]=await getAllRows(t);
+     const blob=new Blob([JSON.stringify(bundle,null,2)],{type:'application/json'});
+     const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+     a.download='女装门店合伙账务_备份_'+new Date().toISOString().slice(0,10)+'.json'; a.click();
+     setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+   }catch(e){alert('备份失败：'+e.message)}
+ };
+ window.exportTableCsv=async function(table){
+   try{
+     const rows=await getAllRows(table);
+     if(!rows.length){alert('该表暂无数据');return}
+     const cols=[...new Set(rows.flatMap(r=>Object.keys(r)))];
+     const csv=[cols.join(','),...rows.map(r=>cols.map(c=>`"${String(r[c]??'').replace(/"/g,'""')}"`).join(','))].join('\n');
+     const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'});
+     const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+     a.download=table+'_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+     setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+   }catch(e){alert('导出失败：'+e.message)}
+ };
+ window.showDataCenter=function(){
+   if(typeof showOwnerTools==='function') showOwnerTools();
+   setTimeout(()=>{
+     const c=q('ownerToolsContent')||q('content'); if(!c)return;
+     c.innerHTML=`<div class="card">
+       <h2>数据中心</h2>
+       <p class="muted">老板可随时导出当前云端数据。导出的 JSON 可作为离线备份留存。</p>
+       <button class="green" onclick="exportAllData()">一键备份全部数据</button>
+       <hr>
+       <h3>单表 CSV 导出</h3>
+       <div class="data-grid">
+         ${tableNames.map(t=>`<div class="card"><b>${t}</b><br><button class="secondary" onclick="exportTableCsv('${t}')">导出 CSV</button></div>`).join('')}
+       </div>
+     </div>`;
+   },50);
+ };
+})();
+</script>
