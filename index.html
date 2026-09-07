@@ -1,7 +1,7 @@
 <!doctype html><html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>女装门店·合伙账务</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module">window.supabaseReady=import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm").then(m=>{window.createSupabaseClient=m.createClient;window.supabaseSDKReady=true;}).catch(e=>{window.supabaseSDKError=e;});</script>
 <style>
 :root{--bg:#f4f5f7;--card:#fff;--text:#202124;--muted:#73777d;--line:#e8eaed;--dark:#151515;--green:#16834a;--red:#c0392b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--text)}
@@ -10,24 +10,26 @@ header{position:sticky;top:0;z-index:10;background:#151515;color:#fff;padding:15
 .owner-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.owner-tabs button{width:100%;white-space:nowrap}@media(max-width:650px){.owner-tabs{grid-template-columns:repeat(3,1fr)}}
 </style></head><body>
 <header><b>女装门店 · 合伙账务</b><span id="userLabel"></span></header>
-<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">使用 Supabase Auth 登录，账号和密码不写在网页里。</p><input id="loginAccount" placeholder="登录账号（邮箱）" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" type="button">登录</button><p id="loginMsg" class="error"></p></div></div>
+<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">使用 Supabase Auth 登录，账号和密码不写在网页里。</p><input id="loginAccount" placeholder="登录账号（邮箱）" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" type="button">登录</button><p id="loginMsg" class="error"></p><p id="sdkStatus" class="muted">正在加载云端组件…</p></div></div>
 <div id="app" class="wrap hidden"></div><div id="modalRoot"></div>
 <script>
 const SUPABASE_URL='https://dqruzakkunkinecxxbny.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_igD9yDQ1KbazCNNUfnjk2Q_WBRY5J-6';
 let sb=null;
-function initSupabase(){
+async function initSupabase(){
   try{
-    if(!window.supabase || typeof window.supabase.createClient!=='function'){
-      showMsg('系统组件加载失败，请刷新页面重试');
-      return false;
+    if(!window.supabaseReady) throw new Error('云端组件加载异常');
+    await window.supabaseReady;
+    if(typeof window.createSupabaseClient!=='function'){
+      throw new Error(window.supabaseSDKError?.message||'Supabase组件没有加载成功');
     }
-    sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{
+    sb=window.createSupabaseClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{
       auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
     });
     return true;
   }catch(e){
-    showMsg('系统初始化失败：'+(e?.message||'未知错误'));
+    console.error('SUPABASE_INIT_ERROR',e);
+    showMsg('系统组件加载失败：'+(e?.message||'请刷新页面'));
     return false;
   }
 }
@@ -45,7 +47,7 @@ async function login(){
  const btn=$('loginBtn');
  const account=$('loginAccount').value.trim(), password=$('loginPass').value;
  if(!account||!password){showMsg('请输入账号和密码');return}
- if(!sb && !initSupabase()) return;
+ if(!sb && !(await initSupabase())) return;
  if(btn){btn.disabled=true;btn.textContent='登录中…'}
  showMsg('正在连接云端…',true);
  try{
@@ -67,7 +69,7 @@ async function login(){
 }
 async function boot(){
  try{
-  if(!sb && !initSupabase()) return;
+  if(!sb && !(await initSupabase())) return;
   const {data,error}=await sb.auth.getSession();
   if(error) throw error;
   if(data.session){
