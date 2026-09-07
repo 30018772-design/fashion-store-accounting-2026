@@ -100,7 +100,7 @@ async function buildStoreSummary(store){
   </div>
  </div>`;
 }
-window.showOwnerTools;
+const oldShowOwnerTools=null;
   function esc2(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
   function fmt(v){return Number(v||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});}
   window.showOwnerTools = async function(){
@@ -157,7 +157,6 @@ window.showOwnerTools;
   window.topForm=async id=>{const ms=(await sb.from('store_members').select('user_id,share_percent').eq('store_id',id)).data||[];const ids=ms.map(x=>x.user_id).filter(Boolean);let ps=[];if(ids.length)ps=(await sb.from('profiles').select('id,name,username').in('id',ids)).data||[];document.getElementById('modalRoot').innerHTML=`<div class="modal"><div class="modalbox"><h2>登记补款</h2><label>补款日期</label><input id="td" type="date" value="${new Date().toISOString().slice(0,10)}"><label>股东</label><select id="tu">${ps.map(x=>`<option value="${x.id}">${esc2(x.name||x.username||x.id)}</option>`).join('')||'<option value="">暂无股东</option>'}</select><label>补款金额</label><input id="ta" type="number" min="0" step="0.01" placeholder="补款金额"><textarea id="tn" placeholder="备注"></textarea><button class="green" onclick="saveT(\''+id+'\')">保存</button><button class="secondary" onclick="closeF()">取消</button></div></div>`;};
   window.saveT=async id=>{const r=await sb.from('store_topups').insert({store_id:id,topup_date:document.getElementById('td').value,user_id:document.getElementById('tu').value||null,amount:Number(document.getElementById('ta').value||0),note:document.getElementById('tn').value.trim()});alert(r.error?'保存失败：'+r.error.message:'补款已保存');if(!r.error)closeF();};
   async function payback(b){const s=await getStores(),a=[];for(const x of s){const d=(await sb.from('store_dividends').select('amount').eq('store_id',x.id)).data||[],t=(await sb.from('store_topups').select('amount').eq('store_id',x.id)).data||[];const div=d.reduce((z,v)=>z+Number(v.amount||0),0),top=t.reduce((z,v)=>z+Number(v.amount||0),0);a.push(`<div class="card"><h3>${esc2(x.name)}</h3><div class="grid"><div>初始投入 ¥${fmt(x.initial_investment)}</div><div>累计补款 ¥${fmt(top)}</div><div>累积分红 ¥${fmt(div)}</div><div><b>剩余未回本 ¥${fmt(Number(x.initial_investment||0)+top-div)}</b></div></div><p class="muted">门店留存不计入回本。</p></div>`)}b.innerHTML=a.join('')||'<div class="card">请先建立门店。</div>';}
-})();
 document.getElementById('loginBtn').addEventListener('click',login);
 document.getElementById('loginPass').addEventListener('keydown',e=>{if(e.key==='Enter')login()});
 boot();
