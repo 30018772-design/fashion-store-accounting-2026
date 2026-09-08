@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>女装门店·女韩子 V1.43</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>女装门店·女韩子 V1.45</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
 :root{--bg:#f6f0e9;--card:#fffdfb;--text:#2b211c;--muted:#8b7b70;--line:#eadfd5;--dark:#5a3827;--dark2:#7a4b31;--accent:#b77a4c;--accent2:#d7aa7f;--soft:#f4e8dd;--blush:#f5e2df;--sage:#e7eee5;--gold:#c79a5a;--red:#b43b32;--green:#2d7b55}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0%,#fffaf5 0,#f6f0e9 42%,#efe6dd 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif;min-height:100vh}body:before{content:"";display:block;height:4px;background:linear-gradient(90deg,var(--accent2),var(--gold),var(--dark2),var(--accent2))}header{position:sticky;top:0;z-index:10;background:rgba(255,250,245,.94);backdrop-filter:blur(14px);color:var(--dark);padding:13px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px #5a38270d}header b{letter-spacing:1px;font-weight:750}.wrap{max-width:1100px;margin:auto;padding:18px}.card{background:rgba(255,253,251,.96);border:1px solid rgba(234,223,213,.9);border-radius:20px;padding:18px;margin-bottom:15px;box-shadow:0 8px 28px #5a382710}.card h2,.card h3{color:var(--dark)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{background:linear-gradient(145deg,#fffaf6,#f6ede5);border:1px solid #eee1d7;border-radius:15px;padding:14px}.stats .stat:first-child{background:linear-gradient(145deg,#fff5f2,#f6e2df)}.stats .stat:nth-child(2){background:linear-gradient(145deg,#fff9ed,#f4ead9)}.stats .stat:nth-child(3){background:linear-gradient(145deg,#f9f1e8,#eee2d7)}.num{font-size:22px;font-weight:800;margin-top:5px;letter-spacing:.2px}.muted{color:var(--muted);font-size:13px}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:12px 13px;border:1px solid #dfd1c6;border-radius:12px;background:#fffdfa;color:var(--text);outline:none;transition:.18s}input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #b77a4c1c}textarea{min-height:80px;resize:vertical}button{border:0;border-radius:12px;padding:10px 14px;background:linear-gradient(135deg,var(--dark2),var(--dark));color:#fff;cursor:pointer;box-shadow:0 3px 10px #5a38271a;transition:transform .15s,box-shadow .15s,opacity .15s}button:hover{transform:translateY(-1px);box-shadow:0 5px 14px #5a382725}button:disabled{opacity:.55;transform:none}.secondary{background:#f0e7df;color:var(--dark);box-shadow:none}.secondary:hover{background:#e9ddd2}.danger{background:#a83228}.green{background:var(--green)}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.tabs{display:flex;gap:8px;overflow:auto;margin:10px 0 14px;padding-bottom:2px}.tabs button{white-space:nowrap;background:#eee4db;color:var(--dark);box-shadow:none}.tabs .active{background:linear-gradient(135deg,var(--dark2),var(--dark));color:#fff;box-shadow:0 4px 12px #5a382728}.row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.hidden{display:none!important}.login{max-width:440px;margin:55px auto}.login.card{padding:24px}.login h2{font-size:28px;margin-bottom:6px}.error{color:var(--red)}.success{color:var(--green)}.positive{color:var(--red);font-weight:800}.negative{color:var(--green);font-weight:800}.notice{padding:12px;border-radius:12px;background:#fff7df;border:1px solid #efdfad;color:#765900;font-size:13px}.modal{position:fixed;inset:0;background:#2b211c80;z-index:30;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}.modalbox{background:#fffdfb;width:min(760px,100%);max-height:92vh;overflow:auto;border:1px solid var(--line);border-radius:22px 22px 0 0;padding:20px;box-shadow:0 -10px 40px #2b211c25}.checkgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.check{display:flex;gap:8px;align-items:center;background:#faf4ee;border:1px solid #eee0d4;padding:10px;border-radius:11px}.check input{width:auto}.small{font-size:12px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:var(--soft);color:var(--dark);font-size:12px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:12px}.calhead{font-size:12px;text-align:center;color:var(--muted);padding:5px}.calday{background:linear-gradient(145deg,#fffdfa,#f6eee7);border:1px solid #eadfd5;border-radius:12px;min-height:72px;padding:8px;cursor:pointer;transition:.15s}.calday:hover{border-color:var(--accent);transform:translateY(-1px)}.calday .d{font-size:12px;color:var(--muted)}.calday .amt{font-size:12px;font-weight:750;margin-top:10px;color:var(--dark)}.calday.today{border:2px solid var(--accent);background:#fff5ed}.calday.empty{background:transparent;border:0;cursor:default}.staffbar{display:flex;justify-content:space-between;align-items:center;gap:12px}.staffbar h2{font-size:21px}.login:before{content:"NUHUNS  ·  FASHION STORE";display:block;color:var(--accent);font-size:12px;letter-spacing:2px;font-weight:800;margin-bottom:12px}@media(max-width:650px){.wrap{padding:10px}.card{padding:14px;margin-bottom:11px;border-radius:17px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat{padding:10px;border-radius:13px}.num{font-size:18px}.muted{font-size:12px}.row{grid-template-columns:1fr 1fr}.row .wide{grid-column:1/-1}.checkgrid{grid-template-columns:1fr}.calendar{gap:4px}.calday{min-height:66px;padding:6px}.calday .amt{font-size:10px;margin-top:7px}.staffbar{align-items:flex-start}.staffbar .secondary{white-space:nowrap;padding:8px 10px}.card h2{font-size:20px}.card h3{font-size:17px}}
 footer.version{position:fixed;left:0;right:0;bottom:0;text-align:center;padding:7px 10px;background:#ffffffdd;border-top:1px solid var(--line);backdrop-filter:blur(6px);font-size:12px;color:var(--muted);z-index:20}.wrap{padding-bottom:54px}
 .navgroups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:12px 0 16px}
@@ -17,8 +17,13 @@ footer.version{position:fixed;left:0;right:0;bottom:0;text-align:center;padding:
  .mobile-more button{background:#f4e8dd;color:var(--dark);box-shadow:none}
  .mobilebar + .mobile-more{margin-top:0}
 }
+</style><style>
+details{margin-top:12px;padding:8px 0;border-top:1px solid var(--line)}
+details summary{cursor:pointer;list-style:none;padding:8px 2px}
+details summary::-webkit-details-marker{display:none}
+@media(max-width:650px){.card{padding:14px}.actions{flex-wrap:wrap}.actions>button{min-height:42px}}
 </style></head><body><header><b>女装门店，女韩子</b><span id="userLabel"></span></header>
-<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">云端账号登录</p><input id="loginAccount" placeholder="登录账号" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" style="width:100%">登录</button><button id="staffEntryBtn" class="secondary" style="width:100%;margin-top:8px" type="button">门店员工入口</button><p id="loginMsg" class="error"></p></div></div><div id="app" class="wrap hidden"></div><div id="modalRoot"></div><footer class="version">版本：V1.43</footer>
+<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">云端账号登录</p><input id="loginAccount" placeholder="登录账号" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" style="width:100%">登录</button><button id="staffEntryBtn" class="secondary" style="width:100%;margin-top:8px" type="button">门店员工入口</button><p id="loginMsg" class="error"></p></div></div><div id="app" class="wrap hidden"></div><div id="modalRoot"></div><footer class="version">版本：V1.45</footer>
 <script>
 const SUPABASE_URL='https://dqruzakkunkinecxxbny.supabase.co',SUPABASE_KEY='sb_publishable_igD9yDQ1KbazCNNUfnjk2Q_WBRY5J-6';
 let salesViewMode='month';let sb=null,me=null,profile=null,stores=[],periodMode='month',rangeStart='',rangeEnd='',expanded={},loginMode=location.hash==='#staff'?'staff':'normal',staffStore=null,staffRealtime=null,ownerRealtime=null,staffCalendarCollapsed=false,staffMonth='';
@@ -61,7 +66,7 @@ function renderShell(){
    <button onclick="logout()">退出</button>
   </div>`:
   `<div class="mobilebar"><button onclick="showPartnerHome()">我的门店与分红</button><button onclick="showAccount()">账号</button><button class="morebtn" onclick="logout()">退出</button></div>`;
- $('app').innerHTML=`<div class="card" style="margin-bottom:8px"><h2 style="margin:0">${title}</h2><div class="muted">${owner?'经营数据、账单、报销、分红、股东与门店管理':'查看本人参与门店、股份及分红情况'} · V1.43</div></div>${desktop}${mobile}<div id="content"></div>`;
+ $('app').innerHTML=`<div class="card" style="margin-bottom:8px"><h2 style="margin:0">${title}</h2><div class="muted">${owner?'经营数据、账单、报销、分红、股东与门店管理':'查看本人参与门店、股份及分红情况'} · V1.45</div></div>${desktop}${mobile}<div id="content"></div>`;
  owner?showDashboard():showPartnerHome();
 }
 function toggleMobileMore(){const e=$('mobileMore');if(e)e.classList.toggle('open')}
@@ -95,22 +100,39 @@ async function showPartnerHome(){
    if(p.view_company_return!==false)cells.push(`<div class="stat"><div class="muted">公司回款</div><div class="num">${money(company)}</div></div>`);
    if(p.view_rent!==false)cells.push(`<div class="stat"><div class="muted">房租</div><div class="num">${money(rent)}</div></div>`);
    if(p.view_utilities!==false)cells.push(`<div class="stat"><div class="muted">水电费</div><div class="num">${money(util)}</div></div>`);
-   if(p.view_expenses!==false)cells.push(`<div class="stat"><div class="muted">报销/其他费用</div><div class="num">${money(other+refund)}</div></div>`);
+   if(p.view_expenses!==false)cells.push(`<div class="stat"><div class="muted">其他费用 + 报销</div><div class="num">${money(other+refund)}</div></div>`);
    if(p.view_profit!==false)cells.push(`<div class="stat"><div class="muted">盈利</div><div class="num ${profit>=0?'positive':'negative'}">${money(profit)}</div></div>`);
    if(p.view_retained!==false)cells.push(`<div class="stat"><div class="muted">门店留存</div><div class="num ${profit-div.reduce((a,x)=>a+n(x.amount),0)>=0?'positive':'negative'}">${money(profit-div.reduce((a,x)=>a+n(x.amount),0))}</div></div>`);
    if(p.view_dividends!==false)cells.push(`<div class="stat"><div class="muted">本月我应得分红</div><div class="num positive">${money(ownMonthDiv)}</div></div><div class="stat"><div class="muted">所选期间我应得分红</div><div class="num positive">${money(ownDiv)}</div></div>`);
    const topups=all.topups.filter(x=>Number(x.store_id)===Number(st.id)&&inBounds(x.topup_date,startDate,endDate));const topTotal=topups.reduce((a,x)=>a+n(x.amount),0);const divTotal=div.reduce((a,x)=>a+n(x.amount),0);if(p.view_payback!==false){const inv=n(st.initial_investment);cells.push(`<div class="stat"><div class="muted">剩余未回本</div><div class="num ${inv+topTotal-divTotal>=0?'positive':'negative'}">${money(inv+topTotal-divTotal)}</div></div>`)}if(p.view_contributions!==false)cells.push(`<div class="stat"><div class="muted">期间补款</div><div class="num">${money(topTotal)}</div></div>`);if(p.view_initial_investment!==false)cells.push(`<div class="stat"><div class="muted">初始投入</div><div class="num">${money(st.initial_investment)}</div></div>`);if(p.view_contracts!==false)cells.push(`<div class="stat"><div class="muted">门店资料</div><div class="num" style="font-size:14px">${esc(st.address||'已授权查看')}</div></div>`);
-   return `<div class="card"><div class="actions" style="justify-content:space-between"><div><h2 style="margin:0">${esc(st.name)}</h2><div class="muted">我的股份：${n(m.share_percent)}% · ${periodLabel}</div></div><button class="secondary" onclick="showPartnerStoreDetail(${st.id})">查看详情</button></div><div class="stats" style="margin-top:12px">${cells.join('')}</div></div>`;
+   return `<div class="card"><div class="actions" style="justify-content:space-between"><div><h2 style="margin:0">${esc(st.name)}</h2><div class="muted">我的股份：${n(m.share_percent)}% · ${periodLabel}</div></div><button class="secondary" onclick="showPartnerStoreDetail(${st.id})">查看详情</button></div><div class="stats" style="margin-top:12px">${cells.join('')}</div>${compactPartnerExpenseSummary(re,partnerPeriodMode)}</div>`;
   }).join('');
   const monthOwn=summaryRows.reduce((sum,{m,st,p})=>{if(p.view_dividends===false)return sum;return sum+all.dividends.filter(x=>Number(x.store_id)===Number(st.id)&&String(x.dividend_date).slice(0,7)===ym).reduce((a,x)=>a+n(x.amount),0)*n(m.share_percent)/100},0);
   const totalOwn=summaryRows.reduce((sum,{m,st,p})=>{if(p.view_dividends===false)return sum;return sum+all.dividends.filter(x=>Number(x.store_id)===Number(st.id)).reduce((a,x)=>a+n(x.amount),0)*n(m.share_percent)/100},0);
-  c.innerHTML=`<div class="card"><h2 style="margin:0">股东中心</h2><p class="muted">只显示你参与且老板授权查看的门店数据；其他门店不会显示。</p><div class="stats" style="margin-top:12px"><div class="stat"><div class="muted">参与门店</div><div class="num">${visible.length}</div></div><div class="stat"><div class="muted">本月我应得分红</div><div class="num positive">${money(monthOwn)}</div></div><div class="stat"><div class="muted">累计我应得分红</div><div class="num positive">${money(totalOwn)}</div></div></div></div>${partnerPeriodControls()}${cards}`;
- }catch(e){c.innerHTML='<div class="card error">读取股东数据失败：'+esc(e.message)+'</div>'}
+  c.innerHTML=`<div class="card"><h2 style="margin:0">股东中心</h2><p class="muted">只显示你参与的门店；每家门店只显示老板授权的数据。营业额来自员工每日业绩，报销独立按所选期间汇总。</p><div class="stats" style="margin-top:12px"><div class="stat"><div class="muted">参与门店</div><div class="num">${visible.length}</div></div><div class="stat"><div class="muted">本月我应得分红</div><div class="num positive">${money(monthOwn)}</div></div><div class="stat"><div class="muted">累计我应得分红</div><div class="num positive">${money(totalOwn)}</div></div></div></div>${partnerPeriodControls()}${cards}`;
+ subscribePartnerRealtime(); }catch(e){c.innerHTML='<div class="card error">读取股东数据失败：'+esc(e.message)+'</div>'}
+}
+let partnerRealtime=null;
+function subscribePartnerRealtime(){
+ if(partnerRealtime||!sb||profile?.role!=='partner')return;
+ partnerRealtime=sb.channel('partner-live-data')
+  .on('postgres_changes',{event:'*',schema:'public',table:'daily_sales'},()=>showPartnerHome())
+  .on('postgres_changes',{event:'*',schema:'public',table:'reimbursements'},()=>showPartnerHome())
+  .on('postgres_changes',{event:'*',schema:'public',table:'monthly_accounts'},()=>showPartnerHome())
+  .on('postgres_changes',{event:'*',schema:'public',table:'store_dividends'},()=>showPartnerHome())
+  .on('postgres_changes',{event:'*',schema:'public',table:'store_topups'},()=>showPartnerHome())
+  .subscribe((status)=>{if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'){try{sb.removeChannel(partnerRealtime)}catch(e){}partnerRealtime=null}});
 }
 let partnerPeriodMode='month',partnerRangeStart='',partnerRangeEnd='';
 function partnerBounds(st){const now=monthNow();if(partnerPeriodMode==='month')return [now+'-01',nextMonth(now)+'-01'];if(partnerPeriodMode==='year'){const y=new Date().getFullYear();return [`${y}-01-01`,`${y+1}-01-01`]}if(partnerPeriodMode==='range'){const a=partnerRangeStart||now,b=partnerRangeEnd||now;return [a+'-01',nextMonth(b)+'-01']}return [String(st.opening_date||'0001-01-01').slice(0,10),null]}
 function partnerPeriodControls(){return `<div class="card"><div class="actions"><button class="${partnerPeriodMode==='month'?'':'secondary'}" onclick="partnerPeriodMode='month';showPartnerHome()">本月</button><button class="${partnerPeriodMode==='year'?'':'secondary'}" onclick="partnerPeriodMode='year';showPartnerHome()">本年度</button><button class="${partnerPeriodMode==='range'?'':'secondary'}" onclick="partnerPeriodMode='range';showPartnerHome()">月份范围</button><button class="${partnerPeriodMode==='life'?'':'secondary'}" onclick="partnerPeriodMode='life';showPartnerHome()">开业至今</button></div>${partnerPeriodMode==='range'?`<div class="grid" style="margin-top:10px"><input id="pRangeStart" type="month" value="${esc(partnerRangeStart||monthNow())}"><input id="pRangeEnd" type="month" value="${esc(partnerRangeEnd||monthNow())}"><button onclick="partnerRangeStart=$('pRangeStart').value;partnerRangeEnd=$('pRangeEnd').value;if(!partnerRangeStart||!partnerRangeEnd||partnerRangeStart>partnerRangeEnd){alert('请选择正确范围');return}showPartnerHome()">查询</button></div>`:''}</div>`}
 async function fetchPartnerData(){const [ma,ds,re,di,tu]=await Promise.all([sb.from('v_monthly_accounts').select('store_id,month_date,company_return,rent,utilities,other_expenses,profit,retained,notes').order('month_date'),sb.from('daily_sales').select('store_id,sales_date,amount').order('sales_date'),sb.from('v_reimbursements').select('store_id,expense_date,amount,category_id,note,receipt_url').order('expense_date'),sb.from('v_store_dividends').select('store_id,dividend_date,amount,note').order('dividend_date'),sb.from('v_store_topups').select('store_id,topup_date,amount,note').order('topup_date')]);for(const x of [ma,ds,re,di,tu])if(x.error)throw x.error;return {monthly:ma.data||[],daily:ds.data||[],reimbursements:re.data||[],dividends:di.data||[],topups:tu.data||[]}}
+function compactPartnerExpenseSummary(re,mode){
+ const byMonth={};(re||[]).forEach(x=>{const ym=String(x.expense_date||'').slice(0,7);if(!ym)return;byMonth[ym]=(byMonth[ym]||0)+n(x.amount)});
+ const keys=Object.keys(byMonth).sort((a,b)=>b.localeCompare(a));
+ if(mode==='month')return '';
+ return keys.length?`<details style="margin-top:12px"><summary><b>报销明细（按月份）</b></summary><div style="margin-top:8px">${keys.map(k=>`<div class="row"><div>${esc(k)}</div><div>${money(byMonth[k])}</div><div></div><div></div></div>`).join('')}</div></details>`:'';
+}
 async function showPartnerStoreDetail(storeId){const st=stores.find(x=>Number(x.id)===Number(storeId));if(!st)return;const {data:p}=await sb.from('partner_permissions').select('*').eq('user_id',me.id).eq('store_id',storeId).maybeSingle();const all=await fetchPartnerData();const [start,end]=partnerBounds(st);const ma=all.monthly.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.month_date,start,end));const ds=all.daily.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.sales_date,start,end));const re=all.reimbursements.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.expense_date,start,end));const di=all.dividends.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.dividend_date,start,end));const share=(await sb.from('store_members').select('share_percent').eq('user_id',me.id).eq('store_id',storeId).maybeSingle()).data?.share_percent||0;const tu=all.topups.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.topup_date,start,end));const divTotal=di.reduce((a,x)=>a+n(x.amount),0);const topTotal=tu.reduce((a,x)=>a+n(x.amount),0);const parts=[];if(p?.view_turnover!==false)parts.push(`<div><b>营业额</b><div>${money(ds.reduce((a,x)=>a+n(x.amount),0))}</div></div>`);if(p?.view_company_return!==false)parts.push(`<div><b>公司回款</b><div>${money(ma.reduce((a,x)=>a+n(x.company_return),0))}</div></div>`);if(p?.view_rent!==false)parts.push(`<div><b>房租</b><div>${money(ma.reduce((a,x)=>a+n(x.rent),0))}</div></div>`);if(p?.view_utilities!==false)parts.push(`<div><b>水电费</b><div>${money(ma.reduce((a,x)=>a+n(x.utilities),0))}</div></div>`);if(p?.view_expenses!==false)parts.push(`<div><b>其他费用+报销</b><div>${money(ma.reduce((a,x)=>a+n(x.other_expenses),0)+re.reduce((a,x)=>a+n(x.amount),0))}</div></div>`);const profit=ma.reduce((a,x)=>a+n(x.company_return)-n(x.rent)-n(x.utilities)-n(x.other_expenses),0)-re.reduce((a,x)=>a+n(x.amount),0);if(p?.view_profit!==false)parts.push(`<div><b>盈利</b><div class="${profit>=0?'positive':'negative'}">${money(profit)}</div></div>`);if(p?.view_dividends!==false)parts.push(`<div><b>本期间我应得分红</b><div class="positive">${money(divTotal*n(share)/100)}</div></div>`);if(p?.view_initial_investment!==false)parts.push(`<div><b>初始投入</b><div>${money(st.initial_investment)}</div></div>`);if(p?.view_contributions!==false)parts.push(`<div><b>期间补款</b><div>${money(topTotal)}</div></div>`);if(p?.view_payback!==false)parts.push(`<div><b>剩余未回本</b><div class="${n(st.initial_investment)+topTotal-divTotal>=0?'positive':'negative'}">${money(n(st.initial_investment)+topTotal-divTotal)}</div></div>`);if(p?.view_contracts!==false)parts.push(`<div><b>门店资料</b><div>${esc(st.address||'已授权查看')}</div></div>`);let extra='';if(p?.view_history!==false){extra+=`<h3>期间账务</h3>${ma.map(x=>`<div class="row"><div>${esc(String(x.month_date).slice(0,7))}</div><div>回款 ${money(x.company_return)}</div><div>房租 ${money(x.rent)}</div><div>水电 ${money(x.utilities)}</div><div class="wide">其他 ${money(x.other_expenses)} · ${x.notes?esc(x.notes):''}</div></div>`).join('')||'<div class="muted">暂无月度账务</div>'} `}if(p?.view_expenses!==false){extra+=`<h3>报销明细</h3>${re.map(x=>`<div class="row"><div>${esc(x.expense_date)}</div><div>${money(x.amount)}</div><div class="wide">${esc(x.note||'')} ${x.receipt_url&&p?.view_receipts!==false?`· <a target="_blank" href="${esc(x.receipt_url)}">查看凭证</a>`:''}</div></div>`).join('')||'<div class="muted">暂无报销</div>'}`}if(p?.view_dividends!==false){extra+=`<h3>分红明细</h3>${di.map(x=>`<div class="row"><div>${esc(x.dividend_date)}</div><div>总分红 ${money(x.amount)}</div><div class="positive">我应得 ${money(n(x.amount)*n(share)/100)}</div></div>`).join('')||'<div class="muted">暂无分红记录</div>'}`};modal(`${st.name} · 数据详情`,`<div class="muted">我的股份：${n(share)}% · ${partnerPeriodMode==='month'?'本月':partnerPeriodMode==='year'?'本年度':partnerPeriodMode==='range'?'所选范围':'开业至今'}</div><div class="grid" style="margin-top:12px">${parts.join('')}</div>${extra}`)}
 
 async function showSalesCalendar(storeId,initialMonth){
@@ -176,7 +198,21 @@ async function showStaffCalendar(){
 function toggleStaffCalendar(){staffCalendarCollapsed=!staffCalendarCollapsed;showStaffCalendar()}
 async function editDailySale(date,current){if(String(date).slice(0,7)!==monthNow()){const {data:sr}=await sb.from('store_staff').select('can_edit_history').eq('store_id',staffStore.id).eq('user_id',me.id).maybeSingle();if(sr?.can_edit_history!==true){alert('历史月份不能由员工修改，请到老板后台授权后再修改。');return}}const v=prompt(`${date} 营业额（元）`,current==null?'':String(current));if(v===null)return;const amount=Number(String(v).trim());if(!Number.isFinite(amount)||amount<0){alert('请输入大于等于0的营业额');return}const {error}=await sb.from('daily_sales').upsert({store_id:staffStore.id,sales_date:date,amount},{onConflict:'store_id,sales_date'});if(error){alert('保存失败：'+error.message);return}await showStaffCalendar()}
 function subscribeStaffRealtime(){if(staffRealtime||!sb||!staffStore)return;staffRealtime=sb.channel('daily-sales-'+staffStore.id).on('postgres_changes',{event:'*',schema:'public',table:'daily_sales',filter:'store_id=eq.'+staffStore.id},()=>showStaffCalendar()).subscribe()}
-async function showStaffManagement(storeId){try{const {data,error}=await sb.from('store_staff').select('user_id,can_edit_history').eq('store_id',storeId).maybeSingle();if(error)throw error;const store=stores.find(s=>s.id===Number(storeId));if(data){const canEdit=data.can_edit_history===true;const {data:p}=await sb.from('profiles').select('name,username,enabled').eq('id',data.user_id).maybeSingle();modal('门店员工账号',`<div class="card"><b>${esc(store?.name||'')}</b><br>账号：${esc(p?.username||'')}<br>状态：${p?.enabled===false?'已停用':'正常'}<br>历史月份修改：<b>${canEdit?'已授权':'未授权'}</b></div><div class="actions"><button onclick="resetStaff('${data.user_id}')">重置密码</button><button class="secondary" onclick="toggleStaff('${data.user_id}',${p?.enabled!==false})">${p?.enabled===false?'恢复登录':'禁止登录'}</button><button class="secondary" onclick="setStaffHistoryPermission('${data.user_id}',${storeId},${canEdit})">${canEdit?'取消历史修改权限':'授权修改非当月业绩'}</button><button class="danger" onclick="deleteStaff('${data.user_id}')">删除账号</button></div>`);return}modal('创建门店员工账号',`<div class="grid"><div><label>员工名称</label><input id="st_name" value="${esc(store?.name||'')}员工"></div><div><label>登录账号</label><input id="st_email" type="text" placeholder="例如：店员01、厦门一店"></div><div><label>初始密码</label><input id="st_pwd" type="text" minlength="6"></div></div><p class="muted">每家店只能有一个员工账号。员工只能进入员工入口，看本店当月每日业绩。</p><button onclick="saveStaff(${storeId})">创建账号</button>`)}catch(e){alert('读取员工账号失败：'+e.message)}}
+async function showStaffManagement(storeId){
+ try{
+  const {data,error}=await sb.from('store_staff').select('user_id,can_edit_history').eq('store_id',storeId).maybeSingle();
+  if(error)throw error;
+  const store=stores.find(s=>s.id===Number(storeId)),site=location.href.split('#')[0]+'#staff';
+  if(data){
+   const canEdit=data.can_edit_history===true;
+   const {data:p}=await sb.from('profiles').select('name,username,enabled').eq('id',data.user_id).maybeSingle();
+   modal('门店员工账号',`<div class="card"><b>${esc(store?.name||'')}</b><br>姓名：${esc(p?.name||'')}<br>登录账号：${esc(p?.username||'')}<br>员工登录网站：<span style="word-break:break-all">${esc(site)}</span><br>状态：${p?.enabled===false?'已停用':'正常'}<br>历史月份修改：<b>${canEdit?'已授权':'未授权'}</b></div>
+   <div class="actions"><button onclick="resetStaff('${data.user_id}')">重置该员工密码</button><button class="secondary" onclick="toggleStaff('${data.user_id}',${p?.enabled!==false})">${p?.enabled===false?'恢复登录':'禁止登录'}</button><button class="secondary" onclick="setStaffHistoryPermission('${data.user_id}',${storeId},${canEdit})">${canEdit?'取消历史修改权限':'授权修改非当月业绩'}</button><button class="danger" onclick="deleteStaff('${data.user_id}')">删除账号</button></div>`);
+   return;
+  }
+  modal('创建门店员工账号',`<div class="grid"><div><label>员工名称</label><input id="st_name" value="${esc(store?.name||'')}员工"></div><div><label>登录账号</label><input id="st_email" type="text" placeholder="例如：店员01、厦门一店"></div><div><label>初始密码</label><input id="st_pwd" type="text" minlength="6"></div></div><p class="muted">每家店只能有一个员工账号。员工只进入员工入口，看本店每日业绩。</p><button onclick="saveStaff(${storeId})">创建账号</button>`);
+ }catch(e){alert('读取员工账号失败：'+e.message)}
+}
 async function saveStaff(storeId){const name=$('st_name').value.trim(),account=$('st_email').value.trim(),password=$('st_pwd').value;if(!name||!account||password.length<6){alert('请填写完整，密码至少6位');return}try{const d=await partnerAction({action:'create_staff',store_id:storeId,name,account,password});const url=location.href.split('#')[0]+'#staff';modal('员工账号已创建',`<div class="card">门店：${esc(d.store_name)}<br>账号：${esc(d.account)}<br>密码：${esc(password)}<br>员工入口：${esc(url)}</div><button onclick="copyText(${JSON.stringify(d.account+'\n'+password+'\n'+url)})">一键复制账号＋密码＋员工入口</button><button class="secondary" onclick="closeModal();showStoresAdmin()">完成</button>`)}catch(e){alert('创建失败：'+(e.message||e))}}
 async function setStaffHistoryPermission(uid,storeId,current){
  try{
@@ -272,7 +308,35 @@ async function saveReimbursement(){const name=$('r_cat_text').value.trim();if(!n
 async function showPayback(){const c=$('content');c.innerHTML='<div class="card">加载中…</div>';const results=await Promise.all(stores.map(async s=>{const [{data:d,error:de},{data:t,error:te},{data:ma,error:meErr},{data:re,error:reErr}]=await Promise.all([sb.from('v_store_dividends').select('dividend_date,amount,note').eq('store_id',s.id).order('dividend_date',{ascending:false}),sb.from('v_store_topups').select('topup_date,amount,note').eq('store_id',s.id).order('topup_date',{ascending:false}),sb.from('v_monthly_accounts').select('company_return,rent,utilities,other_expenses').eq('store_id',s.id),sb.from('v_reimbursements').select('amount').eq('store_id',s.id)]);if(de)throw de;if(te)throw te;if(meErr)throw meErr;if(reErr)throw reErr;return {s,d:d||[],t:t||[],ma:ma||[],re:re||[]}}));const blocks=[];for(const x of results){const s=x.s,d=x.d,t=x.t,ma=x.ma,re=x.re||[];const top=(t||[]).reduce((a,x)=>a+n(x.amount),0),div=(d||[]).reduce((a,x)=>a+n(x.amount),0),remain=n(s.initial_investment)+top-div;const retained=(ma||[]).reduce((a,r)=>a+n(r.company_return)-n(r.rent)-n(r.utilities)-n(r.other_expenses),0)-(re||[]).reduce((a,r)=>a+n(r.amount),0)-div;blocks.push(`<div class="card"><h2>${esc(s.name)}</h2><div class="stats"><div class="stat">初始投入<div class="num">${money(s.initial_investment)}</div></div><div class="stat">累计补款<div class="num">${money(top)}</div></div><div class="stat">累积分红<div class="num">${money(div)}</div></div><div class="stat">剩余未回本<div class="num ${remain>=0?'positive':'negative'}">${money(remain)}</div></div><div class="stat">累计留存<div class="num ${retained>=0?'positive':'negative'}">${money(retained)}</div></div></div><h3>分红明细</h3>${(d||[]).map(x=>`<div class="row"><div>${esc(x.dividend_date)}</div><div>${money(x.amount)}</div><div>${esc(x.note||'')}</div></div>`).join('')||'<div class="muted">暂无分红</div>'}<div class="actions" style="margin-top:10px"><button onclick="addDividend(${s.id})">录入分红</button><button class="secondary" onclick="addTopup(${s.id})">录入补款</button></div></div>`)}c.innerHTML=blocks.join('')||'<div class="card">暂无门店</div>'}
 async function addDividend(storeId){modal('录入分红',`<div class="grid"><div><label>日期</label><input id="d_date" type="date" value="${today()}"></div><div><label>总分红金额</label><input id="d_amt" type="number" step="0.01"></div></div><br><label>备注</label><textarea id="d_note"></textarea><br><button onclick="saveDividend(${storeId})">保存</button>`)}async function saveDividend(storeId){const {error}=await sb.from('store_dividends').insert({store_id:storeId,dividend_date:$('d_date').value,amount:n($('d_amt').value),note:$('d_note').value});if(error){alert(error.message);return}closeModal();showPayback()}
 async function addTopup(storeId){modal('录入补款',`<div class="grid"><div><label>日期</label><input id="t_date" type="date" value="${today()}"></div><div><label>总补款金额</label><input id="t_amt" type="number" step="0.01"></div></div><br><label>备注</label><textarea id="t_note"></textarea><br><button onclick="saveTopup(${storeId})">保存</button>`)}async function saveTopup(storeId){const {error}=await sb.from('store_topups').insert({store_id:storeId,topup_date:$('t_date').value,amount:n($('t_amt').value),note:$('t_note').value});if(error){alert(error.message);return}closeModal();showPayback()}
-async function showPartners(){await load(false);const [pr,mr]=await Promise.all([sb.from('profiles').select('id,name,role,enabled,username,created_at').eq('role','partner').order('created_at'),sb.from('store_members').select('user_id,store_id,share_percent')]);if(pr.error){$('content').innerHTML='<div class="card error">'+esc(pr.error.message)+'</div>';return}if(mr.error){$('content').innerHTML='<div class="card error">'+esc(mr.error.message)+'</div>';return}const byUser={};for(const m of mr.data||[])(byUser[m.user_id]??=[]).push(m);const rows=(pr.data||[]).map(p=>{const m=(byUser[p.id]||[]).filter(x=>n(x.share_percent)>0);return `<div class="card"><div class="actions" style="justify-content:space-between"><div><h3 style="margin:0">${esc(p.name)}</h3><div class="muted">${esc(p.username||'')}</div></div><span class="pill">${p.enabled===false?'已禁止登录':'正常'}</span></div><div style="margin-top:10px">${m.map(x=>`${esc(stores.find(s=>s.id===x.store_id)?.name||'')}：${n(x.share_percent)}%`).join('　')||'<span class="muted">尚未设置股份</span>'}</div><div class="actions" style="margin-top:10px"><button onclick="setShares('${p.id}')">设置股份</button><button class="secondary" onclick="setPermissions('${p.id}')">权限设置</button><button class="secondary" onclick="resetPwd('${p.id}')">重置此股东密码</button><button class="secondary" onclick="togglePartner('${p.id}',${p.enabled!==false})">${p.enabled===false?'恢复登录':'禁止登录'}</button><button class="danger" onclick="deletePartner('${p.id}')">删除股东</button></div></div>`}).join('');$('content').innerHTML=`<div class="card"><div class="actions" style="justify-content:space-between"><h2>股东管理</h2><button onclick="createPartner()">新增股东</button></div><p class="muted">创建账号后可设置每个门店股份及查看权限。</p></div>${rows||'<div class="card">暂无股东</div>'}`}
+async function showPartners(){
+ await load(false);
+ const [pr,mr]=await Promise.all([
+  sb.from('profiles').select('id,name,role,enabled,username,created_at').eq('role','partner').order('created_at'),
+  sb.from('store_members').select('user_id,store_id,share_percent')
+ ]);
+ if(pr.error){$('content').innerHTML='<div class="card error">'+esc(pr.error.message)+'</div>';return}
+ if(mr.error){$('content').innerHTML='<div class="card error">'+esc(mr.error.message)+'</div>';return}
+ const byUser={};for(const m of mr.data||[])(byUser[m.user_id]??=[]).push(m);
+ const site=location.href.split('#')[0];
+ const rows=(pr.data||[]).map(p=>{
+  const m=(byUser[p.id]||[]).filter(x=>n(x.share_percent)>0);
+  const storesText=m.map(x=>`${esc(stores.find(s=>s.id===x.store_id)?.name||'')}：${n(x.share_percent)}%`).join('　')||'<span class="muted">尚未设置股份</span>';
+  return `<div class="card">
+   <div class="actions" style="justify-content:space-between;align-items:flex-start">
+    <div><h3 style="margin:0">${esc(p.name)}</h3><div class="muted">登录账号：${esc(p.username||'')}</div><div class="muted" style="word-break:break-all">登录网站：${esc(site)}</div></div>
+    <span class="pill">${p.enabled===false?'已禁止登录':'正常'}</span>
+   </div>
+   <div style="margin-top:10px"><b>参与门店</b><div style="margin-top:5px">${storesText}</div></div>
+   <div class="actions" style="margin-top:10px">
+    <button onclick="setShares('${p.id}')">设置股份</button><button class="secondary" onclick="setPermissions('${p.id}')">权限设置</button>
+    <button class="secondary" onclick="resetPwd('${p.id}')">重置该股东密码</button>
+    <button class="secondary" onclick="togglePartner('${p.id}',${p.enabled!==false})">${p.enabled===false?'恢复登录':'禁止登录'}</button>
+    <button class="danger" onclick="deletePartner('${p.id}')">删除股东</button>
+   </div>
+  </div>`;
+ }).join('');
+ $('content').innerHTML=`<div class="card"><div class="actions" style="justify-content:space-between"><h2>股东管理</h2><button onclick="createPartner()">新增股东</button></div><p class="muted">股东只能看到自己参与且获授权的门店。这里显示账号和登录网站，老板需要发送时可复制。</p></div>${rows||'<div class="card">暂无股东</div>'}`;
+}
 async function partnerAction(body){const {data,error}=await sb.functions.invoke('partner-admin',{body});if(error)throw error;if(!data?.ok)throw Error(data?.message||'操作失败');return data}
 async function createPartner(){modal('新增股东',`<div class="grid"><div><label>姓名</label><input id="p_name"></div><div><label>登录账号</label><input id="p_email" type="text" placeholder="例如：小王、张三01"></div><div><label>初始密码</label><input id="p_pwd" type="text" minlength="6"></div></div><br><div class="notice">创建成功后这里会显示账号、密码和公开网址，可一键复制。密码不会再次从系统读取。</div><br><button onclick="savePartner()">创建账号</button>`)}
 async function savePartner(){
@@ -376,7 +440,7 @@ async function setShares(uid){const {data:m,error}=await sb.from('store_members'
   closeModal();await showPartners();
  }catch(e){alert('保存股份失败：'+(e.message||e))}
 }
-async function togglePartner(uid,current){try{await partnerAction({action:'set_enabled',user_id:uid,enabled:!current});showPartners()}catch(e){alert(e.message||e)}}async function resetPwd(uid){const who=await sb.from('profiles').select('name,username').eq('id',uid).maybeSingle();const label=who.data?.name||who.data?.username||'该股东';const p=prompt('正在重置【'+label+'】的登录密码。\n请输入新密码（至少6位）：');if(!p)return;if(p.length<6){alert('密码至少6位');return}try{await partnerAction({action:'reset_password',user_id:uid,password:p});const url=location.href;await copyText(p);alert('密码已重置。账号登录网址：'+url)}catch(e){alert(e.message||e)}}async function deletePartner(uid){if(!confirm('确定删除该股东账号？股份和权限也会删除。'))return;try{await partnerAction({action:'delete',user_id:uid});showPartners()}catch(e){alert(e.message||e)}}
+async function togglePartner(uid,current){try{await partnerAction({action:'set_enabled',user_id:uid,enabled:!current});showPartners()}catch(e){alert(e.message||e)}}async function resetPwd(uid){const who=await sb.from('profiles').select('name,username').eq('id',uid).maybeSingle();const label=who.data?.name||who.data?.username||'该股东';const p=prompt('正在重置【'+label+'】的登录密码。\n请输入新密码（至少6位）：');if(!p)return;if(p.length<6){alert('密码至少6位');return}try{await partnerAction({action:'reset_password',user_id:uid,password:p});const url=location.href;alert('已重置【'+label+'】的登录密码。\n\n登录账号：'+(who.data?.username||'')+'\n新密码：'+p+'\n登录网站：'+url+'\n\n请老板自行复制需要发送的内容。')}catch(e){alert(e.message||e)}}async function deletePartner(uid){if(!confirm('确定删除该股东账号？股份和权限也会删除。'))return;try{await partnerAction({action:'delete',user_id:uid});showPartners()}catch(e){alert(e.message||e)}}
 async function showStoresAdmin(){const c=$('content');c.innerHTML=`<div class="card"><div class="actions" style="justify-content:space-between"><h2>门店资料</h2><button onclick="editStore()">新增门店</button></div></div>${stores.map(s=>`<div class="card"><h3>${esc(s.name)}</h3><div class="grid"><div>开业日期<br><b>${esc(s.opening_date||'—')}</b></div><div>初始投入<br><b>${money(s.initial_investment)}</b></div><div>房租<br><b>${money(s.rent_amount)}</b></div><div>合同到期<br><b>${esc(s.contract_expiry_date||s.contract_end_date||'—')}</b></div></div><div class="actions" style="margin-top:10px"><button onclick="editStore(${s.id})">编辑</button><button class="secondary" onclick="showStaffManagement(${s.id})">员工账号</button><button class="danger" onclick="deleteStore(${s.id})">删除门店</button></div></div>`).join('')}`}
 async function deleteStore(id){if(!confirm('确定删除这个门店吗？该门店的月度账单、报销、分红、补款、股东股份、权限、员工账号和每日业绩也会一并删除。此操作不可恢复。'))return;try{await partnerAction({action:'delete_store',store_id:Number(id)});await load(true);showStoresAdmin()}catch(e){alert('删除失败：'+(e.message||e))}}
 
@@ -463,20 +527,23 @@ async function backupQuery(table){
 }
 async function shareOrDownloadBlob(filename,blob,mime,title){
  const isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
- if(isMobile && typeof navigator.share==='function'){
+ if(isMobile&&typeof navigator.share==='function'){
   try{
    const f=new File([blob],filename,{type:mime});
-   if(!navigator.canShare || navigator.canShare({files:[f]})){
-    await navigator.share({files:[f],title:title||'女装门店数据备份',text:filename});
+   if(!navigator.canShare||navigator.canShare({files:[f]})){
+    await navigator.share({files:[f],title:title||'女装门店数据备份',text:'请选择“存储到文件”保存'});
     return 'shared';
    }
-  }catch(e){if(e?.name==='AbortError')return 'cancelled';}
+  }catch(e){if(e?.name==='AbortError')return 'cancelled';console.warn('系统分享失败',e)}
  }
  const url=URL.createObjectURL(blob);
- const a=document.createElement('a');a.href=url;a.download=filename;a.rel='noopener';a.target='_blank';document.body.appendChild(a);
- try{a.click()}catch(e){}
- a.remove();
- if(isMobile){setTimeout(()=>{try{window.open(url,'_blank')}catch(e){}},350)}
+ if(isMobile){
+  const w=window.open(url,'_blank');
+  if(!w)location.href=url;
+  setTimeout(()=>URL.revokeObjectURL(url),120000);
+  return 'open';
+ }
+ const a=document.createElement('a');a.href=url;a.download=filename;a.rel='noopener';document.body.appendChild(a);a.click();a.remove();
  setTimeout(()=>URL.revokeObjectURL(url),60000);
  return 'downloaded';
 }
@@ -578,17 +645,19 @@ async function buildFullBackup(){
     note:'这是系统全量业务数据备份。包含各门店开业至今的每日营业额、月度账务、公司回款、房租、水电、其他费用、报销、分红、补款、股份、权限、门店资料等。登录密码不会被导出；凭证图片若以URL保存，则备份其URL/路径。'
   };
 }
-async function downloadFullBackup(){
-  const btn=document.querySelector('[data-full-backup]');
-  if(btn)btn.disabled=true;
+function downloadFullBackup(){
   try{
-    const backup=window.__preparedFullBackup || await buildFullBackup();
-    window.__preparedFullBackup=null;
+    const backup=window.__preparedFullBackup;
+    if(!backup){alert(window.__backupPreparing?'备份正在准备，请等“备份已准备好”后再点保存。':('备份数据准备失败：'+(window.__backupError||'请重新进入备份中心')));return}
     const stamp=new Date().toISOString().slice(0,19).replace(/[:T]/g,'-');
-    const r=await downloadJson('女装门店_全量数据备份_'+stamp+'.json',backup);
-    alert(r.method==='share'?'备份已进入系统分享，请选择“存储到文件”。':r.method==='open'?'备份已在新页面打开，请点分享按钮→存储到文件。':'备份文件已生成，请到浏览器下载位置或“文件”中查看。');
+    const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json;charset=utf-8'});
+    const f=new File([blob],'女装门店_全量数据备份_'+stamp+'.json',{type:'application/json'});
+    if(/iPhone|iPad|iPod/i.test(navigator.userAgent)&&navigator.share){
+      const can=!navigator.canShare||navigator.canShare({files:[f]});
+      if(can){navigator.share({files:[f],title:'女装门店全量数据备份'}).then(()=>{}).catch(e=>{if(e?.name!=='AbortError')alert('手机分享失败，请点击“打开 JSON 备份”后再保存。')});return}
+    }
+    const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=f.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
   }catch(e){alert('备份失败：'+(e.message||e))}
-  finally{if(btn)btn.disabled=false}
 }
 async function downloadFullExcel(){
  const btn=document.querySelector('[data-full-excel]');
@@ -611,7 +680,7 @@ async function downloadSingleStoreBackup(storeId){
     const safe=String(b.store.name||'门店').replace(/[\\/:*?"<>|]/g,'_');
     const stamp=new Date().toISOString().slice(0,19).replace(/[:T]/g,'-');
     const r=await downloadJson(safe+'_开业至今备份_'+stamp+'.json',b);
-    alert(r.method==='share'?'备份已进入系统分享，请选择“存储到文件”。':r.method==='open'?'备份已在新页面打开，请点分享按钮→存储到文件。':'备份文件已生成，请到浏览器下载位置或“文件”中查看。');
+    alert(r==='shared'?'备份已进入系统分享，请选择“存储到文件”。':r==='open'?'备份已在新页面打开，请点分享按钮→存储到文件。':'备份文件已生成，请到浏览器下载位置或“文件”中查看。');
   }catch(e){alert('单店备份失败：'+(e.message||e))}
 }
 async function downloadSingleStoreExcel(storeId){
@@ -627,14 +696,9 @@ async function downloadSingleStoreExcel(storeId){
  }catch(e){alert('单店Excel备份失败：'+(e.message||e))}
 }
 async function prepareBackupData(){
-  try{
-    window.__preparedFullBackup=await buildFullBackup();
-    const btn=document.querySelector('[data-full-backup]');
-    if(btn)btn.disabled=false;
-  }catch(e){
-    window.__preparedFullBackup=null;
-    console.warn('备份预读取失败',e);
-  }
+  window.__backupPreparing=true;window.__backupError='';
+  try{window.__preparedFullBackup=await buildFullBackup();window.__backupPreparedAt=Date.now();window.__backupPreparing=false;return true}
+  catch(e){window.__preparedFullBackup=null;window.__backupPreparing=false;window.__backupError=e?.message||String(e);console.warn('备份预读取失败',e);return false}
 }
 async function showBackup(){
   const c=$('content');
@@ -642,35 +706,41 @@ async function showBackup(){
     await load(false);
     c.innerHTML=`<div class="card">
       <h2>数据备份</h2>
-      <p>建议定期备份。手机端会优先调用系统分享，请选择“存储到文件”保存；电脑端则直接下载。</p>
-      <div class="notice"><b>推荐：</b>全量备份会把所有门店开业至今的业务数据打包成一个 JSON 文件，适合长期保存和以后恢复/迁移。</div>
-      <div class="actions" style="margin-top:12px">
-        <button data-full-backup onclick="downloadFullBackup()">下载全部门店 · JSON备份</button>
-        <button class="secondary" data-full-excel onclick="downloadFullExcel()">下载全部门店 · Excel版</button>
+      <p>手机端：先准备完整备份数据，准备完成后点击“保存 JSON 备份”，直接进入系统分享 → 存储到文件。</p>
+      <div class="notice"><b>手机操作：</b>点击“保存 JSON 备份” → 弹出系统分享 → 选择“存储到文件”。</div>
+      <div class="actions" style="margin-top:12px;flex-wrap:wrap">
+        <button data-full-backup onclick="downloadFullBackup()">保存 JSON 备份</button><span id="backupStatus" class="muted">正在准备备份…</span>
+        <button class="secondary" data-full-excel onclick="downloadFullExcel()">保存 Excel 备份</button>
       </div>
-      <div class="notice" style="margin-top:10px"><b>建议：</b>JSON 是完整原始备份；Excel版用于你自己打开核对数据。两种都建议保存。</div>
-      <p class="muted" style="margin-top:10px">文件格式：JSON。包含每日营业额、月度账务、公司回款、房租、水电、费用、报销、分红、补款、股份、权限、门店资料等。iPhone 优先弹出系统分享；没有分享能力时会在新页面打开备份文件，再用“分享→存储到文件”保存。密码不会导出；报销凭证如果是图片URL，则保存URL/路径。</p>
+      <div class="actions" style="margin-top:8px"><button class="secondary" onclick="openFullBackupFile()">手机备用：打开 JSON 备份文件</button></div>
+      <p class="muted" style="margin-top:10px">JSON 为完整原始业务备份；密码不会导出；凭证如保存为URL，则备份URL/路径。</p>
     </div>
-    <div class="card">
-      <h3 style="margin-top:0">按门店备份</h3>
-      ${stores.map(st=>`<div class="actions" style="justify-content:space-between;margin:8px 0"><b>${esc(st.name)}</b><button class="secondary" onclick="downloadSingleStoreBackup(${st.id})">JSON</button><button class="secondary" onclick="downloadSingleStoreExcel(${st.id})">Excel</button></div>`).join('')}
-    </div>
-    <div class="card">
-      <h3 style="margin-top:0">备份建议</h3>
-      <ul>
-        <li>每月结账后下载一次全量备份。</li>
-        <li>重要门店可以单独再下载一份。</li>
-        <li>至少保存两份：手机/电脑一份，网盘或U盘一份。</li>
-        <li>不要把备份文件公开上传到 GitHub 等公开网站。</li>
-      </ul>
+    <div class="card"><h3 style="margin-top:0">按门店备份</h3>
+      ${stores.map(st=>`<div class="actions" style="justify-content:space-between;margin:8px 0;flex-wrap:wrap"><b>${esc(st.name)}</b><span class="actions"><button class="secondary" onclick="downloadSingleStoreBackup(${st.id})">JSON</button><button class="secondary" onclick="downloadSingleStoreExcel(${st.id})">Excel</button></span></div>`).join('')}
     </div>`;
-    const fullBtn=document.querySelector('[data-full-backup]');
-    if(fullBtn)fullBtn.disabled=true;
-    await prepareBackupData();
+    prepareBackupData().then(ok=>{const el=$('backupStatus');if(el)el.textContent=ok?'备份已准备好，可以保存':'备份准备失败，请重新进入';});
   }catch(e){c.innerHTML='<div class="card"><p class="error">读取备份页面失败：'+esc(e.message)+'</p></div>'}
 }
-
-function showAccount(){const c=$('content');c.innerHTML=`<div class="card"><h2>账号设置</h2><div class="grid"><div><div class="muted">姓名</div><b>${esc(profile?.name||'')}</b></div><div><div class="muted">登录账号</div><b>${esc(profile?.username||me?.email||'')}</b></div><div><div class="muted">公开网址</div><div style="word-break:break-all">${esc(location.href)}</div></div></div><div class="actions" style="margin-top:14px"><button onclick="copyText(${JSON.stringify((profile?.username||me?.email||'')+'\n'+location.href)})">复制账号＋网址</button></div><p class="muted">安全说明：系统不会读取或保存当前密码。股东密码只能在创建或重置时显示。</p></div>`}
+async function openFullBackupFile(){
+  try{
+    const backup=window.__preparedFullBackup||await buildFullBackup();
+    const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const w=window.open(url,'_blank');
+    if(!w)location.href=url;
+    setTimeout(()=>URL.revokeObjectURL(url),120000);
+  }catch(e){alert('打开备份失败：'+(e.message||e))}
+}
+function showAccount(){
+ const c=$('content'),u=profile?.username||me?.email||'',site=location.href,isOwner=profile?.role==='owner';
+ c.innerHTML=`<div class="card"><h2>账号设置</h2><div class="grid">
+ <div><div class="muted">登录账号</div><b>${esc(u)}</b></div>
+ <div><div class="muted">登录网站</div><div style="word-break:break-all">${esc(site)}</div></div>
+ ${profile?.name?`<div><div class="muted">姓名</div><b>${esc(profile.name)}</b></div>`:''}
+ </div>
+ ${isOwner?`<div class="actions" style="margin-top:14px"><button onclick="copyText(${JSON.stringify(u+'\\n'+site)})">复制账号＋网址</button></div>`:''}
+ <p class="muted" style="margin-top:12px">${isOwner?'老板可复制账号＋网址发送给员工或股东。':'这里只显示你的登录账号和登录网站，不设置复制按钮。'}</p></div>`;
+}
 function bindLoginEvents(){
  const loginBtn=$('loginBtn'),loginPass=$('loginPass'),staffBtn=$('staffEntryBtn');
  if(loginBtn)loginBtn.addEventListener('click',login);
