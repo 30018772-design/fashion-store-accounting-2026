@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>女装门店·女韩子 V1.50</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>女装门店·女韩子 V1.51</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
 :root{--bg:#f6f0e9;--card:#fffdfb;--text:#2b211c;--muted:#8b7b70;--line:#eadfd5;--dark:#5a3827;--dark2:#7a4b31;--accent:#b77a4c;--accent2:#d7aa7f;--soft:#f4e8dd;--blush:#f5e2df;--sage:#e7eee5;--gold:#c79a5a;--red:#b43b32;--green:#2d7b55}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0%,#fffaf5 0,#f6f0e9 42%,#efe6dd 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif;min-height:100vh}body:before{content:"";display:block;height:4px;background:linear-gradient(90deg,var(--accent2),var(--gold),var(--dark2),var(--accent2))}header{position:sticky;top:0;z-index:10;background:rgba(255,250,245,.94);backdrop-filter:blur(14px);color:var(--dark);padding:13px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px #5a38270d}header b{letter-spacing:1px;font-weight:750}.wrap{max-width:1100px;margin:auto;padding:18px}.card{background:rgba(255,253,251,.96);border:1px solid rgba(234,223,213,.9);border-radius:20px;padding:18px;margin-bottom:15px;box-shadow:0 8px 28px #5a382710}.card h2,.card h3{color:var(--dark)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{background:linear-gradient(145deg,#fffaf6,#f6ede5);border:1px solid #eee1d7;border-radius:15px;padding:14px}.stats .stat:first-child{background:linear-gradient(145deg,#fff5f2,#f6e2df)}.stats .stat:nth-child(2){background:linear-gradient(145deg,#fff9ed,#f4ead9)}.stats .stat:nth-child(3){background:linear-gradient(145deg,#f9f1e8,#eee2d7)}.num{font-size:22px;font-weight:800;margin-top:5px;letter-spacing:.2px}.muted{color:var(--muted);font-size:13px}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:12px 13px;border:1px solid #dfd1c6;border-radius:12px;background:#fffdfa;color:var(--text);outline:none;transition:.18s}input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #b77a4c1c}textarea{min-height:80px;resize:vertical}button{border:0;border-radius:12px;padding:10px 14px;background:linear-gradient(135deg,var(--dark2),var(--dark));color:#fff;cursor:pointer;box-shadow:0 3px 10px #5a38271a;transition:transform .15s,box-shadow .15s,opacity .15s}button:hover{transform:translateY(-1px);box-shadow:0 5px 14px #5a382725}button:disabled{opacity:.55;transform:none}.secondary{background:#f0e7df;color:var(--dark);box-shadow:none}.secondary:hover{background:#e9ddd2}.danger{background:#a83228}.green{background:var(--green)}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .buttonLike{background:var(--accent,#111);color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}.tabs{display:flex;gap:8px;overflow:auto;margin:10px 0 14px;padding-bottom:2px}.tabs button{white-space:nowrap;background:#eee4db;color:var(--dark);box-shadow:none}.tabs .active{background:linear-gradient(135deg,var(--dark2),var(--dark));color:#fff;box-shadow:0 4px 12px #5a382728}.row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.hidden{display:none!important}.login{max-width:440px;margin:55px auto}.login.card{padding:24px}.login h2{font-size:28px;margin-bottom:6px}.error{color:var(--red)}.success{color:var(--green)}.positive{color:var(--red);font-weight:800}.negative{color:var(--green);font-weight:800}.notice{padding:12px;border-radius:12px;background:#fff7df;border:1px solid #efdfad;color:#765900;font-size:13px}.modal{position:fixed;inset:0;background:#2b211c80;z-index:30;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}.modalbox{background:#fffdfb;width:min(760px,100%);max-height:92vh;overflow:auto;border:1px solid var(--line);border-radius:22px 22px 0 0;padding:20px;box-shadow:0 -10px 40px #2b211c25}.checkgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.check{display:flex;gap:8px;align-items:center;background:#faf4ee;border:1px solid #eee0d4;padding:10px;border-radius:11px}.check input{width:auto}.small{font-size:12px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:var(--soft);color:var(--dark);font-size:12px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:12px}.calhead{font-size:12px;text-align:center;color:var(--muted);padding:5px}.calday{background:linear-gradient(145deg,#fffdfa,#f6eee7);border:1px solid #eadfd5;border-radius:12px;min-height:72px;padding:8px;cursor:pointer;transition:.15s}.calday:hover{border-color:var(--accent);transform:translateY(-1px)}.calday .d{font-size:12px;color:var(--muted)}.calday .amt{font-size:12px;font-weight:750;margin-top:10px;color:var(--dark)}.calday.today{border:2px solid var(--accent);background:#fff5ed}.calday.empty{background:transparent;border:0;cursor:default}.staffbar{display:flex;justify-content:space-between;align-items:center;gap:12px}.staffbar h2{font-size:21px}.login:before{content:"NUHUNS  ·  FASHION STORE";display:block;color:var(--accent);font-size:12px;letter-spacing:2px;font-weight:800;margin-bottom:12px}@media(max-width:650px){.wrap{padding:10px}.card{padding:14px;margin-bottom:11px;border-radius:17px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat{padding:10px;border-radius:13px}.num{font-size:18px}.muted{font-size:12px}.row{grid-template-columns:1fr 1fr}.row .wide{grid-column:1/-1}.checkgrid{grid-template-columns:1fr}.calendar{gap:4px}.calday{min-height:66px;padding:6px}.calday .amt{font-size:10px;margin-top:7px}.staffbar{align-items:flex-start}.staffbar .secondary{white-space:nowrap;padding:8px 10px}.card h2{font-size:20px}.card h3{font-size:17px}}
 footer.version{position:fixed;left:0;right:0;bottom:0;text-align:center;padding:7px 10px;background:#ffffffdd;border-top:1px solid var(--line);backdrop-filter:blur(6px);font-size:12px;color:var(--muted);z-index:20}.wrap{padding-bottom:54px}
@@ -24,15 +24,21 @@ details summary{cursor:pointer;list-style:none;padding:8px 2px}
 details summary::-webkit-details-marker{display:none}
 @media(max-width:650px){.card{padding:14px}.actions{flex-wrap:wrap}.actions>button{min-height:42px}}
 </style></head><body><header><b>女装门店，女韩子</b><span id="userLabel"></span></header>
-<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">云端账号登录</p><input id="loginAccount" placeholder="登录账号" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" style="width:100%">登录</button><button id="staffEntryBtn" class="secondary" style="width:100%;margin-top:8px" type="button">门店员工入口</button><p id="loginMsg" class="error"></p></div></div><div id="app" class="wrap hidden"></div><div id="modalRoot"></div><footer class="version">版本：V1.50</footer>
+<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">云端账号登录</p><input id="loginAccount" placeholder="登录账号" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" style="width:100%">登录</button><button id="staffEntryBtn" class="secondary" style="width:100%;margin-top:8px" type="button">门店员工入口</button><p id="loginMsg" class="error"></p></div></div><div id="app" class="wrap hidden"></div><div id="modalRoot"></div><footer class="version">版本：V1.51</footer>
 <script>
 const SUPABASE_URL='https://dqruzakkunkinecxxbny.supabase.co',SUPABASE_KEY='sb_publishable_igD9yDQ1KbazCNNUfnjk2Q_WBRY5J-6';
-let salesViewMode='month';let sb=null,me=null,profile=null,stores=[],periodMode='month',rangeStart='',rangeEnd='',expanded={},loginMode=location.hash==='#staff'?'staff':'normal',staffStore=null,staffRealtime=null,ownerRealtime=null,staffCalendarCollapsed=false,staffMonth='';
+let salesViewMode='month';let sb=null,me=null,profile=null,stores=[],periodMode='month',rangeStart='',rangeEnd='',expanded={},loginMode=location.hash==='#staff'?'staff':'normal',staffStore=null,staffRealtime=null,ownerRealtime=null,staffCalendarCollapsed=false,staffMonth='';let ownerRefreshTimer=null,ownerRefreshBusy=false;
 const $=id=>document.getElementById(id), esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])), n=v=>Number(v||0), money=v=>'¥'+n(v).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2}), today=()=>new Date().toISOString().slice(0,10), monthNow=()=>today().slice(0,7);
 function msg(t,ok=false){const e=$('loginMsg');if(e){e.textContent=t;e.className=ok?'success':'error'}}
 function init(){if(!window.supabase?.createClient){msg('系统组件加载失败，请刷新');return false}if(!sb)sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});return true}
 async function accountToAuthEmail(account){const a=String(account||'').trim();if(a.includes('@'))return a.toLowerCase();const bytes=new TextEncoder().encode(a);const hash=await crypto.subtle.digest('SHA-256',bytes);const hex=Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');return 'acct-'+hex+'@login.local'}
 async function login(){const a=$('loginAccount').value.trim(),p=$('loginPass').value;if(!a||!p){msg('请输入账号和密码');return}if(!sb&&!init())return;$('loginBtn').disabled=true;msg('正在登录…',true);try{const authEmail=await accountToAuthEmail(a);const {data,error}=await sb.auth.signInWithPassword({email:authEmail,password:p});if(error)throw error;await load(true);if(loginMode==='staff'&&profile.role!=='store_staff')throw Error('这个账号不是门店员工账号，请使用老板/股东入口');if(loginMode!=='staff'&&profile.role==='store_staff')throw Error('请点击“门店员工入口”登录');enter()}catch(e){await sb?.auth?.signOut();msg('登录失败：'+(e.message||'请检查账号和密码'))}finally{$('loginBtn').disabled=false}}
+let reimbursementSyncChannel=null;
+try{if('BroadcastChannel' in window){reimbursementSyncChannel=new BroadcastChannel('women-store-reimbursements');reimbursementSyncChannel.onmessage=()=>{if(['dashboard','monthly','reimbursements','payback','partner'].includes(window.activePage)){if(profile?.role==='owner')refreshOwnerLive();else if(profile?.role==='partner')refreshPartnerLive()}}}}catch(e){}
+window.addEventListener('storage',e=>{if(e.key==='women-store-reimbursement-change'){if(profile?.role==='owner')refreshOwnerLive();else if(profile?.role==='partner')refreshPartnerLive()}});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){if(profile?.role==='owner')refreshOwnerLive();else if(profile?.role==='partner')refreshPartnerLive()}});
+function notifyReimbursementChange(){try{localStorage.setItem('women-store-reimbursement-change',String(Date.now()));}catch(e){}try{reimbursementSyncChannel?.postMessage({t:Date.now()})}catch(e){}}
+
 async function boot(){if(!sb&&!init())return;try{const {data}=await sb.auth.getSession();if(data.session){await load();enter()}}catch(e){await sb.auth.signOut().catch(()=>{})}}
 async function logout(){await sb.auth.signOut();location.reload()}
 function enter(){$('login').classList.add('hidden');$('app').classList.remove('hidden');$('userLabel').textContent=profile?.name||me.email;renderShell()}
@@ -67,13 +73,13 @@ function renderShell(){
    <button onclick="logout()">退出</button>
   </div>`:
   `<div class="mobilebar"><button onclick="showPartnerHome()">我的门店与分红</button><button onclick="showAccount()">账号</button><button class="morebtn" onclick="logout()">退出</button></div>`;
- $('app').innerHTML=`<div class="card" style="margin-bottom:8px"><h2 style="margin:0">${title}</h2><div class="muted">${owner?'经营数据、账单、报销、分红、股东与门店管理':'查看本人参与门店、股份及分红情况'} · V1.50</div></div>${desktop}${mobile}<div id="content"></div>`;
+ $('app').innerHTML=`<div class="card" style="margin-bottom:8px"><h2 style="margin:0">${title}</h2><div class="muted">${owner?'经营数据、账单、报销、分红、股东与门店管理':'查看本人参与门店、股份及分红情况'} · V1.51</div></div>${desktop}${mobile}<div id="content"></div>`;
  owner?showDashboard():showPartnerHome();
 }
 function toggleMobileMore(){const e=$('mobileMore');if(e)e.classList.toggle('open')}
 function closeMobileMore(){const e=$('mobileMore');if(e)e.classList.remove('open')}
 function renderStaffShell(){ $('app').innerHTML=`<div class="card"><h2 style="margin:0">${esc(staffStore?.name||'门店')} · 员工录入</h2><div class="muted">只可查看和录入本店当前月份每日营业额；每月自动切换到新月份</div></div><div class="actions"><button onclick="showStaffCalendar()">每日业绩</button><button class="secondary" onclick="showAccount()">账号设置</button><button class="secondary" onclick="logout()">退出</button></div><div id="content"></div>`;showStaffCalendar()}
-async function showPartnerHome(){
+async function showPartnerHome(){window.activePage='partner';
  const c=$('content');c.innerHTML='<div class="card">正在读取我的门店数据…</div>';
  try{
   await load(true);
@@ -115,31 +121,24 @@ async function showPartnerHome(){
 }
 let partnerRealtime=null,partnerRefreshTimer=null,partnerRefreshBusy=false;
 async function refreshPartnerLive(){
- if(partnerRefreshBusy||profile?.role!=='partner'||document.hidden)return;
+ if(partnerRefreshBusy||profile?.role!=='partner')return;
  partnerRefreshBusy=true;try{await showPartnerHome()}catch(e){console.warn('股东实时刷新失败',e)}finally{partnerRefreshBusy=false}
 }
 function subscribePartnerRealtime(){
  if(!sb||profile?.role!=='partner')return;
  if(!partnerRealtime){
   partnerRealtime=sb.channel('partner-live-data')
-   .on('postgres_changes',{event:'INSERT',schema:'public',table:'daily_sales'},refreshPartnerLive)
-   .on('postgres_changes',{event:'UPDATE',schema:'public',table:'daily_sales'},refreshPartnerLive)
-   .on('postgres_changes',{event:'DELETE',schema:'public',table:'daily_sales'},refreshPartnerLive)
-   .on('postgres_changes',{event:'INSERT',schema:'public',table:'reimbursements'},refreshPartnerLive)
-   .on('postgres_changes',{event:'UPDATE',schema:'public',table:'reimbursements'},refreshPartnerLive)
-   .on('postgres_changes',{event:'DELETE',schema:'public',table:'reimbursements'},refreshPartnerLive)
-   .on('postgres_changes',{event:'INSERT',schema:'public',table:'monthly_accounts'},refreshPartnerLive)
-   .on('postgres_changes',{event:'UPDATE',schema:'public',table:'monthly_accounts'},refreshPartnerLive)
-   .on('postgres_changes',{event:'DELETE',schema:'public',table:'monthly_accounts'},refreshPartnerLive)
-   .on('postgres_changes',{event:'INSERT',schema:'public',table:'store_dividends'},refreshPartnerLive)
-   .on('postgres_changes',{event:'UPDATE',schema:'public',table:'store_dividends'},refreshPartnerLive)
-   .on('postgres_changes',{event:'DELETE',schema:'public',table:'store_dividends'},refreshPartnerLive)
-   .on('postgres_changes',{event:'INSERT',schema:'public',table:'store_topups'},refreshPartnerLive)
-   .on('postgres_changes',{event:'UPDATE',schema:'public',table:'store_topups'},refreshPartnerLive)
-   .on('postgres_changes',{event:'DELETE',schema:'public',table:'store_topups'},refreshPartnerLive)
-   .subscribe((status)=>{if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'||status==='CLOSED'){try{sb.removeChannel(partnerRealtime)}catch(e){}partnerRealtime=null}});
+   .on('postgres_changes',{event:'*',schema:'public',table:'daily_sales'},refreshPartnerLive)
+   .on('postgres_changes',{event:'*',schema:'public',table:'reimbursements'},refreshPartnerLive)
+   .on('postgres_changes',{event:'*',schema:'public',table:'monthly_accounts'},refreshPartnerLive)
+   .on('postgres_changes',{event:'*',schema:'public',table:'store_dividends'},refreshPartnerLive)
+   .on('postgres_changes',{event:'*',schema:'public',table:'store_topups'},refreshPartnerLive)
+   .subscribe((status)=>{
+    window.partnerRealtimeStatus=status;
+    if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'||status==='CLOSED'){try{sb.removeChannel(partnerRealtime)}catch(e){}partnerRealtime=null;setTimeout(()=>{if(profile?.role==='partner')subscribePartnerRealtime()},1500)}
+   });
  }
- if(!partnerRefreshTimer)partnerRefreshTimer=setInterval(()=>{if(window.activePage==='partner')refreshPartnerLive()},5000);
+ if(!partnerRefreshTimer)partnerRefreshTimer=setInterval(()=>{if(window.activePage==='partner'&&document.visibilityState==='visible')refreshPartnerLive()},5000);
 }
 let partnerPeriodMode='month',partnerRangeStart='',partnerRangeEnd='';
 function partnerBounds(st){const now=monthNow();if(partnerPeriodMode==='month')return [now+'-01',nextMonth(now)+'-01'];if(partnerPeriodMode==='year'){const opening=String(st.opening_date||'').slice(0,10);const start=opening?opening.slice(0,7)+'-01':now+'-01';return [start,nextMonth(now)+'-01']}if(partnerPeriodMode==='range'){const a=partnerRangeStart||now,b=partnerRangeEnd||now;return [a+'-01',nextMonth(b)+'-01']}return [String(st.opening_date||'0001-01-01').slice(0,10),nextMonth(now)+'-01']}
@@ -277,7 +276,7 @@ function closeModal(){
  const root=$('modalRoot');
  if(root) root.innerHTML='';
 }
-function periodBounds(store){const now=monthNow();if(periodMode==='month')return [now+'-01',nextMonth(now)+'-01'];if(periodMode==='year'){const opening=String(store.opening_date||'').slice(0,10);const start=opening?opening.slice(0,7)+'-01':now+'-01';return [start,nextMonth(now)+'-01']}if(periodMode==='range'){const a=rangeStart||now,b=rangeEnd||now;return [a+'-01',nextMonth(b)+'-01']}return [String(store.opening_date||'0001-01-01').slice(0,10),null]}
+function periodBounds(store){const now=monthNow();if(periodMode==='month')return [now+'-01',nextMonth(now)+'-01'];if(periodMode==='year'){const opening=String(store.opening_date||'').slice(0,10);const start=opening?opening.slice(0,7)+'-01':now+'-01';return [start,nextMonth(now)+'-01']}if(periodMode==='range'){const a=rangeStart||now,b=rangeEnd||now;return [a+'-01',nextMonth(b)+'-01']}return [String(store.opening_date||'0001-01-01').slice(0,10),nextMonth(now)+'-01']}
 async function fetchReimbursements(storeId=null){
  let q=sb.from('reimbursements').select('id,store_id,expense_date,amount,category_id,note,receipt_url').order('expense_date',{ascending:false});
  if(storeId!==null&&storeId!==undefined)q=q.eq('store_id',Number(storeId));
@@ -305,15 +304,14 @@ async function fetchDashboardData(){
 
 function dateKey(v){const s=String(v??'').trim();const m=s.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/);return m?m[1]+'-'+String(m[2]).padStart(2,'0')+'-'+String(m[3]).padStart(2,'0'):''}
 function inBounds(date,start,end){const d=dateKey(date),a=dateKey(start),b=dateKey(end);return !!d&&(!a||d>=a)&&(!b||d<b)}
-let ownerRefreshTimer=null,ownerRefreshBusy=false;
 async function refreshOwnerLive(){
- if(ownerRefreshBusy||profile?.role!=='owner'||document.hidden)return;
+ if(ownerRefreshBusy||profile?.role!=='owner')return;
  ownerRefreshBusy=true;
  try{
   if(window.activePage==='monthly')await showMonthly();
   else if(window.activePage==='reimbursements')await showReimbursements();
   else if(window.activePage==='payback')await showPayback();
-  else if(window.activePage==='dashboard')await showDashboard();
+  else await showDashboard();
  }catch(e){console.warn('老板实时刷新失败',e)}finally{ownerRefreshBusy=false}
 }
 function subscribeOwnerRealtime(){
@@ -326,17 +324,14 @@ function subscribeOwnerRealtime(){
    .on('postgres_changes',{event:'*',schema:'public',table:'store_dividends'},refreshOwnerLive)
    .on('postgres_changes',{event:'*',schema:'public',table:'store_topups'},refreshOwnerLive)
    .subscribe((status)=>{
-    if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'||status==='CLOSED'){
-     try{sb.removeChannel(ownerRealtime)}catch(e){} ownerRealtime=null;
-    }
+    window.ownerRealtimeStatus=status;
+    if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'||status==='CLOSED'){try{sb.removeChannel(ownerRealtime)}catch(e){}ownerRealtime=null;setTimeout(()=>{if(profile?.role==='owner')subscribeOwnerRealtime()},1500)}
    });
  }
- if(!ownerRefreshTimer)ownerRefreshTimer=setInterval(()=>{
-  if(['dashboard','monthly','reimbursements','payback'].includes(window.activePage))refreshOwnerLive();
- },5000);
+ if(!ownerRefreshTimer)ownerRefreshTimer=setInterval(()=>{if(['dashboard','monthly','reimbursements','payback'].includes(window.activePage)&&document.visibilityState==='visible')refreshOwnerLive()},5000);
 }
 
-async function showDashboard(){
+async function showDashboard(){window.activePage='dashboard';
  const c=$('content');c.innerHTML='<div class="card">正在读取云端账务…</div>';
  try{await load(false);if(!stores.length){c.innerHTML='<div class="card"><h2>暂无门店</h2></div>';return}
  const all=await fetchDashboardData(),td=today(),ym=monthNow();let allT=0,allM=0;
@@ -397,13 +392,14 @@ async function saveReimbursement(){
   const obj={store_id:storeId,expense_date:date,category_id:cat.id,amount,note:$('r_note').value.trim(),receipt_url:$('r_url').value.trim()||null};
   const {error}=await sb.from('reimbursements').insert(obj);if(error)throw error;
   closeModal();
+  notifyReimbursementChange();
   await showReimbursements();
   // owner/partner页面的实时频道会同步更新本月、本年度、月份范围、开业至今。
  }catch(e){alert('保存报销失败：'+(e.message||e))}
 }
 async function delReimbursement(id){
  if(!confirm('确定删除这笔报销？'))return;
- try{const {error}=await sb.from('reimbursements').delete().eq('id',id);if(error)throw error;await showReimbursements()}catch(e){alert('删除报销失败：'+(e.message||e))}
+ try{const {error}=await sb.from('reimbursements').delete().eq('id',id);if(error)throw error;notifyReimbursementChange();await showReimbursements()}catch(e){alert('删除报销失败：'+(e.message||e))}
 }
 async function showPayback(){window.activePage='payback';const c=$('content');c.innerHTML='<div class="card">加载中…</div>';const results=await Promise.all(stores.map(async s=>{const [{data:d,error:de},{data:t,error:te},{data:ma,error:meErr},{data:re,error:reErr}]=await Promise.all([sb.from('v_store_dividends').select('dividend_date,amount,note').eq('store_id',s.id).order('dividend_date',{ascending:false}),sb.from('v_store_topups').select('topup_date,amount,note').eq('store_id',s.id).order('topup_date',{ascending:false}),sb.from('v_monthly_accounts').select('company_return,rent,utilities,other_expenses').eq('store_id',s.id),fetchReimbursements(s.id)]);if(de)throw de;if(te)throw te;if(meErr)throw meErr;if(reErr)throw reErr;return {s,d:d||[],t:t||[],ma:ma||[],re:re||[]}}));const blocks=[];for(const x of results){const s=x.s,d=x.d,t=x.t,ma=x.ma,re=x.re||[];const top=(t||[]).reduce((a,x)=>a+n(x.amount),0),div=(d||[]).reduce((a,x)=>a+n(x.amount),0),remain=n(s.initial_investment)+top-div;const retained=(ma||[]).reduce((a,r)=>a+n(r.company_return)-n(r.rent)-n(r.utilities)-n(r.other_expenses),0)-(re||[]).reduce((a,r)=>a+n(r.amount),0)-div;blocks.push(`<div class="card"><h2>${esc(s.name)}</h2><div class="stats"><div class="stat">初始投入<div class="num">${money(s.initial_investment)}</div></div><div class="stat">累计补款<div class="num">${money(top)}</div></div><div class="stat">累积分红<div class="num">${money(div)}</div></div><div class="stat">剩余未回本<div class="num ${remain>=0?'positive':'negative'}">${money(remain)}</div></div><div class="stat">累计留存<div class="num ${retained>=0?'positive':'negative'}">${money(retained)}</div></div></div><h3>分红明细</h3>${(d||[]).map(x=>`<div class="row"><div>${esc(x.dividend_date)}</div><div>${money(x.amount)}</div><div>${esc(x.note||'')}</div></div>`).join('')||'<div class="muted">暂无分红</div>'}<div class="actions" style="margin-top:10px"><button onclick="addDividend(${s.id})">录入分红</button><button class="secondary" onclick="addTopup(${s.id})">录入补款</button></div></div>`)}c.innerHTML=blocks.join('')||'<div class="card">暂无门店</div>';subscribeOwnerRealtime()}
 async function addDividend(storeId){modal('录入分红',`<div class="grid"><div><label>日期</label><input id="d_date" type="date" value="${today()}"></div><div><label>总分红金额</label><input id="d_amt" type="number" step="0.01"></div></div><br><label>备注</label><textarea id="d_note"></textarea><br><button onclick="saveDividend(${storeId})">保存</button>`)}async function saveDividend(storeId){const {error}=await sb.from('store_dividends').insert({store_id:storeId,dividend_date:$('d_date').value,amount:n($('d_amt').value),note:$('d_note').value});if(error){alert(error.message);return}closeModal();showPayback()}
