@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>女装门店·女韩子 V1.65</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>女装门店·女韩子 V1.71</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
 :root{--bg:#f6f0e9;--card:#fffdfb;--text:#2b211c;--muted:#8b7b70;--line:#eadfd5;--dark:#5a3827;--dark2:#7a4b31;--accent:#b77a4c;--accent2:#d7aa7f;--soft:#f4e8dd;--blush:#f5e2df;--sage:#e7eee5;--gold:#c79a5a;--red:#b43b32;--green:#2d7b55}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0%,#fffaf5 0,#f6f0e9 42%,#efe6dd 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif;min-height:100vh}body:before{content:"";display:block;height:4px;background:linear-gradient(90deg,var(--accent2),var(--gold),var(--dark2),var(--accent2))}header{position:sticky;top:0;z-index:10;background:rgba(255,250,245,.94);backdrop-filter:blur(14px);color:var(--dark);padding:13px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px #5a38270d}header b{letter-spacing:1px;font-weight:750}.wrap{max-width:1100px;margin:auto;padding:18px}.card{background:rgba(255,253,251,.96);border:1px solid rgba(234,223,213,.9);border-radius:20px;padding:18px;margin-bottom:15px;box-shadow:0 8px 28px #5a382710}.card h2,.card h3{color:var(--dark)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{background:linear-gradient(145deg,#fffaf6,#f6ede5);border:1px solid #eee1d7;border-radius:15px;padding:14px}.stats .stat:first-child{background:linear-gradient(145deg,#fff5f2,#f6e2df)}.stats .stat:nth-child(2){background:linear-gradient(145deg,#fff9ed,#f4ead9)}.stats .stat:nth-child(3){background:linear-gradient(145deg,#f9f1e8,#eee2d7)}.num{font-size:22px;font-weight:800;margin-top:5px;letter-spacing:.2px}.muted{color:var(--muted);font-size:13px}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:12px 13px;border:1px solid #dfd1c6;border-radius:12px;background:#fffdfa;color:var(--text);outline:none;transition:.18s}input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #b77a4c1c}textarea{min-height:80px;resize:vertical}button{border:0;border-radius:12px;padding:10px 14px;background:linear-gradient(135deg,var(--dark2),var(--dark));color:#fff;cursor:pointer;box-shadow:0 3px 10px #5a38271a;transition:transform .15s,box-shadow .15s,opacity .15s}button:hover{transform:translateY(-1px);box-shadow:0 5px 14px #5a382725}button:disabled{opacity:.55;transform:none}.secondary{background:#f0e7df;color:var(--dark);box-shadow:none}.secondary:hover{background:#e9ddd2}.danger{background:#a83228}.green{background:var(--green)}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .buttonLike{background:var(--accent,#111);color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}.tabs{display:flex;gap:8px;overflow:auto;margin:10px 0 14px;padding-bottom:2px}.tabs button{white-space:nowrap;background:#eee4db;color:var(--dark);box-shadow:none}.tabs .active{background:linear-gradient(135deg,var(--dark2),var(--dark));color:#fff;box-shadow:0 4px 12px #5a382728}.row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.hidden{display:none!important}.login{max-width:440px;margin:55px auto}.login.card{padding:24px}.login h2{font-size:28px;margin-bottom:6px}.error{color:var(--red)}.success{color:var(--green)}.positive{color:var(--red);font-weight:800}.negative{color:var(--green);font-weight:800}.notice{padding:12px;border-radius:12px;background:#fff7df;border:1px solid #efdfad;color:#765900;font-size:13px}.modal{position:fixed;inset:0;background:#2b211c80;z-index:30;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}.modalbox{background:#fffdfb;width:min(760px,100%);max-height:92vh;overflow:auto;border:1px solid var(--line);border-radius:22px 22px 0 0;padding:20px;box-shadow:0 -10px 40px #2b211c25}.checkgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.check{display:flex;gap:8px;align-items:center;background:#faf4ee;border:1px solid #eee0d4;padding:10px;border-radius:11px}.check input{width:auto}.small{font-size:12px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:var(--soft);color:var(--dark);font-size:12px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:12px}.calhead{font-size:12px;text-align:center;color:var(--muted);padding:5px}.calday{background:linear-gradient(145deg,#fffdfa,#f6eee7);border:1px solid #eadfd5;border-radius:12px;min-height:72px;padding:8px;cursor:pointer;transition:.15s}.calday:hover{border-color:var(--accent);transform:translateY(-1px)}.calday .d{font-size:12px;color:var(--muted)}.calday .amt{font-size:12px;font-weight:750;margin-top:10px;color:var(--dark)}.calday.today{border:2px solid var(--accent);background:#fff5ed}.calday.empty{background:transparent;border:0;cursor:default}.staffbar{display:flex;justify-content:space-between;align-items:center;gap:12px}.staffbar h2{font-size:21px}.login:before{content:"NUHUNS  ·  FASHION STORE";display:block;color:var(--accent);font-size:12px;letter-spacing:2px;font-weight:800;margin-bottom:12px}@media(max-width:650px){.wrap{padding:10px}.card{padding:14px;margin-bottom:11px;border-radius:17px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat{padding:10px;border-radius:13px}.num{font-size:18px}.muted{font-size:12px}.row{grid-template-columns:1fr 1fr}.row .wide{grid-column:1/-1}.checkgrid{grid-template-columns:1fr}.calendar{gap:4px}.calday{min-height:66px;padding:6px}.calday .amt{font-size:10px;margin-top:7px}.staffbar{align-items:flex-start}.staffbar .secondary{white-space:nowrap;padding:8px 10px}.card h2{font-size:20px}.card h3{font-size:17px}}
 footer.version{position:fixed;left:0;right:0;bottom:0;text-align:center;padding:7px 10px;background:#ffffffdd;border-top:1px solid var(--line);backdrop-filter:blur(6px);font-size:12px;color:var(--muted);z-index:20}.wrap{padding-bottom:54px}
@@ -24,7 +24,7 @@ details summary{cursor:pointer;list-style:none;padding:8px 2px}
 details summary::-webkit-details-marker{display:none}
 @media(max-width:650px){.card{padding:14px}.actions{flex-wrap:wrap}.actions>button{min-height:42px}}
 </style></head><body><header><b>女装门店，女韩子</b><span id="userLabel"></span></header>
-<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">云端账号登录</p><input id="loginAccount" placeholder="登录账号" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" style="width:100%">登录</button><button id="staffEntryBtn" class="secondary" style="width:100%;margin-top:8px" type="button">门店员工入口</button><p id="loginMsg" class="error"></p></div></div><div id="app" class="wrap hidden"></div><div id="modalRoot"></div><footer class="version">版本：V1.65</footer>
+<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">云端账号登录</p><input id="loginAccount" placeholder="登录账号" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" style="width:100%">登录</button><button id="staffEntryBtn" class="secondary" style="width:100%;margin-top:8px" type="button">门店员工入口</button><p id="loginMsg" class="error"></p></div></div><div id="app" class="wrap hidden"></div><div id="modalRoot"></div><footer class="version">版本：V1.71</footer>
 <script>
 const SUPABASE_URL='https://dqruzakkunkinecxxbny.supabase.co',SUPABASE_KEY='sb_publishable_igD9yDQ1KbazCNNUfnjk2Q_WBRY5J-6';
 let salesViewMode='month';let sb=null,me=null,profile=null,stores=[],periodMode='month',rangeStart='',rangeEnd='',expanded={},loginMode=location.hash==='#staff'?'staff':'normal',staffStore=null,staffRealtime=null,ownerRealtime=null,staffCalendarCollapsed=false,staffMonth='';let ownerRefreshTimer=null,ownerRefreshBusy=false;
@@ -99,7 +99,7 @@ function renderShell(){
    <button onclick="logout()">退出</button>
   </div>`:
   `<div class="mobilebar"><button onclick="showPartnerHome()">我的门店与分红</button><button onclick="showAccount()">账号</button><button class="morebtn" onclick="logout()">退出</button></div>`;
- $('app').innerHTML=`<div class="card" style="margin-bottom:8px"><h2 style="margin:0">${title}</h2><div class="muted">${owner?'经营数据、账单、报销、分红、股东与门店管理':'查看本人参与门店、股份及分红情况'} · V1.65</div></div>${desktop}${mobile}<div id="content"></div>`;
+ $('app').innerHTML=`<div class="card" style="margin-bottom:8px"><h2 style="margin:0">${title}</h2><div class="muted">${owner?'经营数据、账单、报销、分红、股东与门店管理':'查看本人参与门店、股份及分红情况'} · V1.71</div></div>${desktop}${mobile}<div id="content"></div>`;
  owner?showDashboard():showPartnerHome();
 }
 function toggleMobileMore(){const e=$('mobileMore');if(e)e.classList.toggle('open')}
@@ -664,19 +664,18 @@ async function saveStore(id){
     if(!me?.id || profile?.role!=='owner'){alert('只有老板可以编辑门店');return}
     let error=null,data=null;
     if(id){
-      const r=await sb.from('stores').update(obj).eq('id',id).eq('owner_id',me.id);
-      error=r.error;
-      if(!error){
-        const r2=await sb.from('v_stores').select('*').eq('id',id).maybeSingle();
-        error=r2.error; data=r2.data;
+      // 编辑直接写入 stores 基表；保存后从同一基表回读，避免 v_stores 视图/权限链导致“保存失败”。
+      if(!obj.opening_date){
+        const oldStore=stores.find(x=>Number(x.id)===Number(id));
+        obj.opening_date=oldStore?.opening_date||null;
       }
+      if(!obj.opening_date) throw new Error('请选择开业日期');
+      const r=await sb.from('stores').update(obj).eq('id',Number(id)).eq('owner_id',me.id).select('*').maybeSingle();
+      error=r.error; data=r.data;
     }else{
-      const r=await sb.from('stores').insert({...obj,owner_id:me.id});
-      error=r.error;
-      if(!error){
-        const r2=await sb.from('v_stores').select('*').order('id',{ascending:false}).limit(1).maybeSingle();
-        error=r2.error; data=r2.data;
-      }
+      if(!obj.opening_date) throw new Error('请选择开业日期');
+      const r=await sb.from('stores').insert({...obj,owner_id:me.id}).select('*').maybeSingle();
+      error=r.error; data=r.data;
     }
     if(error) throw error;
     if(!data) throw new Error('没有更新到门店数据，请确认当前账号是老板且门店属于老板账号');
@@ -690,9 +689,16 @@ async function saveStore(id){
   }
 }
 async function backupQuery(table){
-  const {data,error}=await sb.from(table).select('*');
-  if(error)throw new Error('备份读取 '+table+' 失败：'+error.message);
-  return data||[];
+  const pageSize=1000;
+  let from=0,all=[];
+  while(true){
+    const {data,error}=await sb.from(table).select('*').order('id',{ascending:true}).range(from,from+pageSize-1);
+    if(error)throw new Error('备份读取 '+table+' 失败：'+error.message);
+    const rows=data||[]; all=all.concat(rows);
+    if(rows.length<pageSize)break;
+    from+=pageSize;
+  }
+  return all;
 }
 async function shareOrDownloadBlob(filename,blob,mime,title){
  const isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -774,35 +780,27 @@ async function downloadExcel(filename,backup){
 function backupStoreData(storeId,all){
   const store=all.stores.find(x=>Number(x.id)===Number(storeId));
   if(!store)throw new Error('门店不存在');
-  const byStore=(arr)=>arr.filter(x=>Number(x.store_id)===Number(storeId));
-  const memberUserIds=byStore(all.store_members).map(x=>x.user_id);
-  const permissionUserIds=byStore(all.partner_permissions).map(x=>x.user_id);
-  const userIds=[...new Set([...memberUserIds,...permissionUserIds])];
-  const staff=byStore(all.store_staff);
-  staff.forEach(x=>{if(x.user_id)userIds.push(x.user_id)});
-  const profiles=all.profiles.filter(x=>userIds.includes(x.id));
+  const byStore=(arr)=>Array.isArray(arr)?arr.filter(x=>Number(x.store_id)===Number(storeId)):[];
+  // 单店备份只保存“门店账本”：门店资料及该门店全部经营流水。
+  // 股东账号、股份、股东权限、profiles 不属于门店账本，不导出。
   const currentData={
-    store_members:byStore(all.store_members),
-    partner_permissions:byStore(all.partner_permissions),
-    store_staff:staff,
+    store_staff:byStore(all.store_staff),
     daily_sales:byStore(all.daily_sales),
     monthly_accounts:byStore(all.monthly_accounts),
     reimbursements:byStore(all.reimbursements),
     store_dividends:byStore(all.store_dividends),
     store_topups:byStore(all.store_topups),
-    profiles,
-    expense_categories:all.expense_categories,
-    reimbursement_categories:all.reimbursement_categories
+    expense_categories:Array.isArray(all.expense_categories)?all.expense_categories:[],
+    reimbursement_categories:Array.isArray(all.reimbursement_categories)?all.reimbursement_categories:[]
   };
   const legacyData={
     store_monthly:byStore(all.store_monthly),
     expenses:byStore(all.expenses),
-    dividends:byStore(all.dividends),
-    contributions:byStore(all.contributions)
+    dividends:byStore(all.dividends)
   };
   return {
     backup_format:'fashion-store-accounting-backup',
-    backup_version:'1.2',
+    backup_version:'1.4',
     exported_at:new Date().toISOString(),
     scope:'single_store',
     store,
@@ -810,24 +808,26 @@ function backupStoreData(storeId,all){
     legacy_data:legacyData,
     table_manifest:{
       current:Object.keys(currentData),
-      legacy_compatibility:Object.keys(legacyData)
+      legacy_compatibility:Object.keys(legacyData),
+      excluded:['store_members','partner_permissions','profiles']
     },
-    note:'当前业务数据与历史兼容数据分开保存；历史兼容表不会参与当前业务统计。每张数据库表在备份中只保存一次。登录密码不会被导出；凭证图片若以URL保存，则备份其URL/路径。'
+    note:'本备份以门店为单位，保存该门店从开业以来的经营资料及全部历史经营流水（销售、月账、报销、分红、回款/补款、员工门店关系及相关分类）。不备份股东账号、股东股份、股东权限及profiles。历史兼容表单独保存。'
   };
 }
 async function buildFullBackup(){
-  const tables=['stores','store_members','partner_permissions','store_staff','daily_sales','monthly_accounts','store_monthly','reimbursements','expenses','dividends','store_dividends','contributions','store_topups','profiles','expense_categories','reimbursement_categories'];
+  // 全量备份 = 所有门店的完整经营账本；股东账号/股份/权限不属于备份范围。
+  const tables=['stores','store_staff','daily_sales','monthly_accounts','store_monthly','reimbursements','expenses','dividends','store_dividends','store_topups','expense_categories','reimbursement_categories'];
   const result={};
   for(const t of tables){try{result[t]=await backupQuery(t)}catch(e){throw new Error('全量备份在【'+t+'】失败：'+(e?.message||e))}}
-  const currentTables=['stores','store_members','partner_permissions','store_staff','daily_sales','monthly_accounts','reimbursements','store_dividends','store_topups','profiles','expense_categories','reimbursement_categories'];
-  const legacyTables=['store_monthly','expenses','dividends','contributions'];
+  const currentTables=['stores','store_staff','daily_sales','monthly_accounts','reimbursements','store_dividends','store_topups','expense_categories','reimbursement_categories'];
+  const legacyTables=['store_monthly','expenses','dividends'];
   const currentData={};
   const legacyData={};
   currentTables.forEach(t=>{currentData[t]=result[t]||[]});
   legacyTables.forEach(t=>{legacyData[t]=result[t]||[]});
   return {
     backup_format:'fashion-store-accounting-backup',
-    backup_version:'1.2',
+    backup_version:'1.4',
     exported_at:new Date().toISOString(),
     scope:'all_stores',
     store_count:result.stores.length,
@@ -835,9 +835,10 @@ async function buildFullBackup(){
     legacy_data:legacyData,
     table_manifest:{
       current:currentTables,
-      legacy_compatibility:legacyTables
+      legacy_compatibility:legacyTables,
+      excluded:['store_members','partner_permissions','profiles']
     },
-    note:'当前业务数据与历史兼容数据分开保存；历史兼容表不会参与当前业务统计。每张数据库表在备份中只保存一次。登录密码不会被导出；凭证图片若以URL保存，则备份其URL/路径。'
+    note:'本备份以门店经营数据为核心，保存所有门店全部历史经营数据，不限月份；股东账号、股东股份、股东权限及profiles不导出。登录密码不会被导出；凭证图片若以URL保存，则备份其URL/路径。'
   };
 }
 async function downloadFullBackup(){
@@ -878,7 +879,7 @@ async function downloadFullExcel(){
 }
 async function downloadSingleStoreBackup(storeId){
   try{
-    const tables=['stores','store_members','partner_permissions','store_staff','daily_sales','monthly_accounts','store_monthly','reimbursements','expenses','dividends','store_dividends','contributions','store_topups','profiles','expense_categories','reimbursement_categories'];
+    const tables=['stores','store_staff','daily_sales','monthly_accounts','store_monthly','reimbursements','expenses','dividends','store_dividends','store_topups','expense_categories','reimbursement_categories'];
     const all={};
     for(const t of tables)all[t]=await backupQuery(t);
     const b=backupStoreData(storeId,all);
@@ -890,7 +891,7 @@ async function downloadSingleStoreBackup(storeId){
 }
 async function downloadSingleStoreExcel(storeId){
  try{
-  const tables=['stores','store_members','partner_permissions','store_staff','daily_sales','monthly_accounts','store_monthly','reimbursements','expenses','dividends','store_dividends','contributions','store_topups','profiles','expense_categories','reimbursement_categories'];
+  const tables=['stores','store_staff','daily_sales','monthly_accounts','store_monthly','reimbursements','expenses','dividends','store_dividends','store_topups','expense_categories','reimbursement_categories'];
   const all={};for(const t of tables)all[t]=await backupQuery(t);
   const b=backupStoreData(storeId,all);
   const safe=String(b.store.name||'门店').replace(/[\\/:*?"<>|]/g,'_');
@@ -912,12 +913,80 @@ async function prepareBackupData(){
     return true
   }catch(e){window.__preparedFullBackup=null;window.__backupPreparing=false;window.__backupError=e?.message||String(e);console.warn('备份预读取失败',e);return false}
 }
+
+let __restoreBackup=null;
+function restoreRowsForStore(backup,storeId){const d=backup?.data||{},sid=Number(storeId),by=name=>Array.isArray(d[name])?d[name].filter(x=>Number(x?.store_id)===sid):[];return {store_staff:by('store_staff'),daily_sales:by('daily_sales'),monthly_accounts:by('monthly_accounts'),reimbursements:by('reimbursements'),store_dividends:by('store_dividends'),store_topups:by('store_topups'),store_monthly:(backup?.legacy_data?.store_monthly||[]).filter(x=>Number(x?.store_id)===sid),expenses:(backup?.legacy_data?.expenses||[]).filter(x=>Number(x?.store_id)===sid),dividends:(backup?.legacy_data?.dividends||[]).filter(x=>Number(x?.store_id)===sid)}}
+function restoreCountSummary(backup){const ss=backup?.scope==='single_store'?(backup.store?[backup.store]:[]):(backup?.data?.stores||[]),c={stores:ss.length,store_staff:0,daily_sales:0,monthly_accounts:0,reimbursements:0,store_dividends:0,store_topups:0,store_monthly:0,expenses:0,dividends:0};for(const st of ss){const r=restoreRowsForStore(backup,st?.id);Object.keys(r).forEach(k=>c[k]+=r[k].length)}return c}
+function stripId(row,drop=[]){const x={...(row||{})};delete x.id;drop.forEach(k=>delete x[k]);return x}
+async function restoreInsertRows(table,rows){if(!rows?.length)return 0;const {error}=await sb.from(table).insert(rows);if(error)throw new Error('恢复 '+table+' 失败：'+error.message);return rows.length}
+async function restoreCategories(backup,currentOwnerId){const d=backup?.data||{},maps={expense:new Map(),reimbursement:new Map()};for(const [table,type] of [['expense_categories','expense'],['reimbursement_categories','reimbursement']]){const source=Array.isArray(d[table])?d[table]:[];if(!source.length)continue;const {data:existing,error}=await sb.from(table).select('id,name');if(error)throw new Error('读取'+table+'失败：'+error.message);const byName=new Map((existing||[]).map(x=>[String(x.name||'').trim(),Number(x.id)]));for(const c of source){const name=String(c?.name||'').trim();if(!name)continue;let id=byName.get(name);if(!id){const payload=stripId(c,['owner_id','created_at']);payload.owner_id=currentOwnerId;const {data,error:ie}=await sb.from(table).insert(payload).select('id').maybeSingle();if(ie)throw new Error('恢复'+table+'分类“'+name+'”失败：'+ie.message);id=Number(data?.id);if(id)byName.set(name,id)}if(c?.id!=null&&id)maps[type].set(Number(c.id),id)}}return maps}
+async function restoreOneStore(backup,st,currentOwnerId,validUsers,catMaps){
+  const oldId=Number(st?.id),payload=stripId(st,['owner_id','created_at']);payload.owner_id=currentOwnerId;
+  const {data:newStore,error}=await sb.from('stores').insert(payload).select('*').maybeSingle();
+  if(error)throw new Error('恢复门店“'+(st?.name||'未命名')+'”失败：'+error.message);
+  if(!newStore?.id)throw new Error('恢复门店后没有取得新门店ID');
+  const newId=Number(newStore.id),r=restoreRowsForStore(backup,oldId),out={store:1,store_staff:0,daily_sales:0,monthly_accounts:0,reimbursements:0,store_dividends:0,store_topups:0,store_monthly:0,expenses:0,dividends:0,skipped_staff:0};
+  const remap=(x,drop=[])=>{const y=stripId(x,drop);y.store_id=newId;return y};
+  try{
+    out.daily_sales=await restoreInsertRows('daily_sales',r.daily_sales.map(remap));
+    out.monthly_accounts=await restoreInsertRows('monthly_accounts',r.monthly_accounts.map(remap));
+    out.reimbursements=await restoreInsertRows('reimbursements',r.reimbursements.map(x=>{const y=remap(x,['category_id']);y.category_id=x.category_id!=null?(catMaps.reimbursement.get(Number(x.category_id))||null):null;return y}));
+    out.store_dividends=await restoreInsertRows('store_dividends',r.store_dividends.map(remap));
+    out.store_topups=await restoreInsertRows('store_topups',r.store_topups.map(remap));
+    out.store_monthly=await restoreInsertRows('store_monthly',r.store_monthly.map(remap));
+    out.expenses=await restoreInsertRows('expenses',r.expenses.map(x=>{const y=remap(x,['category_id']);y.category_id=x.category_id!=null?(catMaps.expense.get(Number(x.category_id))||null):null;return y}));
+    out.dividends=await restoreInsertRows('dividends',r.dividends.map(remap));
+    const staff=r.store_staff.filter(x=>validUsers.has(String(x.user_id)));out.skipped_staff=r.store_staff.length-staff.length;out.store_staff=await restoreInsertRows('store_staff',staff.map(remap));
+    return {newStore,summary:out};
+  }catch(e){e.__restoreStoreId=newId;throw e}
+}
+async function validateRestoreFile(file){if(!file)throw new Error('请选择 JSON 备份文件');if(!/\\.json$/i.test(file.name))throw new Error('只支持 JSON 备份文件');let b;try{b=JSON.parse(await file.text())}catch(e){throw new Error('JSON 文件格式错误，无法读取')}if(b?.backup_format!=='fashion-store-accounting-backup')throw new Error('不是本系统的女装门店备份文件');if(!['single_store','all_stores'].includes(b.scope))throw new Error('备份范围无法识别');const ss=b.scope==='single_store'?(b.store?[b.store]:[]):(b.data?.stores||[]);if(!ss.length)throw new Error('备份里没有门店数据');if(ss.some(x=>!x?.name||!x?.opening_date))throw new Error('备份里的门店资料不完整');return b}
+async function chooseRestoreFile(){const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.onchange=async()=>{try{const b=await validateRestoreFile(input.files?.[0]);__restoreBackup=b;const c=$('restorePreview'),x=restoreCountSummary(b);if(c)c.innerHTML=`<div class="notice"><b>备份读取成功</b><br>范围：${b.scope==='single_store'?'单门店':'全部门店'}　门店：${x.stores} 家<br>销售：${x.daily_sales} 条　月账：${x.monthly_accounts} 条　报销：${x.reimbursements} 条　分红：${x.store_dividends} 条　回款/补款：${x.store_topups} 条<br>历史兼容：月账 ${x.store_monthly} 条、费用 ${x.expenses} 条、分红 ${x.dividends} 条</div>`;$('restoreConfirmBtn').disabled=false}catch(e){__restoreBackup=null;$('restorePreview').innerHTML='<div class="error">'+esc(e.message||e)+'</div>';$('restoreConfirmBtn').disabled=true}};input.click()}
+async function executeRestore(){
+  if(!__restoreBackup){alert('请先选择备份文件');return}
+  if(profile?.role!=='owner'){alert('只有老板账号可以恢复门店数据');return}
+  const x=restoreCountSummary(__restoreBackup);
+  if(!confirm(`确认恢复？\n\n门店：${x.stores} 家\n销售：${x.daily_sales} 条\n月账：${x.monthly_accounts} 条\n报销：${x.reimbursements} 条\n分红：${x.store_dividends} 条\n回款/补款：${x.store_topups} 条\n\n恢复会创建新的门店，不覆盖现有门店。\n股东、股东权限、profiles 不会恢复。`))return;
+  const btn=$('restoreConfirmBtn');btn.disabled=true;
+  const createdStoreIds=[];
+  try{
+    const {data:p,error:pe}=await sb.from('profiles').select('id');if(pe)throw pe;
+    const validUsers=new Set((p||[]).map(x=>String(x.id)));
+    const catMaps=await restoreCategories(__restoreBackup,me.id);
+    const ss=__restoreBackup.scope==='single_store'?[__restoreBackup.store]:(__restoreBackup.data?.stores||[]),results=[];
+    for(const st of ss){
+      try{const r=await restoreOneStore(__restoreBackup,st,me.id,validUsers,catMaps);results.push(r);createdStoreIds.push(Number(r.newStore.id));}
+      catch(e){if(e?.__restoreStoreId)createdStoreIds.push(Number(e.__restoreStoreId));throw e}
+    }
+    // 二次核对：恢复完成后重新从数据库读取实际条数，而不是只相信 INSERT 数量。
+    const actual={stores:0,daily_sales:0,monthly_accounts:0,reimbursements:0,store_dividends:0,store_topups:0,store_staff:0,store_monthly:0,expenses:0,dividends:0};
+    for(const sid of createdStoreIds){
+      const checks=[['daily_sales','store_id'],['monthly_accounts','store_id'],['reimbursements','store_id'],['store_dividends','store_id'],['store_topups','store_id'],['store_staff','store_id'],['store_monthly','store_id'],['expenses','store_id'],['dividends','store_id']];
+      for(const [table,col] of checks){const {count,error}=await sb.from(table).select('id',{count:'exact',head:true}).eq(col,sid);if(error)throw new Error('恢复后核对 '+table+' 失败：'+error.message);actual[table]= (actual[table]||0)+(count||0)}
+    }
+    actual.stores=createdStoreIds.length;
+    const expected={};for(const k of Object.keys(actual))expected[k]=x[k]||0;
+    for(const k of Object.keys(actual)){if(actual[k]!==expected[k])throw new Error(`恢复后核对失败：${k}，备份 ${expected[k]} 条，数据库实际 ${actual[k]} 条`)}
+    await load(true);notifyDataChange();
+    alert(`数据恢复完成并核对通过！\n\n门店：${actual.stores} 家\n销售：${actual.daily_sales} 条\n月账：${actual.monthly_accounts} 条\n报销：${actual.reimbursements} 条\n分红：${actual.store_dividends} 条\n回款/补款：${actual.store_topups} 条\n员工关系无法重新关联：${results.reduce((a,r)=>a+(r.summary.skipped_staff||0),0)} 条`);
+    __restoreBackup=null;showBackup();
+  }catch(e){
+    console.error('executeRestore',e);
+    // 尽力回滚本次创建的门店及其流水，避免留下半恢复门店。按子表→门店顺序删除。
+    for(const sid of createdStoreIds){
+      for(const table of ['store_staff','daily_sales','monthly_accounts','reimbursements','store_dividends','store_topups','store_monthly','expenses','dividends']){try{await sb.from(table).delete().eq('store_id',sid)}catch(cleanErr){console.warn('恢复回滚 '+table+' 失败',cleanErr)}}
+      try{await sb.from('stores').delete().eq('id',sid).eq('owner_id',me.id)}catch(cleanErr){console.warn('恢复回滚 stores 失败',cleanErr)}
+    }
+    alert('数据恢复失败，已尝试撤销本次已创建的门店及流水：'+(e?.message||String(e)));
+  }finally{btn.disabled=false}
+}
+
 async function showBackup(){
   const c=$('content');
   try{
     await load(false);
     c.innerHTML=`<div class="card">
-      <h2>数据备份</h2>
+      <h2>数据备份 / 恢复</h2>
       <p>手机端：先准备完整备份数据，准备完成后点击“保存 JSON 备份”，直接进入系统分享 → 存储到文件。</p>
       <div class="notice"><b>手机操作：</b>点击“保存 JSON 备份” → 弹出系统分享 → 选择“存储到文件”。</div>
       <div class="actions" style="margin-top:12px;flex-wrap:wrap">
@@ -927,7 +996,7 @@ async function showBackup(){
       <div class="actions" style="margin-top:8px"><button class="secondary" onclick="openFullBackupFile()">手机备用：打开 JSON 备份文件</button></div>
       <p class="muted" style="margin-top:10px">JSON 为完整原始业务备份；密码不会导出；凭证如保存为URL，则备份URL/路径。</p>
     </div>
-    <div class="card"><h3 style="margin-top:0">按门店备份</h3>
+    <div class="card"><h3 style="margin-top:0">数据恢复</h3><p class="muted">选择本系统 JSON 备份文件。恢复会创建新的门店并恢复从开业以来的全部历史经营数据；不会恢复股东、股东权限或用户资料。</p><div class="actions"><button class="secondary" type="button" onclick="chooseRestoreFile()">选择 JSON 备份文件</button><button id="restoreConfirmBtn" type="button" onclick="executeRestore()" disabled>确认恢复</button></div><div id="restorePreview" style="margin-top:10px"><div class="muted">尚未选择备份文件</div></div></div><div class="card"><h3 style="margin-top:0">按门店备份</h3>
       ${stores.map(st=>`<div class="actions" style="justify-content:space-between;margin:8px 0;flex-wrap:wrap"><b>${esc(st.name)}</b><span class="actions"><button class="secondary" onclick="downloadSingleStoreBackup(${st.id})">JSON</button><button class="secondary" onclick="downloadSingleStoreExcel(${st.id})">Excel</button></span></div>`).join('')}
     </div>`;
     prepareBackupData().then(ok=>{const el=$('backupStatus');if(el)el.textContent=ok?'备份已准备好，可以直接点保存':'备份准备失败，请检查网络后重试';});
