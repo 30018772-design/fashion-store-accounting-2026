@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>女装门店·女韩子 V1.76</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>女装门店·女韩子 V1.78</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
 :root{--bg:#f6f0e9;--card:#fffdfb;--text:#2b211c;--muted:#8b7b70;--line:#eadfd5;--dark:#5a3827;--dark2:#7a4b31;--accent:#b77a4c;--accent2:#d7aa7f;--soft:#f4e8dd;--blush:#f5e2df;--sage:#e7eee5;--gold:#c79a5a;--red:#b43b32;--green:#2d7b55}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0%,#fffaf5 0,#f6f0e9 42%,#efe6dd 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif;min-height:100vh}body:before{content:"";display:block;height:4px;background:linear-gradient(90deg,var(--accent2),var(--gold),var(--dark2),var(--accent2))}header{position:sticky;top:0;z-index:10;background:rgba(255,250,245,.94);backdrop-filter:blur(14px);color:var(--dark);padding:13px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px #5a38270d}header b{letter-spacing:1px;font-weight:750}.wrap{max-width:1100px;margin:auto;padding:18px}.card{background:rgba(255,253,251,.96);border:1px solid rgba(234,223,213,.9);border-radius:20px;padding:18px;margin-bottom:15px;box-shadow:0 8px 28px #5a382710}.card h2,.card h3{color:var(--dark)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{background:linear-gradient(145deg,#fffaf6,#f6ede5);border:1px solid #eee1d7;border-radius:15px;padding:14px}.stats .stat:first-child{background:linear-gradient(145deg,#fff5f2,#f6e2df)}.stats .stat:nth-child(2){background:linear-gradient(145deg,#fff9ed,#f4ead9)}.stats .stat:nth-child(3){background:linear-gradient(145deg,#f9f1e8,#eee2d7)}.num{font-size:22px;font-weight:800;margin-top:5px;letter-spacing:.2px}.muted{color:var(--muted);font-size:13px}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:12px 13px;border:1px solid #dfd1c6;border-radius:12px;background:#fffdfa;color:var(--text);outline:none;transition:.18s}input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #b77a4c1c}textarea{min-height:80px;resize:vertical}button{border:0;border-radius:12px;padding:10px 14px;background:linear-gradient(135deg,var(--dark2),var(--dark));color:#fff;cursor:pointer;box-shadow:0 3px 10px #5a38271a;transition:transform .15s,box-shadow .15s,opacity .15s}button:hover{transform:translateY(-1px);box-shadow:0 5px 14px #5a382725}button:disabled{opacity:.55;transform:none}.secondary{background:#f0e7df;color:var(--dark);box-shadow:none}.secondary:hover{background:#e9ddd2}.danger{background:#a83228}.green{background:var(--green)}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .buttonLike{background:var(--accent,#111);color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}.tabs{display:flex;gap:8px;overflow:auto;margin:10px 0 14px;padding-bottom:2px}.tabs button{white-space:nowrap;background:#eee4db;color:var(--dark);box-shadow:none}.tabs .active{background:linear-gradient(135deg,var(--dark2),var(--dark));color:#fff;box-shadow:0 4px 12px #5a382728}.row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.hidden{display:none!important}.login{max-width:440px;margin:55px auto}.login.card{padding:24px}.login h2{font-size:28px;margin-bottom:6px}.error{color:var(--red)}.success{color:var(--green)}.positive{color:var(--red);font-weight:800}.negative{color:var(--green);font-weight:800}.notice{padding:12px;border-radius:12px;background:#fff7df;border:1px solid #efdfad;color:#765900;font-size:13px}.modal{position:fixed;inset:0;background:#2b211c80;z-index:30;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}.modalbox{background:#fffdfb;width:min(760px,100%);max-height:92vh;overflow:auto;border:1px solid var(--line);border-radius:22px 22px 0 0;padding:20px;box-shadow:0 -10px 40px #2b211c25}.checkgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.check{display:flex;gap:8px;align-items:center;background:#faf4ee;border:1px solid #eee0d4;padding:10px;border-radius:11px}.check input{width:auto}.small{font-size:12px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:var(--soft);color:var(--dark);font-size:12px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:12px}.calhead{font-size:12px;text-align:center;color:var(--muted);padding:5px}.calday{background:linear-gradient(145deg,#fffdfa,#f6eee7);border:1px solid #eadfd5;border-radius:12px;min-height:72px;padding:8px;cursor:pointer;transition:.15s}.calday:hover{border-color:var(--accent);transform:translateY(-1px)}.calday .d{font-size:12px;color:var(--muted)}.calday .amt{font-size:12px;font-weight:750;margin-top:10px;color:var(--dark)}.calday.today{border:2px solid var(--accent);background:#fff5ed}.calday.empty{background:transparent;border:0;cursor:default}.staffbar{display:flex;justify-content:space-between;align-items:center;gap:12px}.staffbar h2{font-size:21px}.login:before{content:"NUHUNS  ·  FASHION STORE";display:block;color:var(--accent);font-size:12px;letter-spacing:2px;font-weight:800;margin-bottom:12px}@media(max-width:650px){.wrap{padding:10px}.card{padding:14px;margin-bottom:11px;border-radius:17px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat{padding:10px;border-radius:13px}.num{font-size:18px}.muted{font-size:12px}.row{grid-template-columns:1fr 1fr}.row .wide{grid-column:1/-1}.checkgrid{grid-template-columns:1fr}.calendar{gap:4px}.calday{min-height:66px;padding:6px}.calday .amt{font-size:10px;margin-top:7px}.staffbar{align-items:flex-start}.staffbar .secondary{white-space:nowrap;padding:8px 10px}.card h2{font-size:20px}.card h3{font-size:17px}}
 footer.version{position:fixed;left:0;right:0;bottom:0;text-align:center;padding:7px 10px;background:#ffffffdd;border-top:1px solid var(--line);backdrop-filter:blur(6px);font-size:12px;color:var(--muted);z-index:20}.wrap{padding-bottom:54px}
@@ -23,8 +23,109 @@ details{margin-top:12px;padding:8px 0;border-top:1px solid var(--line)}
 details summary{cursor:pointer;list-style:none;padding:8px 2px}
 details summary::-webkit-details-marker{display:none}
 @media(max-width:650px){.card{padding:14px}.actions{flex-wrap:wrap}.actions>button{min-height:42px}}
-</style></head><body><header><b>女装门店，女韩子</b><span id="userLabel"></span></header>
-<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">云端账号登录</p><input id="loginAccount" placeholder="登录账号" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" style="width:100%">登录</button><button id="staffEntryBtn" class="secondary" style="width:100%;margin-top:8px" type="button">门店员工入口</button><p id="loginMsg" class="error"></p></div></div><div id="app" class="wrap hidden"></div><div id="modalRoot"></div><footer class="version">版本：V1.76</footer>
+</style>
+<style>
+/* V1.78 · NUHUNS 女韩子 visual-only boutique theme. No business logic changes. */
+:root{
+  --bg:#eee8df;--card:#fffdf9;--text:#30251f;--muted:#88786d;--line:#ddd1c5;
+  --dark:#4d3325;--dark2:#6c4833;--accent:#9b6948;--accent2:#c9a17e;
+  --soft:#eee3d8;--blush:#f0e1dc;--sage:#e4e9df;--gold:#b8925c;--red:#a94338;--green:#4d795f;
+  --wood:#5a3928;--cream:#f7f1e8;
+}
+html{background:var(--bg)}
+body{
+  background:
+    radial-gradient(900px 420px at 50% -80px,rgba(255,255,255,.96),transparent 70%),
+    linear-gradient(135deg,#eee7de 0%,#f7f2eb 48%,#e7ddd2 100%);
+  color:var(--text);
+  letter-spacing:.05px;
+}
+body:before{height:5px;background:linear-gradient(90deg,#c7a07d,#6b4732,#a77b59,#d2b08d,#6b4732)}
+body:after{
+  content:"";position:fixed;inset:5px 0 0;pointer-events:none;z-index:-1;opacity:.28;
+  background:linear-gradient(90deg,transparent 0 24%,rgba(112,75,52,.025) 24.1% 24.3%,transparent 24.4% 74%,rgba(112,75,52,.02) 74.1% 74.3%,transparent 74.4%);
+}
+header{
+  background:rgba(250,247,242,.9);border-bottom:1px solid rgba(120,86,62,.18);
+  box-shadow:0 5px 24px rgba(72,48,34,.09);padding:14px 20px;
+}
+header b{font-family:Georgia,"Times New Roman",serif;letter-spacing:1.4px;color:#513627;font-size:16px}
+header b:after{content:"  ·  NUHUNS";font-family:inherit;font-size:11px;letter-spacing:2px;color:#a37b5c;font-weight:600}
+.wrap{max-width:1180px;padding:20px 18px 64px}
+.card{
+  background:rgba(255,253,249,.91);border:1px solid rgba(137,101,76,.16);border-radius:18px;
+  box-shadow:0 12px 34px rgba(76,50,35,.075),0 2px 6px rgba(76,50,35,.035);
+  backdrop-filter:blur(7px);padding:19px;margin-bottom:15px;
+}
+.card h2,.card h3{color:#513526;letter-spacing:.2px}
+.card h2{font-weight:760}.card h3{font-weight:720}
+.stat{
+  background:linear-gradient(145deg,#fffdf9,#f4ebe2);border:1px solid #e5d9cd;border-radius:14px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.85);padding:15px;
+}
+.stats .stat:first-child{background:linear-gradient(145deg,#fff8f3,#f1e0d9)}
+.stats .stat:nth-child(2){background:linear-gradient(145deg,#fffaf0,#eee3d4)}
+.stats .stat:nth-child(3){background:linear-gradient(145deg,#faf4ed,#eadfd5)}
+.stats .stat:nth-child(4){background:linear-gradient(145deg,#f5f5ed,#e5e8df)}
+.num{color:#4f3526;font-size:23px}
+input,select,textarea{
+  border-color:#d9cbbd;background:#fffdfa;border-radius:11px;color:#342820;
+  box-shadow:inset 0 1px 2px rgba(71,48,34,.035)
+}
+input:focus,select:focus,textarea:focus{border-color:#9c6c4b;box-shadow:0 0 0 3px rgba(156,108,75,.13)}
+button,.buttonLike{
+  background:linear-gradient(135deg,#754d35,#513425);border-radius:10px;
+  box-shadow:0 4px 12px rgba(78,51,36,.15);font-weight:650;
+}
+button:hover{box-shadow:0 7px 16px rgba(78,51,36,.18)}
+.secondary{background:#eee5dc;color:#563a29;border:1px solid #dfd1c4;box-shadow:none}
+.secondary:hover{background:#e7dbcf}
+.danger{background:linear-gradient(135deg,#b54b40,#96352f)}
+.green{background:linear-gradient(135deg,#5d896e,#416b54)}
+.tabs button{background:#e9dfd6;color:#5a3d2b;border:1px solid #ded0c2}
+.tabs .active{background:linear-gradient(135deg,#765037,#513425)}
+.row{border-bottom-color:#e5dacf}
+.pill{background:#eee2d7;color:#654633;border:1px solid #e2d3c5}
+.notice{background:#f7edda;border-color:#e8d5aa;color:#71562d}
+.modal{background:rgba(43,30,23,.66)}
+.modalbox{background:#fffdf9;border-color:#ddd0c2;box-shadow:0 -14px 46px rgba(45,29,20,.2)}
+.check{background:#f7f0e8;border-color:#e5d8cb}
+.calendar .calday{background:linear-gradient(145deg,#fffdf9,#f3ebe3);border-color:#e3d7cb}
+.calendar .calday.today{border-color:#a37350;background:#fff4eb}
+.navgroups{gap:13px}
+.navgroup{background:rgba(255,252,247,.88);border-color:#dfd2c6;box-shadow:0 8px 24px rgba(77,50,35,.055)}
+.navgroup-title{color:#917e70;letter-spacing:1px}
+.mobilebar{background:rgba(249,245,239,.94);border-color:#ded1c5;box-shadow:0 5px 18px rgba(70,46,32,.08)}
+.mobile-more{background:#fffdf9;border-color:#ded1c5}
+.mobile-more button{background:#f0e5db;color:#5a3c29}
+.login{
+  max-width:430px;margin:70px auto 35px;position:relative;overflow:hidden;
+  background:linear-gradient(145deg,rgba(255,252,247,.97),rgba(244,235,226,.94));
+  border-color:#d8c7b8;box-shadow:0 18px 46px rgba(74,49,34,.13);padding:30px;
+}
+.login:after{
+  content:"";position:absolute;right:-90px;top:-90px;width:210px;height:210px;border-radius:50%;
+  background:radial-gradient(circle,rgba(176,137,103,.17),rgba(176,137,103,0) 68%);pointer-events:none;
+}
+.login:before{content:"NUHUNS  ·  女韩子  ·  FASHION STORE";color:#8b6247;letter-spacing:2.3px;font-size:11px;margin-bottom:17px}
+.login h2{font-size:27px;letter-spacing:.5px}
+.staffbar h2{color:#513526}
+footer.version{background:rgba(250,247,242,.9);border-top-color:#ded2c6;color:#89786c}
+/* Make data-heavy tables/rows feel like boutique display shelves without changing layout/behavior. */
+table{border-color:#dfd2c6!important}
+th{background:#f0e7de!important;color:#5d4030!important}
+td{border-color:#e8ddd3!important}
+/* Reimbursement month groups introduced in V1.78 */
+.reimburse-month,.month-group,.month-card{border-color:#dfd0c3!important;background:rgba(255,252,247,.86)!important;box-shadow:0 5px 16px rgba(74,49,34,.045)}
+@media(max-width:650px){
+  header{padding:12px 14px}.wrap{padding:12px 10px 62px}.card{border-radius:16px;padding:14px}
+  .login{margin:38px auto 25px;padding:22px}.login h2{font-size:24px}
+  header b{font-size:14px}header b:after{font-size:9px;letter-spacing:1.5px}
+  .num{font-size:19px}
+}
+</style>
+</head><body><header><b>女装门店，女韩子</b><span id="userLabel"></span></header>
+<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">云端账号登录</p><input id="loginAccount" placeholder="登录账号" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" style="width:100%">登录</button><button id="staffEntryBtn" class="secondary" style="width:100%;margin-top:8px" type="button">门店员工入口</button><p id="loginMsg" class="error"></p></div></div><div id="app" class="wrap hidden"></div><div id="modalRoot"></div><footer class="version">版本：V1.78</footer>
 <script>
 const SUPABASE_URL='https://dqruzakkunkinecxxbny.supabase.co',SUPABASE_KEY='sb_publishable_igD9yDQ1KbazCNNUfnjk2Q_WBRY5J-6';
 let salesViewMode='month';let sb=null,me=null,profile=null,stores=[],periodMode='month',rangeStart='',rangeEnd='',expanded={},loginMode=location.hash==='#staff'?'staff':'normal',staffStore=null,staffRealtime=null,ownerRealtime=null,staffCalendarCollapsed=false,staffMonth='';let ownerRefreshTimer=null,ownerRefreshBusy=false;
@@ -99,7 +200,7 @@ function renderShell(){
    <button onclick="logout()">退出</button>
   </div>`:
   `<div class="mobilebar"><button onclick="showPartnerHome()">我的门店与分红</button><button onclick="showAccount()">账号</button><button class="morebtn" onclick="logout()">退出</button></div>`;
- $('app').innerHTML=`<div class="card" style="margin-bottom:8px"><h2 style="margin:0">${title}</h2><div class="muted">${owner?'经营数据、账单、报销、分红、股东与门店管理':'查看本人参与门店、股份及分红情况'} · V1.76</div></div>${desktop}${mobile}<div id="content"></div>`;
+ $('app').innerHTML=`<div class="card" style="margin-bottom:8px"><h2 style="margin:0">${title}</h2><div class="muted">${owner?'经营数据、账单、报销、分红、股东与门店管理':'查看本人参与门店、股份及分红情况'} · V1.78</div></div>${desktop}${mobile}<div id="content"></div>`;
  owner?showDashboard():showPartnerHome();
 }
 function toggleMobileMore(){const e=$('mobileMore');if(e)e.classList.toggle('open')}
@@ -222,13 +323,18 @@ async function fetchPartnerData(scope=null){
  out.errors=errors;
  return out;
 }
-function compactPartnerExpenseSummary(re,mode){
- const byMonth={};(re||[]).forEach(x=>{const ym=String(x.expense_date||'').slice(0,7);if(!ym)return;byMonth[ym]=(byMonth[ym]||0)+n(x.amount)});
- const keys=Object.keys(byMonth).sort((a,b)=>b.localeCompare(a));
- if(!keys.length)return '<div class="muted" style="margin-top:10px">本期间暂无报销</div>';
- return `<details style="margin-top:12px" ${mode==='month'?'open':''}><summary><b>报销明细（按月份）</b></summary><div style="margin-top:8px">${keys.map(k=>`<div class="row"><div>${esc(k)}</div><div>${money(byMonth[k])}</div><div></div><div></div></div>`).join('')}</div></details>`;
+function groupReimbursementsByMonth(re){
+ const groups={};
+ (re||[]).forEach(x=>{const ym=String(x.expense_date||'').slice(0,7);if(!ym)return;(groups[ym]||(groups[ym]=[])).push(x)});
+ return Object.keys(groups).sort((a,b)=>b.localeCompare(a)).map(ym=>({ym,rows:groups[ym].sort((a,b)=>String(b.expense_date||'').localeCompare(String(a.expense_date||'')))}));
 }
-async function showPartnerStoreDetail(storeId){const st=stores.find(x=>Number(x.id)===Number(storeId));if(!st)return;const {data:p}=await sb.from('partner_permissions').select('*').eq('user_id',me.id).eq('store_id',storeId).maybeSingle();const [start,end]=partnerBounds(st);const all=await fetchPartnerData({storeIds:[storeId],start,end});const ma=all.monthly.filter(x=>Number(x.store_id)===Number(storeId)&&monthlyInPeriod(x,st,start,end,partnerPeriodMode,partnerRangeStart,partnerRangeEnd));const ds=all.daily.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.sales_date,start,end));const re=all.reimbursements.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.expense_date,start,end));const di=all.dividends.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.dividend_date,start,end));const share=(await sb.from('store_members').select('share_percent').eq('user_id',me.id).eq('store_id',storeId).maybeSingle()).data?.share_percent||0;const tu=all.topups.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.topup_date,start,end));const divTotal=di.reduce((a,x)=>a+n(x.amount),0);const topTotal=tu.reduce((a,x)=>a+n(x.amount),0);const parts=[];if(p?.view_turnover!==false)parts.push(`<div><b>营业额</b><div>${money(ds.reduce((a,x)=>a+n(x.amount),0))}</div></div>`);if(p?.view_company_return!==false)parts.push(`<div><b>公司回款</b><div>${money(ma.reduce((a,x)=>a+n(x.company_return),0))}</div></div>`);if(p?.view_rent!==false)parts.push(`<div><b>房租</b><div>${money(ma.reduce((a,x)=>a+n(x.rent),0))}</div></div>`);if(p?.view_utilities!==false)parts.push(`<div><b>水电费</b><div>${money(ma.reduce((a,x)=>a+n(x.utilities),0))}</div></div>`);if(p?.view_expenses!==false)parts.push(`<div><b>其他费用+报销</b><div>${money(ma.reduce((a,x)=>a+n(x.other_expenses),0)+re.reduce((a,x)=>a+n(x.amount),0))}</div></div>`);const profit=ma.reduce((a,x)=>a+n(x.company_return)-n(x.rent)-n(x.utilities)-n(x.other_expenses),0)-re.reduce((a,x)=>a+n(x.amount),0);if(p?.view_profit!==false)parts.push(`<div><b>盈利</b><div class="${profit>=0?'positive':'negative'}">${money(profit)}</div></div>`);if(p?.view_dividends!==false)parts.push(`<div><b>本期间我应得分红</b><div class="positive">${money(divTotal*n(share)/100)}</div></div>`);if(p?.view_initial_investment!==false)parts.push(`<div><b>初始投入</b><div>${money(st.initial_investment)}</div></div>`);if(p?.view_contributions!==false)parts.push(`<div><b>期间补款</b><div>${money(topTotal)}</div></div>`);if(p?.view_payback!==false)parts.push(`<div><b>剩余未回本</b><div class="${n(st.initial_investment)+topTotal-divTotal>=0?'positive':'negative'}">${money(n(st.initial_investment)+topTotal-divTotal)}</div></div>`);if(p?.view_contracts!==false)parts.push(`<div><b>门店资料</b><div>${esc(st.address||'已授权查看')}</div></div>`);let extra='';if(p?.view_history!==false){extra+=`<h3>期间账务</h3>${ma.map(x=>`<div class="row"><div>${esc(String(x.month_date).slice(0,7))}</div><div>回款 ${money(x.company_return)}</div><div>房租 ${money(x.rent)}</div><div>水电 ${money(x.utilities)}</div><div class="wide">其他 ${money(x.other_expenses)} · ${x.notes?esc(x.notes):''}</div></div>`).join('')||'<div class="muted">暂无月度账务</div>'} `}if(p?.view_expenses!==false){extra+=`<h3>报销明细</h3>${re.map(x=>`<div class="row"><div>${esc(x.expense_date)}</div><div>${money(x.amount)}</div><div class="wide">${esc(x.note||'')} ${x.receipt_url&&p?.view_receipts!==false?`· <a target="_blank" href="${esc(x.receipt_url)}">查看凭证</a>`:''}</div></div>`).join('')||'<div class="muted">暂无报销</div>'}`}if(p?.view_dividends!==false){extra+=`<h3>分红明细</h3>${di.map(x=>`<div class="row"><div>${esc(x.dividend_date)}</div><div>总分红 ${money(x.amount)}</div><div class="positive">我应得 ${money(n(x.amount)*n(share)/100)}</div></div>`).join('')||'<div class="muted">暂无分红记录</div>'}`};modal(`${st.name} · 数据详情`,`<div class="muted">我的股份：${n(share)}% · ${partnerPeriodMode==='month'?'本月':partnerPeriodMode==='year'?'本年度':partnerPeriodMode==='range'?'所选范围':'开业至今'}</div><div class="grid" style="margin-top:12px">${parts.join('')}</div>${extra}`)}
+function renderGroupedReimbursements(re,cmap={},mode='month',actions=false){
+ const groups=groupReimbursementsByMonth(re);
+ if(!groups.length)return '<div class="muted">本期间暂无报销</div>';
+ return groups.map((g,i)=>{const total=g.rows.reduce((a,x)=>a+n(x.amount),0);const rows=g.rows.map(x=>`<div class="row"><div>${esc(x.expense_date)}</div><div>${esc(cmap[x.category_id]||'其他')}</div><div>${money(x.amount)}</div>${actions?`<div><button class="danger" type="button" onclick="delReimbursement(${x.id})">删除</button></div>`:''}<div class="wide muted">${esc(x.note||'')} ${x.receipt_url?`· <a target="_blank" href="${esc(x.receipt_url)}">查看凭证</a>`:''}</div></div>`).join('');return `<details style="margin-top:10px" ${mode==='month'&&i===0?'open':''}><summary><b>${esc(g.ym)}</b>　${money(total)}　<span class="muted">${g.rows.length}笔</span></summary><div style="margin-top:8px">${rows}</div></details>`}).join('');
+}
+function compactPartnerExpenseSummary(re,mode){return `<div style="margin-top:12px"><b>报销明细（按月份）</b>${renderGroupedReimbursements(re,{},mode,false)}</div>`;}
+async function showPartnerStoreDetail(storeId){const st=stores.find(x=>Number(x.id)===Number(storeId));if(!st)return;const {data:p}=await sb.from('partner_permissions').select('*').eq('user_id',me.id).eq('store_id',storeId).maybeSingle();const [start,end]=partnerBounds(st);const all=await fetchPartnerData({storeIds:[storeId],start,end});const ma=all.monthly.filter(x=>Number(x.store_id)===Number(storeId)&&monthlyInPeriod(x,st,start,end,partnerPeriodMode,partnerRangeStart,partnerRangeEnd));const ds=all.daily.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.sales_date,start,end));const re=all.reimbursements.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.expense_date,start,end));const di=all.dividends.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.dividend_date,start,end));const share=(await sb.from('store_members').select('share_percent').eq('user_id',me.id).eq('store_id',storeId).maybeSingle()).data?.share_percent||0;const tu=all.topups.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.topup_date,start,end));const divTotal=di.reduce((a,x)=>a+n(x.amount),0);const topTotal=tu.reduce((a,x)=>a+n(x.amount),0);const parts=[];if(p?.view_turnover!==false)parts.push(`<div><b>营业额</b><div>${money(ds.reduce((a,x)=>a+n(x.amount),0))}</div></div>`);if(p?.view_company_return!==false)parts.push(`<div><b>公司回款</b><div>${money(ma.reduce((a,x)=>a+n(x.company_return),0))}</div></div>`);if(p?.view_rent!==false)parts.push(`<div><b>房租</b><div>${money(ma.reduce((a,x)=>a+n(x.rent),0))}</div></div>`);if(p?.view_utilities!==false)parts.push(`<div><b>水电费</b><div>${money(ma.reduce((a,x)=>a+n(x.utilities),0))}</div></div>`);if(p?.view_expenses!==false)parts.push(`<div><b>其他费用+报销</b><div>${money(ma.reduce((a,x)=>a+n(x.other_expenses),0)+re.reduce((a,x)=>a+n(x.amount),0))}</div></div>`);const profit=ma.reduce((a,x)=>a+n(x.company_return)-n(x.rent)-n(x.utilities)-n(x.other_expenses),0)-re.reduce((a,x)=>a+n(x.amount),0);if(p?.view_profit!==false)parts.push(`<div><b>盈利</b><div class="${profit>=0?'positive':'negative'}">${money(profit)}</div></div>`);if(p?.view_dividends!==false)parts.push(`<div><b>本期间我应得分红</b><div class="positive">${money(divTotal*n(share)/100)}</div></div>`);if(p?.view_initial_investment!==false)parts.push(`<div><b>初始投入</b><div>${money(st.initial_investment)}</div></div>`);if(p?.view_contributions!==false)parts.push(`<div><b>期间补款</b><div>${money(topTotal)}</div></div>`);if(p?.view_payback!==false)parts.push(`<div><b>剩余未回本</b><div class="${n(st.initial_investment)+topTotal-divTotal>=0?'positive':'negative'}">${money(n(st.initial_investment)+topTotal-divTotal)}</div></div>`);if(p?.view_contracts!==false)parts.push(`<div><b>门店资料</b><div>${esc(st.address||'已授权查看')}</div></div>`);let extra='';if(p?.view_history!==false){extra+=`<h3>期间账务</h3>${ma.map(x=>`<div class="row"><div>${esc(String(x.month_date).slice(0,7))}</div><div>回款 ${money(x.company_return)}</div><div>房租 ${money(x.rent)}</div><div>水电 ${money(x.utilities)}</div><div class="wide">其他 ${money(x.other_expenses)} · ${x.notes?esc(x.notes):''}</div></div>`).join('')||'<div class="muted">暂无月度账务</div>'} `}if(p?.view_expenses!==false){extra+=`<h3>报销明细（按月份）</h3>${renderGroupedReimbursements(re,{},partnerPeriodMode,false)}`}if(p?.view_dividends!==false){extra+=`<h3>分红明细</h3>${di.map(x=>`<div class="row"><div>${esc(x.dividend_date)}</div><div>总分红 ${money(x.amount)}</div><div class="positive">我应得 ${money(n(x.amount)*n(share)/100)}</div></div>`).join('')||'<div class="muted">暂无分红记录</div>'}`};modal(`${st.name} · 数据详情`,`<div class="muted">我的股份：${n(share)}% · ${partnerPeriodMode==='month'?'本月':partnerPeriodMode==='year'?'本年度':partnerPeriodMode==='range'?'所选范围':'开业至今'}</div><div class="grid" style="margin-top:12px">${parts.join('')}</div>${extra}`)}
 
 async function showSalesCalendar(storeId,initialMonth){
  const s=stores.find(x=>x.id===Number(storeId)); if(!s){alert('门店不存在');return}
@@ -439,7 +545,7 @@ async function loadStoreReimbursements(storeId){
   if(ids.length){const {data,error}=await sb.from('reimbursement_categories').select('id,name').in('id',ids);if(error)throw error;cats=data||[]}
   const cmap=Object.fromEntries(cats.map(x=>[x.id,x.name]));
   const el=$('detail_re_'+storeId);
-  if(el)el.innerHTML=re.length?re.map(x=>`<div class=\"row\"><div>${esc(x.expense_date)}</div><div>${esc(cmap[x.category_id]||'其他')}</div><div>${money(x.amount)}</div><div>${x.receipt_url?`<a href=\"${esc(x.receipt_url)}\" target=\"_blank\">凭证</a>`:esc(x.note||'')}</div></div>`).join(''):'暂无报销记录';
+  if(el)el.innerHTML=renderGroupedReimbursements(re,cmap,periodMode,false);
  }catch(e){const el=$('detail_re_'+storeId);if(el)el.innerHTML='<span class=\"error\">报销读取失败：'+esc(e.message)+'</span>';}
 }
 async function load(force=false){
@@ -462,7 +568,8 @@ async function showReimbursements(){window.activePage='reimbursements';subscribe
   if(catErr)throw catErr;
   const re=await fetchReimbursements();
   const cmap=Object.fromEntries((cats||[]).map(x=>[x.id,x.name]));
-  c.innerHTML=`<div class=\"card\"><div class=\"actions\" style=\"justify-content:space-between\"><h2>报销</h2><button type=\"button\" onclick=\"addReimbursement()\">新增报销</button></div><p class=\"muted\">所有报销均按报销日期归属月份，并实时计入本月、本年度、月份范围、开业至今。</p></div><div class=\"card\">${re.map(x=>{const st=stores.find(y=>Number(y.id)===Number(x.store_id));return `<div class=\"row\"><div>${esc(x.expense_date)}</div><div>${esc(st?.name||'')}</div><div>${esc(cmap[x.category_id]||'其他')} · ${money(x.amount)}</div><div><button class=\"danger\" type=\"button\" onclick=\"delReimbursement(${x.id})\">删除</button></div><div class=\"wide muted\">${esc(x.note||'')} ${x.receipt_url?`· <a target=\"_blank\" href=\"${esc(x.receipt_url)}\">查看凭证</a>`:''}</div></div>`}).join('')||'<div class=\"muted\">暂无报销</div>'}</div>`;
+  const byMonth=groupReimbursementsByMonth(re);
+  c.innerHTML=`<div class="card"><div class="actions" style="justify-content:space-between"><h2>报销</h2><button type="button" onclick="addReimbursement()">新增报销</button></div><p class="muted">所有报销均按报销日期归属月份，并实时计入本月、本年度、月份范围、开业至今。</p></div><div class="card">${byMonth.length?byMonth.map((g,i)=>{const total=g.rows.reduce((a,x)=>a+n(x.amount),0);return `<details style="margin-top:10px" ${i===0?'open':''}><summary><b>${esc(g.ym)}</b>　${money(total)}　<span class="muted">${g.rows.length}笔</span></summary><div style="margin-top:8px">${g.rows.map(x=>{const st=stores.find(y=>Number(y.id)===Number(x.store_id));return `<div class="row"><div>${esc(x.expense_date)}</div><div>${esc(st?.name||'')}</div><div>${esc(cmap[x.category_id]||'其他')} · ${money(x.amount)}</div><div><button class="danger" type="button" onclick="delReimbursement(${x.id})">删除</button></div><div class="wide muted">${esc(x.note||'')} ${x.receipt_url?`· <a target="_blank" href="${esc(x.receipt_url)}">查看凭证</a>`:''}</div></div>`}).join('')}</div></details>`}).join(''):'<div class="muted">暂无报销</div>'}</div>`;
  }catch(e){c.innerHTML='<div class=\"card error\">报销读取失败：'+esc(e.message)+'</div>'}
 }
 async function addReimbursement(){modal('新增报销',`<div class=\"grid\"><div><label>门店</label><select id=\"r_store\">${stores.map(s=>`<option value=\"${s.id}\">${esc(s.name)}</option>`).join('')}</select></div><div><label>日期</label><input id=\"r_date\" type=\"date\" value=\"${today()}\"></div><div><label>报销类别</label><input id=\"r_cat_text\" list=\"r_cat_list\" placeholder=\"输入类别，例如：奶茶、交通、采购\"><datalist id=\"r_cat_list\"></datalist><div class=\"muted\">输入一次自动保存，以后还能继续增加。</div></div><div><label>金额</label><input id=\"r_amt\" type=\"number\" step=\"0.01\"></div></div><br><label>备注</label><textarea id=\"r_note\"></textarea><br><label>凭证图片/文件网址（可选）</label><input id=\"r_url\" placeholder=\"如有云端凭证地址可粘贴\"><br><button type=\"button\" onclick=\"saveReimbursement()\">保存</button>`);loadReimbursementCategorySuggestions()}
