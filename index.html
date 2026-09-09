@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>女装门店·女韩子 V1.73</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>女装门店·女韩子 V1.74</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
 :root{--bg:#f6f0e9;--card:#fffdfb;--text:#2b211c;--muted:#8b7b70;--line:#eadfd5;--dark:#5a3827;--dark2:#7a4b31;--accent:#b77a4c;--accent2:#d7aa7f;--soft:#f4e8dd;--blush:#f5e2df;--sage:#e7eee5;--gold:#c79a5a;--red:#b43b32;--green:#2d7b55}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0%,#fffaf5 0,#f6f0e9 42%,#efe6dd 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif;min-height:100vh}body:before{content:"";display:block;height:4px;background:linear-gradient(90deg,var(--accent2),var(--gold),var(--dark2),var(--accent2))}header{position:sticky;top:0;z-index:10;background:rgba(255,250,245,.94);backdrop-filter:blur(14px);color:var(--dark);padding:13px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px #5a38270d}header b{letter-spacing:1px;font-weight:750}.wrap{max-width:1100px;margin:auto;padding:18px}.card{background:rgba(255,253,251,.96);border:1px solid rgba(234,223,213,.9);border-radius:20px;padding:18px;margin-bottom:15px;box-shadow:0 8px 28px #5a382710}.card h2,.card h3{color:var(--dark)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{background:linear-gradient(145deg,#fffaf6,#f6ede5);border:1px solid #eee1d7;border-radius:15px;padding:14px}.stats .stat:first-child{background:linear-gradient(145deg,#fff5f2,#f6e2df)}.stats .stat:nth-child(2){background:linear-gradient(145deg,#fff9ed,#f4ead9)}.stats .stat:nth-child(3){background:linear-gradient(145deg,#f9f1e8,#eee2d7)}.num{font-size:22px;font-weight:800;margin-top:5px;letter-spacing:.2px}.muted{color:var(--muted);font-size:13px}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:12px 13px;border:1px solid #dfd1c6;border-radius:12px;background:#fffdfa;color:var(--text);outline:none;transition:.18s}input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #b77a4c1c}textarea{min-height:80px;resize:vertical}button{border:0;border-radius:12px;padding:10px 14px;background:linear-gradient(135deg,var(--dark2),var(--dark));color:#fff;cursor:pointer;box-shadow:0 3px 10px #5a38271a;transition:transform .15s,box-shadow .15s,opacity .15s}button:hover{transform:translateY(-1px);box-shadow:0 5px 14px #5a382725}button:disabled{opacity:.55;transform:none}.secondary{background:#f0e7df;color:var(--dark);box-shadow:none}.secondary:hover{background:#e9ddd2}.danger{background:#a83228}.green{background:var(--green)}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .buttonLike{background:var(--accent,#111);color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}.tabs{display:flex;gap:8px;overflow:auto;margin:10px 0 14px;padding-bottom:2px}.tabs button{white-space:nowrap;background:#eee4db;color:var(--dark);box-shadow:none}.tabs .active{background:linear-gradient(135deg,var(--dark2),var(--dark));color:#fff;box-shadow:0 4px 12px #5a382728}.row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.hidden{display:none!important}.login{max-width:440px;margin:55px auto}.login.card{padding:24px}.login h2{font-size:28px;margin-bottom:6px}.error{color:var(--red)}.success{color:var(--green)}.positive{color:var(--red);font-weight:800}.negative{color:var(--green);font-weight:800}.notice{padding:12px;border-radius:12px;background:#fff7df;border:1px solid #efdfad;color:#765900;font-size:13px}.modal{position:fixed;inset:0;background:#2b211c80;z-index:30;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}.modalbox{background:#fffdfb;width:min(760px,100%);max-height:92vh;overflow:auto;border:1px solid var(--line);border-radius:22px 22px 0 0;padding:20px;box-shadow:0 -10px 40px #2b211c25}.checkgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.check{display:flex;gap:8px;align-items:center;background:#faf4ee;border:1px solid #eee0d4;padding:10px;border-radius:11px}.check input{width:auto}.small{font-size:12px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:var(--soft);color:var(--dark);font-size:12px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:12px}.calhead{font-size:12px;text-align:center;color:var(--muted);padding:5px}.calday{background:linear-gradient(145deg,#fffdfa,#f6eee7);border:1px solid #eadfd5;border-radius:12px;min-height:72px;padding:8px;cursor:pointer;transition:.15s}.calday:hover{border-color:var(--accent);transform:translateY(-1px)}.calday .d{font-size:12px;color:var(--muted)}.calday .amt{font-size:12px;font-weight:750;margin-top:10px;color:var(--dark)}.calday.today{border:2px solid var(--accent);background:#fff5ed}.calday.empty{background:transparent;border:0;cursor:default}.staffbar{display:flex;justify-content:space-between;align-items:center;gap:12px}.staffbar h2{font-size:21px}.login:before{content:"NUHUNS  ·  FASHION STORE";display:block;color:var(--accent);font-size:12px;letter-spacing:2px;font-weight:800;margin-bottom:12px}@media(max-width:650px){.wrap{padding:10px}.card{padding:14px;margin-bottom:11px;border-radius:17px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat{padding:10px;border-radius:13px}.num{font-size:18px}.muted{font-size:12px}.row{grid-template-columns:1fr 1fr}.row .wide{grid-column:1/-1}.checkgrid{grid-template-columns:1fr}.calendar{gap:4px}.calday{min-height:66px;padding:6px}.calday .amt{font-size:10px;margin-top:7px}.staffbar{align-items:flex-start}.staffbar .secondary{white-space:nowrap;padding:8px 10px}.card h2{font-size:20px}.card h3{font-size:17px}}
 footer.version{position:fixed;left:0;right:0;bottom:0;text-align:center;padding:7px 10px;background:#ffffffdd;border-top:1px solid var(--line);backdrop-filter:blur(6px);font-size:12px;color:var(--muted);z-index:20}.wrap{padding-bottom:54px}
@@ -24,7 +24,7 @@ details summary{cursor:pointer;list-style:none;padding:8px 2px}
 details summary::-webkit-details-marker{display:none}
 @media(max-width:650px){.card{padding:14px}.actions{flex-wrap:wrap}.actions>button{min-height:42px}}
 </style></head><body><header><b>女装门店，女韩子</b><span id="userLabel"></span></header>
-<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">云端账号登录</p><input id="loginAccount" placeholder="登录账号" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" style="width:100%">登录</button><button id="staffEntryBtn" class="secondary" style="width:100%;margin-top:8px" type="button">门店员工入口</button><p id="loginMsg" class="error"></p></div></div><div id="app" class="wrap hidden"></div><div id="modalRoot"></div><footer class="version">版本：V1.73</footer>
+<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">云端账号登录</p><input id="loginAccount" placeholder="登录账号" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" style="width:100%">登录</button><button id="staffEntryBtn" class="secondary" style="width:100%;margin-top:8px" type="button">门店员工入口</button><p id="loginMsg" class="error"></p></div></div><div id="app" class="wrap hidden"></div><div id="modalRoot"></div><footer class="version">版本：V1.74</footer>
 <script>
 const SUPABASE_URL='https://dqruzakkunkinecxxbny.supabase.co',SUPABASE_KEY='sb_publishable_igD9yDQ1KbazCNNUfnjk2Q_WBRY5J-6';
 let salesViewMode='month';let sb=null,me=null,profile=null,stores=[],periodMode='month',rangeStart='',rangeEnd='',expanded={},loginMode=location.hash==='#staff'?'staff':'normal',staffStore=null,staffRealtime=null,ownerRealtime=null,staffCalendarCollapsed=false,staffMonth='';let ownerRefreshTimer=null,ownerRefreshBusy=false;
@@ -99,7 +99,7 @@ function renderShell(){
    <button onclick="logout()">退出</button>
   </div>`:
   `<div class="mobilebar"><button onclick="showPartnerHome()">我的门店与分红</button><button onclick="showAccount()">账号</button><button class="morebtn" onclick="logout()">退出</button></div>`;
- $('app').innerHTML=`<div class="card" style="margin-bottom:8px"><h2 style="margin:0">${title}</h2><div class="muted">${owner?'经营数据、账单、报销、分红、股东与门店管理':'查看本人参与门店、股份及分红情况'} · V1.73</div></div>${desktop}${mobile}<div id="content"></div>`;
+ $('app').innerHTML=`<div class="card" style="margin-bottom:8px"><h2 style="margin:0">${title}</h2><div class="muted">${owner?'经营数据、账单、报销、分红、股东与门店管理':'查看本人参与门店、股份及分红情况'} · V1.74</div></div>${desktop}${mobile}<div id="content"></div>`;
  owner?showDashboard():showPartnerHome();
 }
 function toggleMobileMore(){const e=$('mobileMore');if(e)e.classList.toggle('open')}
@@ -127,7 +127,7 @@ async function showPartnerHome(){window.activePage='partner';subscribePartnerRea
   });
   const cards=summaryRows.map(({m,st,p})=>{
    const [startDate,endDate]=partnerBounds(st);const ds=all.daily.filter(x=>Number(x.store_id)===Number(st.id)&&inBounds(x.sales_date,startDate,endDate));
-   const ma=all.monthly.filter(x=>Number(x.store_id)===Number(st.id)&&inBounds(x.month_date,startDate,endDate));
+   const ma=all.monthly.filter(x=>Number(x.store_id)===Number(st.id)&&monthlyInPeriod(x,st,startDate,endDate));
    const re=all.reimbursements.filter(x=>Number(x.store_id)===Number(st.id)&&inBounds(x.expense_date,startDate,endDate));
    const div=all.dividends.filter(x=>Number(x.store_id)===Number(st.id)&&inBounds(x.dividend_date,startDate,endDate));
    const turnover=ds.reduce((a,x)=>a+n(x.amount),0);
@@ -209,7 +209,7 @@ async function fetchPartnerData(scope=null){
   return q;
  };
  const queries={
-  monthly:scoped(sb.from('v_monthly_accounts').select('store_id,month_date,company_return,rent,utilities,other_expenses,profit,retained,notes').order('month_date'),'month_date'),
+  monthly:scoped(sb.from('v_monthly_accounts').select('store_id,month_date,company_return,rent,utilities,other_expenses,profit,retained,notes').order('month_date'),null),
   daily:scoped(sb.from('daily_sales').select('store_id,sales_date,amount').order('sales_date'),'sales_date'),
   reimbursements:scoped(sb.from('v_reimbursements').select('id,store_id,expense_date,amount,category_id,note,receipt_url').order('expense_date',{ascending:false}),'expense_date'),
   dividends:scoped(sb.from('v_store_dividends').select('store_id,dividend_date,amount,note').order('dividend_date'),'dividend_date'),
@@ -228,7 +228,7 @@ function compactPartnerExpenseSummary(re,mode){
  if(!keys.length)return '<div class="muted" style="margin-top:10px">本期间暂无报销</div>';
  return `<details style="margin-top:12px" ${mode==='month'?'open':''}><summary><b>报销明细（按月份）</b></summary><div style="margin-top:8px">${keys.map(k=>`<div class="row"><div>${esc(k)}</div><div>${money(byMonth[k])}</div><div></div><div></div></div>`).join('')}</div></details>`;
 }
-async function showPartnerStoreDetail(storeId){const st=stores.find(x=>Number(x.id)===Number(storeId));if(!st)return;const {data:p}=await sb.from('partner_permissions').select('*').eq('user_id',me.id).eq('store_id',storeId).maybeSingle();const [start,end]=partnerBounds(st);const all=await fetchPartnerData({storeIds:[storeId],start,end});const ma=all.monthly.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.month_date,start,end));const ds=all.daily.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.sales_date,start,end));const re=all.reimbursements.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.expense_date,start,end));const di=all.dividends.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.dividend_date,start,end));const share=(await sb.from('store_members').select('share_percent').eq('user_id',me.id).eq('store_id',storeId).maybeSingle()).data?.share_percent||0;const tu=all.topups.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.topup_date,start,end));const divTotal=di.reduce((a,x)=>a+n(x.amount),0);const topTotal=tu.reduce((a,x)=>a+n(x.amount),0);const parts=[];if(p?.view_turnover!==false)parts.push(`<div><b>营业额</b><div>${money(ds.reduce((a,x)=>a+n(x.amount),0))}</div></div>`);if(p?.view_company_return!==false)parts.push(`<div><b>公司回款</b><div>${money(ma.reduce((a,x)=>a+n(x.company_return),0))}</div></div>`);if(p?.view_rent!==false)parts.push(`<div><b>房租</b><div>${money(ma.reduce((a,x)=>a+n(x.rent),0))}</div></div>`);if(p?.view_utilities!==false)parts.push(`<div><b>水电费</b><div>${money(ma.reduce((a,x)=>a+n(x.utilities),0))}</div></div>`);if(p?.view_expenses!==false)parts.push(`<div><b>其他费用+报销</b><div>${money(ma.reduce((a,x)=>a+n(x.other_expenses),0)+re.reduce((a,x)=>a+n(x.amount),0))}</div></div>`);const profit=ma.reduce((a,x)=>a+n(x.company_return)-n(x.rent)-n(x.utilities)-n(x.other_expenses),0)-re.reduce((a,x)=>a+n(x.amount),0);if(p?.view_profit!==false)parts.push(`<div><b>盈利</b><div class="${profit>=0?'positive':'negative'}">${money(profit)}</div></div>`);if(p?.view_dividends!==false)parts.push(`<div><b>本期间我应得分红</b><div class="positive">${money(divTotal*n(share)/100)}</div></div>`);if(p?.view_initial_investment!==false)parts.push(`<div><b>初始投入</b><div>${money(st.initial_investment)}</div></div>`);if(p?.view_contributions!==false)parts.push(`<div><b>期间补款</b><div>${money(topTotal)}</div></div>`);if(p?.view_payback!==false)parts.push(`<div><b>剩余未回本</b><div class="${n(st.initial_investment)+topTotal-divTotal>=0?'positive':'negative'}">${money(n(st.initial_investment)+topTotal-divTotal)}</div></div>`);if(p?.view_contracts!==false)parts.push(`<div><b>门店资料</b><div>${esc(st.address||'已授权查看')}</div></div>`);let extra='';if(p?.view_history!==false){extra+=`<h3>期间账务</h3>${ma.map(x=>`<div class="row"><div>${esc(String(x.month_date).slice(0,7))}</div><div>回款 ${money(x.company_return)}</div><div>房租 ${money(x.rent)}</div><div>水电 ${money(x.utilities)}</div><div class="wide">其他 ${money(x.other_expenses)} · ${x.notes?esc(x.notes):''}</div></div>`).join('')||'<div class="muted">暂无月度账务</div>'} `}if(p?.view_expenses!==false){extra+=`<h3>报销明细</h3>${re.map(x=>`<div class="row"><div>${esc(x.expense_date)}</div><div>${money(x.amount)}</div><div class="wide">${esc(x.note||'')} ${x.receipt_url&&p?.view_receipts!==false?`· <a target="_blank" href="${esc(x.receipt_url)}">查看凭证</a>`:''}</div></div>`).join('')||'<div class="muted">暂无报销</div>'}`}if(p?.view_dividends!==false){extra+=`<h3>分红明细</h3>${di.map(x=>`<div class="row"><div>${esc(x.dividend_date)}</div><div>总分红 ${money(x.amount)}</div><div class="positive">我应得 ${money(n(x.amount)*n(share)/100)}</div></div>`).join('')||'<div class="muted">暂无分红记录</div>'}`};modal(`${st.name} · 数据详情`,`<div class="muted">我的股份：${n(share)}% · ${partnerPeriodMode==='month'?'本月':partnerPeriodMode==='year'?'本年度':partnerPeriodMode==='range'?'所选范围':'开业至今'}</div><div class="grid" style="margin-top:12px">${parts.join('')}</div>${extra}`)}
+async function showPartnerStoreDetail(storeId){const st=stores.find(x=>Number(x.id)===Number(storeId));if(!st)return;const {data:p}=await sb.from('partner_permissions').select('*').eq('user_id',me.id).eq('store_id',storeId).maybeSingle();const [start,end]=partnerBounds(st);const all=await fetchPartnerData({storeIds:[storeId],start,end});const ma=all.monthly.filter(x=>Number(x.store_id)===Number(storeId)&&monthlyInPeriod(x,st,start,end,partnerPeriodMode,partnerRangeStart,partnerRangeEnd));const ds=all.daily.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.sales_date,start,end));const re=all.reimbursements.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.expense_date,start,end));const di=all.dividends.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.dividend_date,start,end));const share=(await sb.from('store_members').select('share_percent').eq('user_id',me.id).eq('store_id',storeId).maybeSingle()).data?.share_percent||0;const tu=all.topups.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.topup_date,start,end));const divTotal=di.reduce((a,x)=>a+n(x.amount),0);const topTotal=tu.reduce((a,x)=>a+n(x.amount),0);const parts=[];if(p?.view_turnover!==false)parts.push(`<div><b>营业额</b><div>${money(ds.reduce((a,x)=>a+n(x.amount),0))}</div></div>`);if(p?.view_company_return!==false)parts.push(`<div><b>公司回款</b><div>${money(ma.reduce((a,x)=>a+n(x.company_return),0))}</div></div>`);if(p?.view_rent!==false)parts.push(`<div><b>房租</b><div>${money(ma.reduce((a,x)=>a+n(x.rent),0))}</div></div>`);if(p?.view_utilities!==false)parts.push(`<div><b>水电费</b><div>${money(ma.reduce((a,x)=>a+n(x.utilities),0))}</div></div>`);if(p?.view_expenses!==false)parts.push(`<div><b>其他费用+报销</b><div>${money(ma.reduce((a,x)=>a+n(x.other_expenses),0)+re.reduce((a,x)=>a+n(x.amount),0))}</div></div>`);const profit=ma.reduce((a,x)=>a+n(x.company_return)-n(x.rent)-n(x.utilities)-n(x.other_expenses),0)-re.reduce((a,x)=>a+n(x.amount),0);if(p?.view_profit!==false)parts.push(`<div><b>盈利</b><div class="${profit>=0?'positive':'negative'}">${money(profit)}</div></div>`);if(p?.view_dividends!==false)parts.push(`<div><b>本期间我应得分红</b><div class="positive">${money(divTotal*n(share)/100)}</div></div>`);if(p?.view_initial_investment!==false)parts.push(`<div><b>初始投入</b><div>${money(st.initial_investment)}</div></div>`);if(p?.view_contributions!==false)parts.push(`<div><b>期间补款</b><div>${money(topTotal)}</div></div>`);if(p?.view_payback!==false)parts.push(`<div><b>剩余未回本</b><div class="${n(st.initial_investment)+topTotal-divTotal>=0?'positive':'negative'}">${money(n(st.initial_investment)+topTotal-divTotal)}</div></div>`);if(p?.view_contracts!==false)parts.push(`<div><b>门店资料</b><div>${esc(st.address||'已授权查看')}</div></div>`);let extra='';if(p?.view_history!==false){extra+=`<h3>期间账务</h3>${ma.map(x=>`<div class="row"><div>${esc(String(x.month_date).slice(0,7))}</div><div>回款 ${money(x.company_return)}</div><div>房租 ${money(x.rent)}</div><div>水电 ${money(x.utilities)}</div><div class="wide">其他 ${money(x.other_expenses)} · ${x.notes?esc(x.notes):''}</div></div>`).join('')||'<div class="muted">暂无月度账务</div>'} `}if(p?.view_expenses!==false){extra+=`<h3>报销明细</h3>${re.map(x=>`<div class="row"><div>${esc(x.expense_date)}</div><div>${money(x.amount)}</div><div class="wide">${esc(x.note||'')} ${x.receipt_url&&p?.view_receipts!==false?`· <a target="_blank" href="${esc(x.receipt_url)}">查看凭证</a>`:''}</div></div>`).join('')||'<div class="muted">暂无报销</div>'}`}if(p?.view_dividends!==false){extra+=`<h3>分红明细</h3>${di.map(x=>`<div class="row"><div>${esc(x.dividend_date)}</div><div>总分红 ${money(x.amount)}</div><div class="positive">我应得 ${money(n(x.amount)*n(share)/100)}</div></div>`).join('')||'<div class="muted">暂无分红记录</div>'}`};modal(`${st.name} · 数据详情`,`<div class="muted">我的股份：${n(share)}% · ${partnerPeriodMode==='month'?'本月':partnerPeriodMode==='year'?'本年度':partnerPeriodMode==='range'?'所选范围':'开业至今'}</div><div class="grid" style="margin-top:12px">${parts.join('')}</div>${extra}`)}
 
 async function showSalesCalendar(storeId,initialMonth){
  const s=stores.find(x=>x.id===Number(storeId)); if(!s){alert('门店不存在');return}
@@ -347,6 +347,18 @@ function closeModal(){
 }
 function dateTomorrow(){const d=new Date();d.setDate(d.getDate()+1);return localDate(d)}
 function periodBounds(store){return unifiedPeriodBounds(store,periodMode,rangeStart,rangeEnd)}
+function monthlyPeriodBounds(store,mode,startMonth,endMonth){
+ const b=unifiedPeriodBounds(store,mode,startMonth,endMonth);
+ if(mode==='life'){
+  const opening=String(store?.opening_date||'').slice(0,10);
+  if(opening){const ym=opening.slice(0,7);return [ym+'-01',b[1]]}
+ }
+ return b;
+}
+function monthlyInPeriod(row,store,start,end,mode=periodMode,startMonth=rangeStart,endMonth=rangeEnd){
+ const s=monthlyPeriodBounds(store,mode,startMonth,endMonth)[0];
+ return inBounds(row?.month_date,s,end);
+}
 async function fetchReimbursements(storeId=null){
  let q=sb.from('v_reimbursements').select('id,store_id,expense_date,amount,category_id,note,receipt_url').order('expense_date',{ascending:false});
  if(storeId!==null&&storeId!==undefined)q=q.eq('store_id',Number(storeId));
@@ -408,7 +420,7 @@ async function showDashboard(){window.activePage='dashboard';
  const c=$('content');c.innerHTML='<div class="card">正在读取云端账务…</div>';
  try{await load(false);if(!stores.length){c.innerHTML='<div class="card"><h2>暂无门店</h2></div>';return}
  const all=await fetchDashboardData(),td=today(),ym=monthNow();let allT=0,allM=0;
- const blocks=stores.map(st=>{const [start,end]=periodBounds(st),rows=all.monthly.filter(r=>r.store_id===st.id&&inBounds(r.month_date,start,end)),sales=all.dailySales.filter(r=>r.store_id===st.id&&inBounds(r.sales_date,start,end)),ms=all.dailySales.filter(r=>r.store_id===st.id&&String(r.sales_date).slice(0,7)===ym),ds=all.dailySales.filter(r=>r.store_id===st.id&&String(r.sales_date).slice(0,10)===td),mt=ms.reduce((x,r)=>x+n(r.amount),0),dt=ds.reduce((x,r)=>x+n(r.amount),0);allT+=dt;allM+=mt;const re=all.reimbursements.filter(r=>r.store_id===st.id&&inBounds(r.expense_date,start,end)),rt=re.reduce((x,r)=>x+n(r.amount),0),sum=k=>rows.reduce((x,r)=>x+n(r[k]),0),profit=rows.reduce((x,r)=>x+n(r.company_return)-n(r.rent)-n(r.utilities)-n(r.other_expenses),0)-rt,divs=all.dividends.filter(r=>r.store_id===st.id&&inBounds(r.dividend_date,start,end)),ls=String(st.opening_date||'0001-01-01').slice(0,10),lr=all.monthly.filter(r=>r.store_id===st.id&&inBounds(r.month_date,ls,null)),ld=all.dividends.filter(r=>r.store_id===st.id&&inBounds(r.dividend_date,ls,null)),lre=all.reimbursements.filter(r=>r.store_id===st.id&&inBounds(r.expense_date,ls,null)),lp=lr.reduce((x,r)=>x+n(r.company_return)-n(r.rent)-n(r.utilities)-n(r.other_expenses),0)-lre.reduce((x,r)=>x+n(r.amount),0),ret=lp-ld.reduce((x,r)=>x+n(r.amount),0),open=expanded[st.id];
+ const blocks=stores.map(st=>{const [start,end]=periodBounds(st),rows=all.monthly.filter(r=>r.store_id===st.id&&monthlyInPeriod(r,st,start,end)),sales=all.dailySales.filter(r=>r.store_id===st.id&&inBounds(r.sales_date,start,end)),ms=all.dailySales.filter(r=>r.store_id===st.id&&String(r.sales_date).slice(0,7)===ym),ds=all.dailySales.filter(r=>r.store_id===st.id&&String(r.sales_date).slice(0,10)===td),mt=ms.reduce((x,r)=>x+n(r.amount),0),dt=ds.reduce((x,r)=>x+n(r.amount),0);allT+=dt;allM+=mt;const re=all.reimbursements.filter(r=>r.store_id===st.id&&inBounds(r.expense_date,start,end)),rt=re.reduce((x,r)=>x+n(r.amount),0),sum=k=>rows.reduce((x,r)=>x+n(r[k]),0),profit=rows.reduce((x,r)=>x+n(r.company_return)-n(r.rent)-n(r.utilities)-n(r.other_expenses),0)-rt,divs=all.dividends.filter(r=>r.store_id===st.id&&inBounds(r.dividend_date,start,end)),ls=String(st.opening_date||'0001-01-01').slice(0,10),lr=all.monthly.filter(r=>r.store_id===st.id&&inBounds(r.month_date,ls.slice(0,7)+'-01',null)),ld=all.dividends.filter(r=>r.store_id===st.id&&inBounds(r.dividend_date,ls,null)),lre=all.reimbursements.filter(r=>r.store_id===st.id&&inBounds(r.expense_date,ls,null)),lp=lr.reduce((x,r)=>x+n(r.company_return)-n(r.rent)-n(r.utilities)-n(r.other_expenses),0)-lre.reduce((x,r)=>x+n(r.amount),0),ret=lp-ld.reduce((x,r)=>x+n(r.amount),0),open=expanded[st.id];
  return `<div class="card"><div class="actions" style="justify-content:space-between"><h2 style="margin:0">${esc(st.name)}</h2><button class="secondary" onclick="toggleStore(${st.id})">${open?'收起':'详情'}</button></div><div class="stats" style="margin-top:12px"><div class="stat"><div class="actions" style="justify-content:space-between"><div class="muted">营业额</div><button class="secondary" style="padding:5px 8px;font-size:12px" onclick="showSalesCalendar(${st.id})">打开日历</button></div><div class="actions" style="justify-content:space-between;align-items:end;margin-top:6px"><div class="num">${money(salesViewMode==='today'?dt:mt)}</div><div class="actions" style="gap:4px"><button class="${salesViewMode==='today'?'':'secondary'}" style="padding:5px 8px;font-size:12px" onclick="salesViewMode='today';showDashboard()">当日</button><button class="${salesViewMode==='month'?'':'secondary'}" style="padding:5px 8px;font-size:12px" onclick="salesViewMode='month';showDashboard()">当月</button></div></div><div class="muted" style="margin-top:4px">${salesViewMode==='today'?td+' 当日营业额':ym+' 当月营业额'}</div></div><div class="stat"><div class="muted">公司回款</div><div class="num">${money(sum('company_return'))}</div></div><div class="stat"><div class="muted">报销</div><div class="num">${money(rt)}</div></div><div class="stat"><div class="muted">盈利</div><div class="num ${profit>=0?'positive':'negative'}">${money(profit)}</div></div></div><div class="stat"><div class="muted">门店留存</div><div class="num ${ret>=0?'positive':'negative'}">${money(ret)}</div></div>${open?storeDetailFromRows(st,rows,sales,divs,re,ret):''}</div>`}).join('');
  c.innerHTML=`<div class="card"><h2 style="margin:0 0 8px">门店总览</h2><div class="muted">${td} · 所有门店业绩</div><div class="stats" style="margin-top:12px"><div class="stat"><div class="muted">所有门店当日营业额</div><div class="num">${money(allT)}</div></div><div class="stat"><div class="muted">所有门店当月营业额</div><div class="num">${money(allM)}</div></div></div></div>${periodControls()}${blocks}`;subscribeOwnerRealtime()
  }catch(e){c.innerHTML='<div class="card"><p class="error">读取失败：'+esc(e.message)+'</p></div>'}}
@@ -732,49 +744,83 @@ function excelCell(v){
  if(typeof v==='object')return esc(JSON.stringify(v));
  return esc(String(v));
 }
-function makeExcelHtml(backup){
- const current=backup.data||{};
- const legacy=backup.legacy_data||{};
- const groups=[
-  ['当前业务数据',current],
-  ['历史兼容数据（不参与当前业务统计）',legacy]
- ];
- let out=`<!DOCTYPE html><html><head><meta charset="UTF-8"><style>table{border-collapse:collapse;margin-bottom:24px}td,th{border:1px solid #999;padding:5px;white-space:nowrap}th{font-weight:bold}
-.navgroups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:12px 0 16px}
-.navgroup{background:rgba(255,253,251,.96);border:1px solid var(--line);border-radius:16px;padding:12px}
-.navgroup-title{font-size:12px;color:var(--muted);font-weight:700;margin:0 0 8px 2px;letter-spacing:.5px}
-.navgroup .actions{gap:7px}
-.navgroup button{flex:1;min-width:110px}
-.mobilebar{display:none}
-@media(max-width:650px){
- .navgroups{display:none}
- .mobilebar{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;position:sticky;top:61px;z-index:9;background:#fffaf5ee;padding:7px;border:1px solid var(--line);border-radius:14px;margin:0 0 10px;backdrop-filter:blur(12px)}
- .mobilebar button{padding:9px 5px;font-size:12px;min-width:0}
- .mobilebar .morebtn{background:#eee4db;color:var(--dark);box-shadow:none}
- .mobile-more{display:none;background:#fffdfb;border:1px solid var(--line);border-radius:14px;padding:8px;margin:-3px 0 10px;box-shadow:0 8px 22px #5a382712}
- .mobile-more.open{display:grid;grid-template-columns:1fr 1fr;gap:7px}
- .mobile-more button{background:#f4e8dd;color:var(--dark);box-shadow:none}
- .mobilebar + .mobile-more{margin-top:0}
+function xmlEsc(v){
+ return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
 }
-</style></head><body>`;
- out+=`<h1>女装门店数据备份 · ${esc(backup.exported_at||'')}</h1>`;
- for(const [groupName,tables] of groups){
-   out+=`<h2>${esc(groupName)}</h2>`;
-   for(const [name,rows] of Object.entries(tables)){
-     out+=`<h3>${esc(name)}</h3>`;
-     const arr=Array.isArray(rows)?rows:[];
-     const keys=[...new Set(arr.flatMap(x=>Object.keys(x||{})))];
-     if(!keys.length){out+='<p>无数据</p>';continue}
-     out+='<table><tr>'+keys.map(k=>`<th>${esc(k)}</th>`).join('')+'</tr>';
-     for(const row of arr)out+='<tr>'+keys.map(k=>`<td>${excelCell(row?.[k])}</td>`).join('')+'</tr>';
-     out+='</table>';
-   }
+function excelCellText(v){
+ if(v===null||v===undefined)return '';
+ if(typeof v==='object')return JSON.stringify(v);
+ return String(v);
+}
+function crc32(bytes){
+ let table=window.__crc32Table;
+ if(!table){
+  table=new Uint32Array(256);
+  for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=(c&1)?(0xedb88320^(c>>>1)):(c>>>1);table[n]=c>>>0}
+  window.__crc32Table=table;
  }
- out+='</body></html>';return out;
+ let c=0xffffffff;
+ for(let i=0;i<bytes.length;i++)c=table[(c^bytes[i])&255]^(c>>>8);
+ return (c^0xffffffff)>>>0;
+}
+function u16(n){return new Uint8Array([n&255,(n>>>8)&255])}
+function u32(n){return new Uint8Array([n&255,(n>>>8)&255,(n>>>16)&255,(n>>>24)&255])}
+function concatBytes(parts){
+ let len=0;parts.forEach(x=>len+=x.length);
+ const out=new Uint8Array(len);let p=0;
+ parts.forEach(x=>{out.set(x,p);p+=x.length});return out;
+}
+function zipStore(files){
+ const enc=new TextEncoder(),local=[],central=[];let offset=0;
+ for(const f of files){
+  const name=enc.encode(f.name),data=typeof f.data==='string'?enc.encode(f.data):f.data,crc=crc32(data);
+  const lh=concatBytes([new Uint8Array([80,75,3,4,20,0,0,0,0,0,0,0,0,0]),u32(crc),u32(data.length),u32(data.length),u16(name.length),u16(0),name,data]);
+  local.push(lh);
+  const ch=concatBytes([new Uint8Array([80,75,1,2,20,0,20,0,0,0,0,0,0,0,0,0]),u32(crc),u32(data.length),u32(data.length),u16(name.length),u16(0),u16(0),u16(0),u16(0),u32(0),u32(offset),name]);
+  central.push(ch);offset+=lh.length;
+ }
+ const cd=concatBytes(central),body=concatBytes(local);
+ const end=concatBytes([new Uint8Array([80,75,5,6,0,0,0,0]),u16(files.length),u16(files.length),u32(cd.length),u32(body.length),u16(0)]);
+ return concatBytes([body,cd,end]);
+}
+function makeExcelXlsx(backup){
+ const current=backup?.data||{},legacy=backup?.legacy_data||{};
+ const groups=[['当前业务数据',current],['历史兼容数据',legacy]];
+ const sheets=[];const used=new Set();
+ const safeSheet=(raw)=>{
+  let s=String(raw||'数据').replace(/[\\\/\?\*\[\]:]/g,'_').slice(0,31)||'数据',base=s,i=2;
+  while(used.has(s)){s=(base.slice(0,31-String(i).length-1)+'_'+i++);}
+  used.add(s);return s;
+ };
+ const files=[
+  {name:'[Content_Types].xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${Object.keys(current).concat(Object.keys(legacy)).map((_,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}</Types>`},
+  {name:'_rels/.rels',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`},
+  {name:'xl/styles.xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="2"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill></fills><borders count="1"><border/></borders><cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0"/></cellXfs></styleSheet>`}
+ ];
+ let idx=1;
+ for(const [groupName,tables] of groups){
+  for(const [name,rows] of Object.entries(tables)){
+   const sheetName=safeSheet(name),arr=Array.isArray(rows)?rows:[],keys=[...new Set(arr.flatMap(x=>Object.keys(x||{})))];
+   const rowXml=[];
+   rowXml.push(`<row><c t="inlineStr" s="1"><is><t>${xmlEsc(groupName+' · '+name)}</t></is></c></row>`);
+   if(keys.length){
+    rowXml.push('<row>'+keys.map(k=>`<c t="inlineStr" s="1"><is><t>${xmlEsc(k)}</t></is></c>`).join('')+'</row>');
+    for(const row of arr){
+     rowXml.push('<row>'+keys.map(k=>`<c t="inlineStr"><is><t xml:space="preserve">${xmlEsc(excelCellText(row?.[k]))}</t></is></c>`).join('')+'</row>');
+    }
+   }else rowXml.push('<row><c t="inlineStr"><is><t>无数据</t></is></c></row>');
+   files.push({name:`xl/worksheets/sheet${idx}.xml`,data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${rowXml.join('')}</sheetData></worksheet>`});
+   sheets.push({name:sheetName,id:idx});idx++;
+  }
+ }
+ files.push({name:'xl/workbook.xml',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>${sheets.map(s=>`<sheet name="${xmlEsc(s.name)}" sheetId="${s.id}" r:id="rId${s.id}"/>`).join('')}</sheets></workbook>`});
+ files.push({name:'xl/_rels/workbook.xml.rels',data:`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map(s=>`<Relationship Id="rId${s.id}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${s.id}.xml"/>`).join('')}<Relationship Id="rId${sheets.length+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`});
+ return zipStore(files);
 }
 async function downloadExcel(filename,backup){
- const blob=new Blob([makeExcelHtml(backup)],{type:'application/vnd.ms-excel;charset=utf-8'});
- return shareOrDownloadBlob(filename,blob,'application/vnd.ms-excel','女装门店 Excel 数据备份');
+ const bytes=makeExcelXlsx(backup);
+ const blob=new Blob([bytes],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+ return shareOrDownloadBlob(filename,blob,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','女装门店 Excel 数据备份');
 }
 
 function backupStoreData(storeId,all){
@@ -871,7 +917,7 @@ async function downloadFullExcel(){
  try{
   const backup=await buildFullBackup();
   const stamp=new Date().toISOString().slice(0,19).replace(/[:T]/g,'-');
-  const result=await downloadExcel('女装门店_全量数据备份_Excel_'+stamp+'.xls',backup);
+  const result=await downloadExcel('女装门店_全量数据备份_Excel_'+stamp+'.xlsx',backup);
   if(result==='shared') alert('Excel备份已进入手机系统分享，请选择“存储到文件”。');
   else if(result!=='cancelled') alert('Excel备份已生成，请保存到“文件”。');
  }catch(e){alert('Excel备份失败：'+(e.message||e))}
@@ -896,7 +942,7 @@ async function downloadSingleStoreExcel(storeId){
   const b=backupStoreData(storeId,all);
   const safe=String(b.store.name||'门店').replace(/[\\/:*?"<>|]/g,'_');
   const stamp=new Date().toISOString().slice(0,19).replace(/[:T]/g,'-');
-  const result=await downloadExcel(safe+'_开业至今备份_Excel_'+stamp+'.xls',b);
+  const result=await downloadExcel(safe+'_开业至今备份_Excel_'+stamp+'.xlsxx',b);
   if(result==='shared') alert('Excel备份已进入手机系统分享，请选择“存储到文件”。');
   else if(result!=='cancelled') alert('Excel备份已生成，请保存到“文件”。');
  }catch(e){alert('单店Excel备份失败：'+(e.message||e))}
