@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>女装门店·女韩子 V1.61</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>女装门店·女韩子 V1.63</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
 :root{--bg:#f6f0e9;--card:#fffdfb;--text:#2b211c;--muted:#8b7b70;--line:#eadfd5;--dark:#5a3827;--dark2:#7a4b31;--accent:#b77a4c;--accent2:#d7aa7f;--soft:#f4e8dd;--blush:#f5e2df;--sage:#e7eee5;--gold:#c79a5a;--red:#b43b32;--green:#2d7b55}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0%,#fffaf5 0,#f6f0e9 42%,#efe6dd 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Arial,sans-serif;min-height:100vh}body:before{content:"";display:block;height:4px;background:linear-gradient(90deg,var(--accent2),var(--gold),var(--dark2),var(--accent2))}header{position:sticky;top:0;z-index:10;background:rgba(255,250,245,.94);backdrop-filter:blur(14px);color:var(--dark);padding:13px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px #5a38270d}header b{letter-spacing:1px;font-weight:750}.wrap{max-width:1100px;margin:auto;padding:18px}.card{background:rgba(255,253,251,.96);border:1px solid rgba(234,223,213,.9);border-radius:20px;padding:18px;margin-bottom:15px;box-shadow:0 8px 28px #5a382710}.card h2,.card h3{color:var(--dark)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{background:linear-gradient(145deg,#fffaf6,#f6ede5);border:1px solid #eee1d7;border-radius:15px;padding:14px}.stats .stat:first-child{background:linear-gradient(145deg,#fff5f2,#f6e2df)}.stats .stat:nth-child(2){background:linear-gradient(145deg,#fff9ed,#f4ead9)}.stats .stat:nth-child(3){background:linear-gradient(145deg,#f9f1e8,#eee2d7)}.num{font-size:22px;font-weight:800;margin-top:5px;letter-spacing:.2px}.muted{color:var(--muted);font-size:13px}input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:12px 13px;border:1px solid #dfd1c6;border-radius:12px;background:#fffdfa;color:var(--text);outline:none;transition:.18s}input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px #b77a4c1c}textarea{min-height:80px;resize:vertical}button{border:0;border-radius:12px;padding:10px 14px;background:linear-gradient(135deg,var(--dark2),var(--dark));color:#fff;cursor:pointer;box-shadow:0 3px 10px #5a38271a;transition:transform .15s,box-shadow .15s,opacity .15s}button:hover{transform:translateY(-1px);box-shadow:0 5px 14px #5a382725}button:disabled{opacity:.55;transform:none}.secondary{background:#f0e7df;color:var(--dark);box-shadow:none}.secondary:hover{background:#e9ddd2}.danger{background:#a83228}.green{background:var(--green)}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .buttonLike{background:var(--accent,#111);color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}.tabs{display:flex;gap:8px;overflow:auto;margin:10px 0 14px;padding-bottom:2px}.tabs button{white-space:nowrap;background:#eee4db;color:var(--dark);box-shadow:none}.tabs .active{background:linear-gradient(135deg,var(--dark2),var(--dark));color:#fff;box-shadow:0 4px 12px #5a382728}.row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.hidden{display:none!important}.login{max-width:440px;margin:55px auto}.login.card{padding:24px}.login h2{font-size:28px;margin-bottom:6px}.error{color:var(--red)}.success{color:var(--green)}.positive{color:var(--red);font-weight:800}.negative{color:var(--green);font-weight:800}.notice{padding:12px;border-radius:12px;background:#fff7df;border:1px solid #efdfad;color:#765900;font-size:13px}.modal{position:fixed;inset:0;background:#2b211c80;z-index:30;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}.modalbox{background:#fffdfb;width:min(760px,100%);max-height:92vh;overflow:auto;border:1px solid var(--line);border-radius:22px 22px 0 0;padding:20px;box-shadow:0 -10px 40px #2b211c25}.checkgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.check{display:flex;gap:8px;align-items:center;background:#faf4ee;border:1px solid #eee0d4;padding:10px;border-radius:11px}.check input{width:auto}.small{font-size:12px}.pill{display:inline-block;padding:5px 9px;border-radius:999px;background:var(--soft);color:var(--dark);font-size:12px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:12px}.calhead{font-size:12px;text-align:center;color:var(--muted);padding:5px}.calday{background:linear-gradient(145deg,#fffdfa,#f6eee7);border:1px solid #eadfd5;border-radius:12px;min-height:72px;padding:8px;cursor:pointer;transition:.15s}.calday:hover{border-color:var(--accent);transform:translateY(-1px)}.calday .d{font-size:12px;color:var(--muted)}.calday .amt{font-size:12px;font-weight:750;margin-top:10px;color:var(--dark)}.calday.today{border:2px solid var(--accent);background:#fff5ed}.calday.empty{background:transparent;border:0;cursor:default}.staffbar{display:flex;justify-content:space-between;align-items:center;gap:12px}.staffbar h2{font-size:21px}.login:before{content:"NUHUNS  ·  FASHION STORE";display:block;color:var(--accent);font-size:12px;letter-spacing:2px;font-weight:800;margin-bottom:12px}@media(max-width:650px){.wrap{padding:10px}.card{padding:14px;margin-bottom:11px;border-radius:17px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat{padding:10px;border-radius:13px}.num{font-size:18px}.muted{font-size:12px}.row{grid-template-columns:1fr 1fr}.row .wide{grid-column:1/-1}.checkgrid{grid-template-columns:1fr}.calendar{gap:4px}.calday{min-height:66px;padding:6px}.calday .amt{font-size:10px;margin-top:7px}.staffbar{align-items:flex-start}.staffbar .secondary{white-space:nowrap;padding:8px 10px}.card h2{font-size:20px}.card h3{font-size:17px}}
 footer.version{position:fixed;left:0;right:0;bottom:0;text-align:center;padding:7px 10px;background:#ffffffdd;border-top:1px solid var(--line);backdrop-filter:blur(6px);font-size:12px;color:var(--muted);z-index:20}.wrap{padding-bottom:54px}
@@ -24,7 +24,7 @@ details summary{cursor:pointer;list-style:none;padding:8px 2px}
 details summary::-webkit-details-marker{display:none}
 @media(max-width:650px){.card{padding:14px}.actions{flex-wrap:wrap}.actions>button{min-height:42px}}
 </style></head><body><header><b>女装门店，女韩子</b><span id="userLabel"></span></header>
-<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">云端账号登录</p><input id="loginAccount" placeholder="登录账号" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" style="width:100%">登录</button><button id="staffEntryBtn" class="secondary" style="width:100%;margin-top:8px" type="button">门店员工入口</button><p id="loginMsg" class="error"></p></div></div><div id="app" class="wrap hidden"></div><div id="modalRoot"></div><footer class="version">版本：V1.61</footer>
+<div id="login" class="wrap"><div class="card login"><h2>登录</h2><p class="muted">云端账号登录</p><input id="loginAccount" placeholder="登录账号" autocomplete="username"><br><br><input id="loginPass" type="password" placeholder="密码" autocomplete="current-password"><br><br><button id="loginBtn" style="width:100%">登录</button><button id="staffEntryBtn" class="secondary" style="width:100%;margin-top:8px" type="button">门店员工入口</button><p id="loginMsg" class="error"></p></div></div><div id="app" class="wrap hidden"></div><div id="modalRoot"></div><footer class="version">版本：V1.63</footer>
 <script>
 const SUPABASE_URL='https://dqruzakkunkinecxxbny.supabase.co',SUPABASE_KEY='sb_publishable_igD9yDQ1KbazCNNUfnjk2Q_WBRY5J-6';
 let salesViewMode='month';let sb=null,me=null,profile=null,stores=[],periodMode='month',rangeStart='',rangeEnd='',expanded={},loginMode=location.hash==='#staff'?'staff':'normal',staffStore=null,staffRealtime=null,ownerRealtime=null,staffCalendarCollapsed=false,staffMonth='';let ownerRefreshTimer=null,ownerRefreshBusy=false;
@@ -100,7 +100,7 @@ function renderShell(){
    <button onclick="logout()">退出</button>
   </div>`:
   `<div class="mobilebar"><button onclick="showPartnerHome()">我的门店与分红</button><button onclick="showAccount()">账号</button><button class="morebtn" onclick="logout()">退出</button></div>`;
- $('app').innerHTML=`<div class="card" style="margin-bottom:8px"><h2 style="margin:0">${title}</h2><div class="muted">${owner?'经营数据、账单、报销、分红、股东与门店管理':'查看本人参与门店、股份及分红情况'} · V1.61</div></div>${desktop}${mobile}<div id="content"></div>`;
+ $('app').innerHTML=`<div class="card" style="margin-bottom:8px"><h2 style="margin:0">${title}</h2><div class="muted">${owner?'经营数据、账单、报销、分红、股东与门店管理':'查看本人参与门店、股份及分红情况'} · V1.63</div></div>${desktop}${mobile}<div id="content"></div>`;
  owner?showDashboard():showPartnerHome();
 }
 function toggleMobileMore(){const e=$('mobileMore');if(e)e.classList.toggle('open')}
@@ -715,7 +715,12 @@ function excelCell(v){
  return esc(String(v));
 }
 function makeExcelHtml(backup){
- const tables=backup.data||{};
+ const current=backup.data||{};
+ const legacy=backup.legacy_data||{};
+ const groups=[
+  ['当前业务数据',current],
+  ['历史兼容数据（不参与当前业务统计）',legacy]
+ ];
  let out=`<!DOCTYPE html><html><head><meta charset="UTF-8"><style>table{border-collapse:collapse;margin-bottom:24px}td,th{border:1px solid #999;padding:5px;white-space:nowrap}th{font-weight:bold}
 .navgroups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:12px 0 16px}
 .navgroup{background:rgba(255,253,251,.96);border:1px solid var(--line);border-radius:16px;padding:12px}
@@ -735,14 +740,17 @@ function makeExcelHtml(backup){
 }
 </style></head><body>`;
  out+=`<h1>女装门店数据备份 · ${esc(backup.exported_at||'')}</h1>`;
- for(const [name,rows] of Object.entries(tables)){
-   out+=`<h2>${esc(name)}</h2>`;
-   const arr=Array.isArray(rows)?rows:[];
-   const keys=[...new Set(arr.flatMap(x=>Object.keys(x||{})))];
-   if(!keys.length){out+='<p>无数据</p>';continue}
-   out+='<table><tr>'+keys.map(k=>`<th>${esc(k)}</th>`).join('')+'</tr>';
-   for(const row of arr)out+='<tr>'+keys.map(k=>`<td>${excelCell(row?.[k])}</td>`).join('')+'</tr>';
-   out+='</table>';
+ for(const [groupName,tables] of groups){
+   out+=`<h2>${esc(groupName)}</h2>`;
+   for(const [name,rows] of Object.entries(tables)){
+     out+=`<h3>${esc(name)}</h3>`;
+     const arr=Array.isArray(rows)?rows:[];
+     const keys=[...new Set(arr.flatMap(x=>Object.keys(x||{})))];
+     if(!keys.length){out+='<p>无数据</p>';continue}
+     out+='<table><tr>'+keys.map(k=>`<th>${esc(k)}</th>`).join('')+'</tr>';
+     for(const row of arr)out+='<tr>'+keys.map(k=>`<td>${excelCell(row?.[k])}</td>`).join('')+'</tr>';
+     out+='</table>';
+   }
  }
  out+='</body></html>';return out;
 }
@@ -761,45 +769,63 @@ function backupStoreData(storeId,all){
   const staff=byStore(all.store_staff);
   staff.forEach(x=>{if(x.user_id)userIds.push(x.user_id)});
   const profiles=all.profiles.filter(x=>userIds.includes(x.id));
+  const currentData={
+    store_members:byStore(all.store_members),
+    partner_permissions:byStore(all.partner_permissions),
+    store_staff:staff,
+    daily_sales:byStore(all.daily_sales),
+    monthly_accounts:byStore(all.monthly_accounts),
+    reimbursements:byStore(all.reimbursements),
+    store_dividends:byStore(all.store_dividends),
+    store_topups:byStore(all.store_topups),
+    profiles,
+    expense_categories:all.expense_categories,
+    reimbursement_categories:all.reimbursement_categories
+  };
+  const legacyData={
+    store_monthly:byStore(all.store_monthly),
+    expenses:byStore(all.expenses),
+    dividends:byStore(all.dividends),
+    contributions:byStore(all.contributions)
+  };
   return {
     backup_format:'fashion-store-accounting-backup',
-    backup_version:'1.0',
+    backup_version:'1.2',
     exported_at:new Date().toISOString(),
     scope:'single_store',
     store,
-    data:{
-      store_members:byStore(all.store_members),
-      partner_permissions:byStore(all.partner_permissions),
-      store_staff:staff,
-      daily_sales:byStore(all.daily_sales),
-      monthly_accounts:byStore(all.monthly_accounts),
-      store_monthly:byStore(all.store_monthly),
-      reimbursements:byStore(all.reimbursements),
-      expenses:byStore(all.expenses),
-      dividends:byStore(all.dividends),
-      store_dividends:byStore(all.store_dividends),
-      contributions:byStore(all.contributions),
-      store_topups:byStore(all.store_topups),
-      profiles,
-      expense_categories:all.expense_categories,
-      reimbursement_categories:all.reimbursement_categories
+    data:currentData,
+    legacy_data:legacyData,
+    table_manifest:{
+      current:Object.keys(currentData),
+      legacy_compatibility:Object.keys(legacyData)
     },
-    note:'包含门店开业至今数据库中与该门店关联的全部公开业务数据；凭证字段中的图片通常以URL/存储路径形式保存，不包含登录密码。'
+    note:'当前业务数据与历史兼容数据分开保存；历史兼容表不会参与当前业务统计。每张数据库表在备份中只保存一次。登录密码不会被导出；凭证图片若以URL保存，则备份其URL/路径。'
   };
 }
 async function buildFullBackup(){
   const tables=['stores','store_members','partner_permissions','store_staff','daily_sales','monthly_accounts','store_monthly','reimbursements','expenses','dividends','store_dividends','contributions','store_topups','profiles','expense_categories','reimbursement_categories'];
   const result={};
   for(const t of tables){try{result[t]=await backupQuery(t)}catch(e){throw new Error('全量备份在【'+t+'】失败：'+(e?.message||e))}}
+  const currentTables=['stores','store_members','partner_permissions','store_staff','daily_sales','monthly_accounts','reimbursements','store_dividends','store_topups','profiles','expense_categories','reimbursement_categories'];
+  const legacyTables=['store_monthly','expenses','dividends','contributions'];
+  const currentData={};
+  const legacyData={};
+  currentTables.forEach(t=>{currentData[t]=result[t]||[]});
+  legacyTables.forEach(t=>{legacyData[t]=result[t]||[]});
   return {
     backup_format:'fashion-store-accounting-backup',
-    backup_version:'1.0',
+    backup_version:'1.2',
     exported_at:new Date().toISOString(),
     scope:'all_stores',
     store_count:result.stores.length,
-    stores:result.stores,
-    data:result,
-    note:'这是系统全量业务数据备份。包含各门店开业至今的每日营业额、月度账务、公司回款、房租、水电、其他费用、报销、分红、补款、股份、权限、门店资料等。登录密码不会被导出；凭证图片若以URL保存，则备份其URL/路径。'
+    data:currentData,
+    legacy_data:legacyData,
+    table_manifest:{
+      current:currentTables,
+      legacy_compatibility:legacyTables
+    },
+    note:'当前业务数据与历史兼容数据分开保存；历史兼容表不会参与当前业务统计。每张数据库表在备份中只保存一次。登录密码不会被导出；凭证图片若以URL保存，则备份其URL/路径。'
   };
 }
 async function downloadFullBackup(){
