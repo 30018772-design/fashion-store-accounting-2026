@@ -100,7 +100,6 @@ async function showPartnerHome(){
    if(p.view_company_return!==false)cells.push(`<div class="stat"><div class="muted">公司回款</div><div class="num">${money(company)}</div></div>`);
    if(p.view_rent!==false)cells.push(`<div class="stat"><div class="muted">房租</div><div class="num">${money(rent)}</div></div>`);
    if(p.view_utilities!==false)cells.push(`<div class="stat"><div class="muted">水电费</div><div class="num">${money(util)}</div></div>`);
-   if(p.view_expenses!==false)cells.push(`<div class="stat"><div class="muted">本期间报销</div><div class="num">${money(refund)}</div></div>`);
    if(p.view_expenses!==false)cells.push(`<div class="stat"><div class="muted">其他费用 + 报销</div><div class="num">${money(other+refund)}</div></div>`);
    if(p.view_profit!==false)cells.push(`<div class="stat"><div class="muted">盈利</div><div class="num ${profit>=0?'positive':'negative'}">${money(profit)}</div></div>`);
    if(p.view_retained!==false)cells.push(`<div class="stat"><div class="muted">门店留存</div><div class="num ${profit-div.reduce((a,x)=>a+n(x.amount),0)>=0?'positive':'negative'}">${money(profit-div.reduce((a,x)=>a+n(x.amount),0))}</div></div>`);
@@ -127,27 +126,12 @@ function subscribePartnerRealtime(){
 let partnerPeriodMode='month',partnerRangeStart='',partnerRangeEnd='';
 function partnerBounds(st){const now=monthNow();if(partnerPeriodMode==='month')return [now+'-01',nextMonth(now)+'-01'];if(partnerPeriodMode==='year'){const y=new Date().getFullYear();return [`${y}-01-01`,`${y+1}-01-01`]}if(partnerPeriodMode==='range'){const a=partnerRangeStart||now,b=partnerRangeEnd||now;return [a+'-01',nextMonth(b)+'-01']}return [String(st.opening_date||'0001-01-01').slice(0,10),null]}
 function partnerPeriodControls(){return `<div class="card"><div class="actions"><button class="${partnerPeriodMode==='month'?'':'secondary'}" onclick="partnerPeriodMode='month';showPartnerHome()">本月</button><button class="${partnerPeriodMode==='year'?'':'secondary'}" onclick="partnerPeriodMode='year';showPartnerHome()">本年度</button><button class="${partnerPeriodMode==='range'?'':'secondary'}" onclick="partnerPeriodMode='range';showPartnerHome()">月份范围</button><button class="${partnerPeriodMode==='life'?'':'secondary'}" onclick="partnerPeriodMode='life';showPartnerHome()">开业至今</button></div>${partnerPeriodMode==='range'?`<div class="grid" style="margin-top:10px"><input id="pRangeStart" type="month" value="${esc(partnerRangeStart||monthNow())}"><input id="pRangeEnd" type="month" value="${esc(partnerRangeEnd||monthNow())}"><button onclick="partnerRangeStart=$('pRangeStart').value;partnerRangeEnd=$('pRangeEnd').value;if(!partnerRangeStart||!partnerRangeEnd||partnerRangeStart>partnerRangeEnd){alert('请选择正确范围');return}showPartnerHome()">查询</button></div>`:''}</div>`}
-async function fetchPartnerData(){
- const [ma,ds,re,di,tu]=await Promise.all([
-  sb.from('monthly_accounts').select('store_id,month_date,company_return,rent,utilities,other_expenses,profit,retained,notes').order('month_date'),
-  sb.from('daily_sales').select('store_id,sales_date,amount').order('sales_date'),
-  sb.from('reimbursements').select('store_id,expense_date,amount,category_id,note,receipt_url').order('expense_date'),
-  sb.from('store_dividends').select('store_id,dividend_date,amount,note').order('dividend_date'),
-  sb.from('store_topups').select('store_id,topup_date,amount,note').order('topup_date')
- ]);
- for(const x of [ma,ds,re,di,tu])if(x.error)throw x.error;
- return {monthly:ma.data||[],daily:ds.data||[],reimbursements:re.data||[],dividends:di.data||[],topups:tu.data||[]}
-}
+async function fetchPartnerData(){const [ma,ds,re,di,tu]=await Promise.all([sb.from('v_monthly_accounts').select('store_id,month_date,company_return,rent,utilities,other_expenses,profit,retained,notes').order('month_date'),sb.from('daily_sales').select('store_id,sales_date,amount').order('sales_date'),sb.from('v_reimbursements').select('store_id,expense_date,amount,category_id,note,receipt_url').order('expense_date'),sb.from('v_store_dividends').select('store_id,dividend_date,amount,note').order('dividend_date'),sb.from('v_store_topups').select('store_id,topup_date,amount,note').order('topup_date')]);for(const x of [ma,ds,re,di,tu])if(x.error)throw x.error;return {monthly:ma.data||[],daily:ds.data||[],reimbursements:re.data||[],dividends:di.data||[],topups:tu.data||[]}}
 function compactPartnerExpenseSummary(re,mode){
- const arr=(re||[]).slice().sort((a,b)=>String(b.expense_date||'').localeCompare(String(a.expense_date||'')));
- if(!arr.length)return '';
- const byMonth={};arr.forEach(x=>{const ym=String(x.expense_date||'').slice(0,7);if(ym)(byMonth[ym]??=[]).push(x)});
+ const byMonth={};(re||[]).forEach(x=>{const ym=String(x.expense_date||'').slice(0,7);if(!ym)return;byMonth[ym]=(byMonth[ym]||0)+n(x.amount)});
  const keys=Object.keys(byMonth).sort((a,b)=>b.localeCompare(a));
- if(mode==='month'){
-   const total=arr.reduce((a,x)=>a+n(x.amount),0);
-   return `<details style="margin-top:12px"><summary><b>本月报销明细</b>　${money(total)}　${arr.length}笔</summary><div style="margin-top:8px">${arr.map(x=>`<div class="row"><div>${esc(x.expense_date)}</div><div>${money(x.amount)}</div><div class="wide">${esc(x.note||'')}${x.receipt_url?' · <a target="_blank" href="'+esc(x.receipt_url)+'">凭证</a>':''}</div></div>`).join('')}</div></details>`;
- }
- return keys.length?`<details style="margin-top:12px"><summary><b>报销明细（按月份折叠）</b>　${money(arr.reduce((a,x)=>a+n(x.amount),0))}　${arr.length}笔</summary><div style="margin-top:8px">${keys.map(k=>{const rs=byMonth[k],total=rs.reduce((a,x)=>a+n(x.amount),0);return `<details style="margin:8px 0"><summary>${esc(k)}　${money(total)}　${rs.length}笔</summary><div style="margin-top:6px">${rs.map(x=>`<div class="row"><div>${esc(x.expense_date)}</div><div>${money(x.amount)}</div><div class="wide">${esc(x.note||'')}${x.receipt_url?' · <a target="_blank" href="'+esc(x.receipt_url)+'">凭证</a>':''}</div></div>`).join('')}</div></details>`}).join('')}</div></details>`:'';
+ if(mode==='month')return '';
+ return keys.length?`<details style="margin-top:12px"><summary><b>报销明细（按月份）</b></summary><div style="margin-top:8px">${keys.map(k=>`<div class="row"><div>${esc(k)}</div><div>${money(byMonth[k])}</div><div></div><div></div></div>`).join('')}</div></details>`:'';
 }
 async function showPartnerStoreDetail(storeId){const st=stores.find(x=>Number(x.id)===Number(storeId));if(!st)return;const {data:p}=await sb.from('partner_permissions').select('*').eq('user_id',me.id).eq('store_id',storeId).maybeSingle();const all=await fetchPartnerData();const [start,end]=partnerBounds(st);const ma=all.monthly.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.month_date,start,end));const ds=all.daily.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.sales_date,start,end));const re=all.reimbursements.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.expense_date,start,end));const di=all.dividends.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.dividend_date,start,end));const share=(await sb.from('store_members').select('share_percent').eq('user_id',me.id).eq('store_id',storeId).maybeSingle()).data?.share_percent||0;const tu=all.topups.filter(x=>Number(x.store_id)===Number(storeId)&&inBounds(x.topup_date,start,end));const divTotal=di.reduce((a,x)=>a+n(x.amount),0);const topTotal=tu.reduce((a,x)=>a+n(x.amount),0);const parts=[];if(p?.view_turnover!==false)parts.push(`<div><b>营业额</b><div>${money(ds.reduce((a,x)=>a+n(x.amount),0))}</div></div>`);if(p?.view_company_return!==false)parts.push(`<div><b>公司回款</b><div>${money(ma.reduce((a,x)=>a+n(x.company_return),0))}</div></div>`);if(p?.view_rent!==false)parts.push(`<div><b>房租</b><div>${money(ma.reduce((a,x)=>a+n(x.rent),0))}</div></div>`);if(p?.view_utilities!==false)parts.push(`<div><b>水电费</b><div>${money(ma.reduce((a,x)=>a+n(x.utilities),0))}</div></div>`);if(p?.view_expenses!==false)parts.push(`<div><b>其他费用+报销</b><div>${money(ma.reduce((a,x)=>a+n(x.other_expenses),0)+re.reduce((a,x)=>a+n(x.amount),0))}</div></div>`);const profit=ma.reduce((a,x)=>a+n(x.company_return)-n(x.rent)-n(x.utilities)-n(x.other_expenses),0)-re.reduce((a,x)=>a+n(x.amount),0);if(p?.view_profit!==false)parts.push(`<div><b>盈利</b><div class="${profit>=0?'positive':'negative'}">${money(profit)}</div></div>`);if(p?.view_dividends!==false)parts.push(`<div><b>本期间我应得分红</b><div class="positive">${money(divTotal*n(share)/100)}</div></div>`);if(p?.view_initial_investment!==false)parts.push(`<div><b>初始投入</b><div>${money(st.initial_investment)}</div></div>`);if(p?.view_contributions!==false)parts.push(`<div><b>期间补款</b><div>${money(topTotal)}</div></div>`);if(p?.view_payback!==false)parts.push(`<div><b>剩余未回本</b><div class="${n(st.initial_investment)+topTotal-divTotal>=0?'positive':'negative'}">${money(n(st.initial_investment)+topTotal-divTotal)}</div></div>`);if(p?.view_contracts!==false)parts.push(`<div><b>门店资料</b><div>${esc(st.address||'已授权查看')}</div></div>`);let extra='';if(p?.view_history!==false){extra+=`<h3>期间账务</h3>${ma.map(x=>`<div class="row"><div>${esc(String(x.month_date).slice(0,7))}</div><div>回款 ${money(x.company_return)}</div><div>房租 ${money(x.rent)}</div><div>水电 ${money(x.utilities)}</div><div class="wide">其他 ${money(x.other_expenses)} · ${x.notes?esc(x.notes):''}</div></div>`).join('')||'<div class="muted">暂无月度账务</div>'} `}if(p?.view_expenses!==false){extra+=`<h3>报销明细</h3>${re.map(x=>`<div class="row"><div>${esc(x.expense_date)}</div><div>${money(x.amount)}</div><div class="wide">${esc(x.note||'')} ${x.receipt_url&&p?.view_receipts!==false?`· <a target="_blank" href="${esc(x.receipt_url)}">查看凭证</a>`:''}</div></div>`).join('')||'<div class="muted">暂无报销</div>'}`}if(p?.view_dividends!==false){extra+=`<h3>分红明细</h3>${di.map(x=>`<div class="row"><div>${esc(x.dividend_date)}</div><div>总分红 ${money(x.amount)}</div><div class="positive">我应得 ${money(n(x.amount)*n(share)/100)}</div></div>`).join('')||'<div class="muted">暂无分红记录</div>'}`};modal(`${st.name} · 数据详情`,`<div class="muted">我的股份：${n(share)}% · ${partnerPeriodMode==='month'?'本月':partnerPeriodMode==='year'?'本年度':partnerPeriodMode==='range'?'所选范围':'开业至今'}</div><div class="grid" style="margin-top:12px">${parts.join('')}</div>${extra}`)}
 
@@ -268,8 +252,8 @@ function closeModal(){
 function periodBounds(store){const now=monthNow();if(periodMode==='month')return [now+'-01',nextMonth(now)+'-01'];if(periodMode==='year'){const y=new Date().getFullYear();return [`${y}-01-01`,`${y+1}-01-01`]}if(periodMode==='range'){const a=rangeStart||now,b=rangeEnd||now;return [a+'-01',nextMonth(b)+'-01']}return [String(store.opening_date||'0001-01-01').slice(0,10),null]}
 async function fetchDashboardData(){
  const [ma,di,ds,re]=await Promise.all([
-  sb.from('monthly_accounts').select('store_id,month_date,company_return,rent,utilities,other_expenses').order('month_date'),
-  sb.from('store_dividends').select('store_id,dividend_date,amount').order('dividend_date'),
+  sb.from('v_monthly_accounts').select('store_id,month_date,company_return,rent,utilities,other_expenses').order('month_date'),
+  sb.from('v_store_dividends').select('store_id,dividend_date,amount').order('dividend_date'),
   sb.from('daily_sales').select('store_id,sales_date,amount').order('sales_date'),
   sb.from('reimbursements').select('store_id,expense_date,amount,category_id,note,receipt_url').order('expense_date')
  ]);
@@ -302,14 +286,7 @@ async function showDashboard(){
  c.innerHTML=`<div class="card"><h2 style="margin:0 0 8px">门店总览</h2><div class="muted">${td} · 所有门店业绩</div><div class="stats" style="margin-top:12px"><div class="stat"><div class="muted">所有门店当日营业额</div><div class="num">${money(allT)}</div></div><div class="stat"><div class="muted">所有门店当月营业额</div><div class="num">${money(allM)}</div></div></div></div>${periodControls()}${blocks}`;subscribeOwnerRealtime()
  }catch(e){c.innerHTML='<div class="card"><p class="error">读取失败：'+esc(e.message)+'</p></div>'}}
 async function toggleStore(id){expanded[id]=!expanded[id];await showDashboard();if(expanded[id])loadStoreReimbursements(id)}
-function compactReimbursementDetail(rows,mode){
- const arr=(rows||[]).slice().sort((a,b)=>String(b.expense_date||'').localeCompare(String(a.expense_date||'')));
- if(!arr.length)return '<div class="muted">暂无报销记录</div>';
- if(mode==='month')return arr.map(x=>`<div class="row"><div>${esc(x.expense_date)}</div><div>${money(x.amount)}</div><div class="wide">${esc(x.note||'')}${x.receipt_url?` · <a href="${esc(x.receipt_url)}" target="_blank">凭证</a>`:''}</div></div>`).join('');
- const groups={};arr.forEach(x=>{const ym=String(x.expense_date||'').slice(0,7);(groups[ym]??=[]).push(x)});
- return Object.keys(groups).sort((a,b)=>b.localeCompare(a)).map(ym=>{const rs=groups[ym],total=rs.reduce((a,x)=>a+n(x.amount),0);return `<details style="margin:8px 0"><summary><b>${esc(ym)}</b>　${money(total)}　${rs.length}笔</summary><div style="margin-top:6px">${rs.map(x=>`<div class="row"><div>${esc(x.expense_date)}</div><div>${money(x.amount)}</div><div class="wide">${esc(x.note||'')}${x.receipt_url?` · <a href="${esc(x.receipt_url)}" target="_blank">凭证</a>`:''}</div></div>`).join('')}</div></details>`}).join('');
-}
-function storeDetailFromRows(s,rows,sales,divs,reimbursements=[],lifeRetained=0){const rent=rows.reduce((a,r)=>a+n(r.rent),0),utilities=rows.reduce((a,r)=>a+n(r.utilities),0),turnover=sales.reduce((a,r)=>a+n(r.amount),0),reTotal=reimbursements.reduce((a,r)=>a+n(r.amount),0),profit=rows.reduce((a,r)=>a+n(r.company_return)-n(r.rent)-n(r.utilities)-n(r.other_expenses),0)-reTotal,dv=divs.reduce((a,r)=>a+n(r.amount),0);const label=periodMode==='month'?'本月':periodMode==='year'?'本年度':periodMode==='range'?'所选月份范围':'开业至今';const summary=`<div class="grid"><div><b>${label}营业额</b><div>${money(turnover)}</div></div><div><b>公司回款</b><div>${money(rows.reduce((a,r)=>a+n(r.company_return),0))}</div></div><div><b>房租</b><div>${money(rent)}</div></div><div><b>水电费</b><div>${money(utilities)}</div></div><div><b>其他费用</b><div>${money(rows.reduce((a,r)=>a+n(r.other_expenses),0))}</div></div><div><b>报销</b><div>${money(reTotal)}</div></div><div><b>盈利</b><div class="${profit>=0?'positive':'negative'}">${money(profit)}</div></div><div><b>分红</b><div>${money(dv)}</div></div><div><b>门店留存（开业至今）</b><div class="${lifeRetained>=0?'positive':'negative'}">${money(lifeRetained)}</div></div></div>`;return `<div style="margin-top:14px"><h3>${label}详细</h3>${summary}<h3>报销明细</h3>${compactReimbursementDetail(reimbursements,periodMode)}<button class="secondary" style="margin-top:8px" onclick="loadStoreReimbursements(${s.id})">刷新报销明细</button></div>`}
+function storeDetailFromRows(s,rows,sales,divs,reimbursements=[],lifeRetained=0){const rent=rows.reduce((a,r)=>a+n(r.rent),0),utilities=rows.reduce((a,r)=>a+n(r.utilities),0),turnover=sales.reduce((a,r)=>a+n(r.amount),0),reTotal=reimbursements.reduce((a,r)=>a+n(r.amount),0),profit=rows.reduce((a,r)=>a+n(r.company_return)-n(r.rent)-n(r.utilities)-n(r.other_expenses),0)-reTotal,dv=divs.reduce((a,r)=>a+n(r.amount),0);const summary=`<div class="grid"><div><b>${periodMode==='month'?'本月':periodMode==='year'?'本年度':periodMode==='range'?'所选月份范围':'开业至今'}营业额</b><div>${money(turnover)}</div></div><div><b>公司回款</b><div>${money(rows.reduce((a,r)=>a+n(r.company_return),0))}</div></div><div><b>房租</b><div>${money(rent)}</div></div><div><b>水电费</b><div>${money(utilities)}</div></div><div><b>其他费用</b><div>${money(rows.reduce((a,r)=>a+n(r.other_expenses),0))}</div></div><div><b>报销</b><div>${money(reTotal)}</div></div><div><b>盈利</b><div class="${profit>=0?'positive':'negative'}">${money(profit)}</div></div><div><b>分红</b><div>${money(dv)}</div></div><div><b>门店留存（开业至今）</b><div class="${lifeRetained>=0?'positive':'negative'}">${money(lifeRetained)}</div></div></div>`;return `<div style="margin-top:14px"><h3>${periodMode==='month'?'本月详细':periodMode==='year'?'本年度详细':periodMode==='range'?'所选范围详细':'开业至今详细'}</h3>${summary}<h3>报销明细</h3><div id="detail_re_${s.id}" class="muted">正在读取报销…</div><button class="secondary" style="margin-top:8px" onclick="loadStoreReimbursements(${s.id})">刷新报销明细</button></div>`}
 
 async function loadStoreReimbursements(storeId){const s=stores.find(x=>x.id===storeId);if(!s)return;const [start,end]=periodBounds(s);let q=sb.from('reimbursements').select('id,expense_date,amount,note,receipt_url,category_id').eq('store_id',storeId).order('expense_date',{ascending:false});if(start)q=q.gte('expense_date',start);if(end)q=q.lt('expense_date',end);const {data:re,error}=await q;if(error){alert(error.message);return}const ids=[...new Set((re||[]).map(x=>x.category_id).filter(Boolean))];let cats=[];if(ids.length){const {data}=await sb.from('reimbursement_categories').select('id,name').in('id',ids);cats=data||[]}const cmap=Object.fromEntries(cats.map(x=>[x.id,x.name]));const el=$('detail_re_'+storeId);if(el)el.innerHTML=(re||[]).length?(re||[]).map(x=>`<div class="row"><div>${esc(x.expense_date)}</div><div>${esc(cmap[x.category_id]||'其他')}</div><div>${money(x.amount)}</div><div>${x.receipt_url?`<a href="${esc(x.receipt_url)}" target="_blank">凭证</a>`:esc(x.note||'')}</div></div>`).join(''):'暂无报销记录'}
 async function load(force=false){
@@ -328,7 +305,7 @@ async function showReimbursements(){const {data:cats}=await sb.from('reimburseme
 async function addReimbursement(){modal('新增报销',`<div class="grid"><div><label>门店</label><select id="r_store">${stores.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select></div><div><label>日期</label><input id="r_date" type="date" value="${today()}"></div><div><label>报销类别</label><input id="r_cat_text" list="r_cat_list" placeholder="输入类别，例如：奶茶、交通、采购"><datalist id="r_cat_list"></datalist><div class="muted">输入一次自动保存，以后还能继续增加新类别。</div></div><div><label>金额</label><input id="r_amt" type="number" step="0.01"></div></div><br><label>备注</label><textarea id="r_note"></textarea><br><label>凭证图片/文件网址（可选）</label><input id="r_url" placeholder="如有云端凭证地址可粘贴"><br><button onclick="saveReimbursement()">保存</button>`);loadReimbursementCategorySuggestions()}
 async function loadReimbursementCategorySuggestions(){const {data}=await sb.from('reimbursement_categories').select('name').eq('enabled',true).order('id');const dl=$('r_cat_list');if(dl)dl.innerHTML=(data||[]).map(c=>`<option value="${esc(c.name)}"></option>`).join('')}
 async function saveReimbursement(){const name=$('r_cat_text').value.trim();if(!name){alert('请输入报销类别');return}const amount=n($('r_amt').value);if(!amount){alert('请输入金额');return}let {data:cat,error:ce}=await sb.from('reimbursement_categories').select('id,name').eq('enabled',true).eq('name',name).maybeSingle();if(ce){alert('读取报销类别失败：'+ce.message);return}if(!cat){const ins=await sb.from('reimbursement_categories').insert({name,enabled:true,owner_id:me.id}).select('id,name').single();if(ins.error){alert('保存报销类别失败：'+ins.error.message);return}cat=ins.data}const obj={store_id:Number($('r_store').value),expense_date:$('r_date').value,category_id:cat.id,amount,note:$('r_note').value,receipt_url:$('r_url').value||null};const {error}=await sb.from('reimbursements').insert(obj);if(error){alert('保存失败：'+error.message);return}closeModal();showReimbursements()};async function delReimbursement(id){if(!confirm('确定删除这笔报销？'))return;const {error}=await sb.from('reimbursements').delete().eq('id',id);if(error)alert(error.message);else showReimbursements()}
-async function showPayback(){const c=$('content');c.innerHTML='<div class="card">加载中…</div>';const results=await Promise.all(stores.map(async s=>{const [{data:d,error:de},{data:t,error:te},{data:ma,error:meErr},{data:re,error:reErr}]=await Promise.all([sb.from('v_store_dividends').select('dividend_date,amount,note').eq('store_id',s.id).order('dividend_date',{ascending:false}),sb.from('v_store_topups').select('topup_date,amount,note').eq('store_id',s.id).order('topup_date',{ascending:false}),sb.from('v_monthly_accounts').select('company_return,rent,utilities,other_expenses').eq('store_id',s.id),sb.from('v_reimbursements').select('amount').eq('store_id',s.id)]);if(de)throw de;if(te)throw te;if(meErr)throw meErr;if(reErr)throw reErr;return {s,d:d||[],t:t||[],ma:ma||[],re:re||[]}}));const blocks=[];for(const x of results){const s=x.s,d=x.d,t=x.t,ma=x.ma,re=x.re||[];const top=(t||[]).reduce((a,x)=>a+n(x.amount),0),div=(d||[]).reduce((a,x)=>a+n(x.amount),0),remain=n(s.initial_investment)+top-div;const retained=(ma||[]).reduce((a,r)=>a+n(r.company_return)-n(r.rent)-n(r.utilities)-n(r.other_expenses),0)-(re||[]).reduce((a,r)=>a+n(r.amount),0)-div;blocks.push(`<div class="card"><h2>${esc(s.name)}</h2><div class="stats"><div class="stat">初始投入<div class="num">${money(s.initial_investment)}</div></div><div class="stat">累计补款<div class="num">${money(top)}</div></div><div class="stat">累积分红<div class="num">${money(div)}</div></div><div class="stat">剩余未回本<div class="num ${remain>=0?'positive':'negative'}">${money(remain)}</div></div><div class="stat">累计留存<div class="num ${retained>=0?'positive':'negative'}">${money(retained)}</div></div></div><h3>分红明细</h3>${(d||[]).map(x=>`<div class="row"><div>${esc(x.dividend_date)}</div><div>${money(x.amount)}</div><div>${esc(x.note||'')}</div></div>`).join('')||'<div class="muted">暂无分红</div>'}<div class="actions" style="margin-top:10px"><button onclick="addDividend(${s.id})">录入分红</button><button class="secondary" onclick="addTopup(${s.id})">录入补款</button></div></div>`)}c.innerHTML=blocks.join('')||'<div class="card">暂无门店</div>'}
+async function showPayback(){const c=$('content');c.innerHTML='<div class="card">加载中…</div>';const results=await Promise.all(stores.map(async s=>{const [{data:d,error:de},{data:t,error:te},{data:ma,error:meErr},{data:re,error:reErr}]=await Promise.all([sb.from('v_store_dividends').select('dividend_date,amount,note').eq('store_id',s.id).order('dividend_date',{ascending:false}),sb.from('v_store_topups').select('topup_date,amount,note').eq('store_id',s.id).order('topup_date',{ascending:false}),sb.from('v_monthly_accounts').select('company_return,rent,utilities,other_expenses').eq('store_id',s.id),sb.from('reimbursements').select('amount').eq('store_id',s.id)]);if(de)throw de;if(te)throw te;if(meErr)throw meErr;if(reErr)throw reErr;return {s,d:d||[],t:t||[],ma:ma||[],re:re||[]}}));const blocks=[];for(const x of results){const s=x.s,d=x.d,t=x.t,ma=x.ma,re=x.re||[];const top=(t||[]).reduce((a,x)=>a+n(x.amount),0),div=(d||[]).reduce((a,x)=>a+n(x.amount),0),remain=n(s.initial_investment)+top-div;const retained=(ma||[]).reduce((a,r)=>a+n(r.company_return)-n(r.rent)-n(r.utilities)-n(r.other_expenses),0)-(re||[]).reduce((a,r)=>a+n(r.amount),0)-div;blocks.push(`<div class="card"><h2>${esc(s.name)}</h2><div class="stats"><div class="stat">初始投入<div class="num">${money(s.initial_investment)}</div></div><div class="stat">累计补款<div class="num">${money(top)}</div></div><div class="stat">累积分红<div class="num">${money(div)}</div></div><div class="stat">剩余未回本<div class="num ${remain>=0?'positive':'negative'}">${money(remain)}</div></div><div class="stat">累计留存<div class="num ${retained>=0?'positive':'negative'}">${money(retained)}</div></div></div><h3>分红明细</h3>${(d||[]).map(x=>`<div class="row"><div>${esc(x.dividend_date)}</div><div>${money(x.amount)}</div><div>${esc(x.note||'')}</div></div>`).join('')||'<div class="muted">暂无分红</div>'}<div class="actions" style="margin-top:10px"><button onclick="addDividend(${s.id})">录入分红</button><button class="secondary" onclick="addTopup(${s.id})">录入补款</button></div></div>`)}c.innerHTML=blocks.join('')||'<div class="card">暂无门店</div>'}
 async function addDividend(storeId){modal('录入分红',`<div class="grid"><div><label>日期</label><input id="d_date" type="date" value="${today()}"></div><div><label>总分红金额</label><input id="d_amt" type="number" step="0.01"></div></div><br><label>备注</label><textarea id="d_note"></textarea><br><button onclick="saveDividend(${storeId})">保存</button>`)}async function saveDividend(storeId){const {error}=await sb.from('store_dividends').insert({store_id:storeId,dividend_date:$('d_date').value,amount:n($('d_amt').value),note:$('d_note').value});if(error){alert(error.message);return}closeModal();showPayback()}
 async function addTopup(storeId){modal('录入补款',`<div class="grid"><div><label>日期</label><input id="t_date" type="date" value="${today()}"></div><div><label>总补款金额</label><input id="t_amt" type="number" step="0.01"></div></div><br><label>备注</label><textarea id="t_note"></textarea><br><button onclick="saveTopup(${storeId})">保存</button>`)}async function saveTopup(storeId){const {error}=await sb.from('store_topups').insert({store_id:storeId,topup_date:$('t_date').value,amount:n($('t_amt').value),note:$('t_note').value});if(error){alert(error.message);return}closeModal();showPayback()}
 async function showPartners(){
@@ -340,7 +317,7 @@ async function showPartners(){
  if(pr.error){$('content').innerHTML='<div class="card error">'+esc(pr.error.message)+'</div>';return}
  if(mr.error){$('content').innerHTML='<div class="card error">'+esc(mr.error.message)+'</div>';return}
  const byUser={};for(const m of mr.data||[])(byUser[m.user_id]??=[]).push(m);
- const site=location.origin+location.pathname;
+ const site=location.href.split('#')[0];
  const rows=(pr.data||[]).map(p=>{
   const m=(byUser[p.id]||[]).filter(x=>n(x.share_percent)>0);
   const storesText=m.map(x=>`${esc(stores.find(s=>s.id===x.store_id)?.name||'')}：${n(x.share_percent)}%`).join('　')||'<span class="muted">尚未设置股份</span>';
@@ -670,29 +647,16 @@ async function buildFullBackup(){
 }
 function downloadFullBackup(){
   try{
-    const el=$('backupStatus');
     const backup=window.__preparedFullBackup;
-    if(!backup){
-      if(el)el.textContent=window.__backupPreparing?'备份正在准备，请稍候…':'还没有准备好，请点“重新准备”';
-      return;
-    }
+    if(!backup){alert(window.__backupPreparing?'备份正在准备，请等“备份已准备好”后再点保存。':('备份数据准备失败：'+(window.__backupError||'请重新进入备份中心')));return}
     const stamp=new Date().toISOString().slice(0,19).replace(/[:T]/g,'-');
-    const filename='女装门店_全量数据备份_'+stamp+'.json';
     const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json;charset=utf-8'});
-    const f=new File([blob],filename,{type:'application/json'});
-    if(/iPhone|iPad|iPod/i.test(navigator.userAgent)&&typeof navigator.share==='function'){
+    const f=new File([blob],'女装门店_全量数据备份_'+stamp+'.json',{type:'application/json'});
+    if(/iPhone|iPad|iPod/i.test(navigator.userAgent)&&navigator.share){
       const can=!navigator.canShare||navigator.canShare({files:[f]});
-      if(can){
-        navigator.share({files:[f],title:'女装门店全量数据备份',text:'请选择“存储到文件”'}).catch(e=>{
-          if(e?.name!=='AbortError')alert('系统分享未打开，请使用下面的“打开 JSON 备份”备用按钮。');
-        });
-        return;
-      }
+      if(can){navigator.share({files:[f],title:'女装门店全量数据备份'}).then(()=>{}).catch(e=>{if(e?.name!=='AbortError')alert('手机分享失败，请点击“打开 JSON 备份”后再保存。')});return}
     }
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');a.href=url;a.download=filename;a.rel='noopener';document.body.appendChild(a);a.click();a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),60000);
-    if(el)el.textContent='备份文件已生成';
+    const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=f.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
   }catch(e){alert('备份失败：'+(e.message||e))}
 }
 async function downloadFullExcel(){
@@ -736,6 +700,11 @@ async function prepareBackupData(){
   try{window.__preparedFullBackup=await buildFullBackup();window.__backupPreparedAt=Date.now();window.__backupPreparing=false;return true}
   catch(e){window.__preparedFullBackup=null;window.__backupPreparing=false;window.__backupError=e?.message||String(e);console.warn('备份预读取失败',e);return false}
 }
+async function retryPrepareBackup(){
+ const el=$('backupStatus');if(el)el.textContent='正在重新准备备份…';
+ const ok=await prepareBackupData();
+ if(el)el.textContent=ok?'备份已准备好，可以保存':'备份准备失败，请检查网络后重试';
+}
 async function showBackup(){
   const c=$('content');
   try{
@@ -745,10 +714,10 @@ async function showBackup(){
       <p>手机端：先准备完整备份数据，准备完成后点击“保存 JSON 备份”，直接进入系统分享 → 存储到文件。</p>
       <div class="notice"><b>手机操作：</b>点击“保存 JSON 备份” → 弹出系统分享 → 选择“存储到文件”。</div>
       <div class="actions" style="margin-top:12px;flex-wrap:wrap">
-        <button type="button" data-full-backup onclick="downloadFullBackup()">保存 JSON 备份</button><button type="button" class="secondary" onclick="prepareBackupData().then(ok=>{const el=$('backupStatus');if(el)el.textContent=ok?'备份已准备好，可以保存':'备份准备失败，请重试'})">重新准备</button><span id="backupStatus" class="muted">正在准备备份…</span>
+        <button data-full-backup type="button" onclick="downloadFullBackup()">保存 JSON 备份</button><span id="backupStatus" class="muted">正在准备备份…</span>
         <button class="secondary" data-full-excel onclick="downloadFullExcel()">保存 Excel 备份</button>
       </div>
-      <div class="actions" style="margin-top:8px"><button class="secondary" onclick="openFullBackupFile()">手机备用：打开 JSON 备份文件</button></div>
+      <div class="actions" style="margin-top:8px"><button class="secondary" type="button" onclick="retryPrepareBackup()">重新准备备份</button><button class="secondary" type="button" onclick="openFullBackupFile()">手机备用：打开 JSON 备份文件</button></div>
       <p class="muted" style="margin-top:10px">JSON 为完整原始业务备份；密码不会导出；凭证如保存为URL，则备份URL/路径。</p>
     </div>
     <div class="card"><h3 style="margin-top:0">按门店备份</h3>
@@ -768,7 +737,7 @@ async function openFullBackupFile(){
   }catch(e){alert('打开备份失败：'+(e.message||e))}
 }
 function showAccount(){
- const c=$('content'),u=profile?.username||me?.email||'',site=location.origin+location.pathname,isOwner=profile?.role==='owner';
+ const c=$('content'),u=profile?.username||me?.email||'',site=location.href,isOwner=profile?.role==='owner';
  c.innerHTML=`<div class="card"><h2>账号设置</h2><div class="grid">
  <div><div class="muted">登录账号</div><b>${esc(u)}</b></div>
  <div><div class="muted">登录网站</div><div style="word-break:break-all">${esc(site)}</div></div>
